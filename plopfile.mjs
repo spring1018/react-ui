@@ -9,7 +9,7 @@ export default function (
         type: "input",
         name: "path",
         message:
-          "Where do you want to create the component? (e.g. src/components/)",
+          "Where do you want to create the component? (e.g. atoms)",
       },
       {
         type: "input",
@@ -30,7 +30,7 @@ export default function (
     //   },
       {
         type: "add",
-        path: "{{path}}/{{pascalCase name}}/{{pascalCase name}}.stories.tsx",
+        path: "components/{{path}}/{{pascalCase name}}/{{pascalCase name}}.stories.tsx",
         templateFile: "utils/plop-templates/component/component.stories.tsx.hbs",
       },
     //   {
