@@ -4,73 +4,15 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { CustomSelect } from "@/components/atoms/CustomSelect";
 import { Input } from "@/components/ui/input";
-import { z } from "zod";
+import { columnDefs } from "./columnDefs";
 import { DataTableColumnHeader } from "./data-table-column-header";
 
-export const taskSchema = z.object({
-  id: z.string(),
-  title: z.string(),
-  status: z.string(),
-  priority: z.string(),
-});
-
-export type Task = z.infer<typeof taskSchema>;
-
-type ColumnDefType = {
-  accessorKey: keyof Task;
-  title: string;
-  componentType?: "input" | "select";
-  params?: {
-    selectOptions?: {
-      value: string;
-      label: string;
-    }[];
-  }
-};
-
-const columnDefs: ColumnDefType[] = [
-  {
-    accessorKey: "id",
-    title: "Task",
-  },
-  {
-    accessorKey: "title",
-    title: "Title",
-    componentType: "input",
-  },
-  {
-    accessorKey: "status",
-    title: "Status",
-    componentType: "select",
-    params: {
-      selectOptions: [
-        {
-          value: "backlog",
-          label: "Backlog",
-        },
-        {
-          value: "todo",
-          label: "To Do",
-        },
-        {
-          value: "in progress",
-          label: "In Progress",
-        },
-      ],
-    },
-  },
-  {
-    accessorKey: "priority",
-    title: "Priority",
-  },
-];
-
-export const columns: ColumnDef<Task>[] = columnDefs.map((columnDef) => {
+export const columns: ColumnDef<any>[] = columnDefs.map((columnDef) => {
   return {
     ...columnDef,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title={columnDef.title} />
-    ),
+),
     cell: ({ row }) => {
       if (columnDef.componentType === "input") {
         return (
