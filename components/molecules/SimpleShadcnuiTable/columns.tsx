@@ -12,7 +12,7 @@ export const columns: ColumnDef<any>[] = columnDefs.map((columnDef) => {
     ...columnDef,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title={columnDef.title} />
-),
+    ),
     cell: ({ row }) => {
       if (columnDef.componentType === "input") {
         return (
