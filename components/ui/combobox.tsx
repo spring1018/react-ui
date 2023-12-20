@@ -52,10 +52,10 @@ export const Combobox = (props: ComboboxProps) => {
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[300px] h-[400px] p-0">
+      <PopoverContent className="w-[300px] min-h-[100px] p-0">
         <Command>
           <CommandInput placeholder="項目の検索..." />
-          <ScrollArea className="w-[300px] h-[400px] p-0">
+          <ScrollArea className="w-[300px] min-h-[100px] max-h-[300px] p-0">
             <CommandEmpty>Not found.</CommandEmpty>
             <CommandGroup>
               {options.map((option) => (
@@ -76,7 +76,7 @@ export const Combobox = (props: ComboboxProps) => {
                   />
                   <div className="grid">
                     <p>{option.label}</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-xs text-muted-foreground">
                       {option.description}
                     </p>
                   </div>

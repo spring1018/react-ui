@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { SimpleShadcnuiTable } from '.';
+import { columnConfigs } from "./columnConfigs";
 import { columns } from "./columns";
-
 type T = typeof SimpleShadcnuiTable
 
 const data = [
@@ -29,9 +29,10 @@ const data = [
 ]
 
 export default {
+  title: "molecules/SimpleShadcnuiTable",
   component: SimpleShadcnuiTable,
   args: {
-    columns,
+    columns: columns(columnConfigs),
     data,
   },
 } satisfies Meta<T>;
