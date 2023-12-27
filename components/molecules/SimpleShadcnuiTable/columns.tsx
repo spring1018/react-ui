@@ -17,6 +17,7 @@ export const columns = (columnConfigs: ColumnDef<any>[]): any[] => {
         if (columnConfig.componentType === "input") {
           return (
             <Input
+              className="border-0"
               type="text"
               value={row.getValue(columnConfig.accessorKey)}
               onChange={(e) => {
