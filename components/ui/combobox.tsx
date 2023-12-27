@@ -55,7 +55,7 @@ export const Combobox = (props: ComboboxProps) => {
       <PopoverContent className="w-[300px] min-h-[100px] p-0">
         <Command>
           <CommandInput placeholder="項目の検索..." />
-          <ScrollArea className="w-[300px] min-h-[100px] max-h-[300px] p-0">
+          <ScrollArea className="max-w-[300px] min-h-[100px] max-h-[300px] p-0 overflow-y-auto">
             <CommandEmpty>Not found.</CommandEmpty>
             <CommandGroup>
               {options.map((option) => (
