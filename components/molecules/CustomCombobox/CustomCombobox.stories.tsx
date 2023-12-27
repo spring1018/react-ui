@@ -15,7 +15,7 @@ const options = [
     description: "Dark theme",
   },
   {
-    label: "Blue",
+    label: "Blueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
     value: "blue",
     description: "Blue theme",
   },
@@ -39,6 +39,21 @@ const options = [
     value: "purple",
     description: "Purple theme",
   },
+  {
+    label: "Gray",
+    value: "gray",
+    description: "Gray theme",
+  },
+  {
+    label: "Pink",
+    value: "pink",
+    description: "Pink theme",
+  },
+  {
+    label: "Orange",
+    value: "orange",
+    description: "Orange theme",
+  }
 ];
 
 export default {
