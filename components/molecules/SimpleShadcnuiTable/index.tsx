@@ -1,6 +1,14 @@
 "use client";
 
 import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
   ColumnDef,
   ColumnFiltersState,
   SortingState,
@@ -15,15 +23,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import * as React from "react";
-
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { DataTableToolbar } from "./data-table-toolbar";
 
 // import { DataTablePagination } from "../components/data-table-pagination"
 // import { DataTableToolbar } from "../components/data-table-toolbar"
@@ -69,7 +69,7 @@ export function SimpleShadcnuiTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      {/* <DataTableToolbar table={table} /> */}
+      <DataTableToolbar table={table} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
