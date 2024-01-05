@@ -24,6 +24,9 @@ export function DataTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
+  const facetedColumns = table.getAllColumns().filter((column) => {
+    return column.columnDef.componentType === "select";
+  });
 
   return (
     <div className="flex items-center justify-between">
@@ -36,24 +39,16 @@ export function DataTableToolbar<TData>({
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {table.getColumn("status") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("status")}
-            title="Status"
-            options={mapToOptions(
-              table.getColumn("status")?.getFacetedUniqueValues()
-            )}
-          />
-        )}
-        {table.getColumn("priority") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("priority")}
-            title="Priority"
-            options={mapToOptions(
-              table.getColumn("priority")?.getFacetedUniqueValues()
-            )}
-          />
-        )}
+        {facetedColumns.map((column) => {
+          return (
+            <DataTableFacetedFilter
+              key={column.id}
+              column={table.getColumn(column.id)}
+              title={column.id}
+              options={column.columnDef.params?.selectOptions}
+            />
+          );
+        })}
         {isFiltered && (
           <Button
             variant="ghost"

@@ -72,14 +72,31 @@ export const Default: StoryObj<T> = {
           ],
         },
         filterFn: (row, id, value) => {
-          return value.includes(row.getValue(id))
+          return value.includes(row.getValue(id));
         },
       },
       {
         accessorKey: "priority",
         title: "Priority",
+        componentType: "select",
+        params: {
+          selectOptions: [
+            {
+              value: "low",
+              label: "Low",
+            },
+            {
+              value: "medium",
+              label: "Medium",
+            },
+            {
+              value: "high",
+              label: "High",
+            },
+          ],
+        },
         filterFn: (row, id, value) => {
-          return value.includes(row.getValue(id))
+          return value.includes(row.getValue(id));
         },
       },
     ]),
