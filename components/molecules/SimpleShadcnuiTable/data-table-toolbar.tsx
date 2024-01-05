@@ -6,11 +6,18 @@ import { Table } from "@tanstack/react-table";
 // import { DataTableViewOptions } from "@/app/examples/tasks/components/data-table-view-options"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
-// import { DataTableFacetedFilter } from "./data-table-faceted-filter"
+import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
+}
+
+function mapToOptions(arg: Map<any, number> | undefined) {
+  const arr = Array.from(arg?.entries() ?? []);
+  return arr.map(([key, value]) => ({
+    label: key,
+    value: key,
+  }));
 }
 
 export function DataTableToolbar<TData>({
@@ -29,20 +36,24 @@ export function DataTableToolbar<TData>({
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {/* {table.getColumn("status") && (
+        {table.getColumn("status") && (
           <DataTableFacetedFilter
             column={table.getColumn("status")}
             title="Status"
-            options={statuses}
+            options={mapToOptions(
+              table.getColumn("status")?.getFacetedUniqueValues()
+            )}
           />
         )}
         {table.getColumn("priority") && (
           <DataTableFacetedFilter
             column={table.getColumn("priority")}
             title="Priority"
-            options={priorities}
+            options={mapToOptions(
+              table.getColumn("priority")?.getFacetedUniqueValues()
+            )}
           />
-        )} */}
+        )}
         {isFiltered && (
           <Button
             variant="ghost"

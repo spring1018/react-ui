@@ -71,10 +71,16 @@ export const Default: StoryObj<T> = {
             },
           ],
         },
+        filterFn: (row, id, value) => {
+          return value.includes(row.getValue(id))
+        },
       },
       {
         accessorKey: "priority",
         title: "Priority",
+        filterFn: (row, id, value) => {
+          return value.includes(row.getValue(id))
+        },
       },
     ]),
     data,
