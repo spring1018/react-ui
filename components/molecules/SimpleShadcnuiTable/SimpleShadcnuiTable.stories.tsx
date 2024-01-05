@@ -43,7 +43,7 @@ export const Default: StoryObj<T> = {
     columns: columns([
       {
         accessorKey: "id",
-        title: "Task",
+        title: "ID",
       },
       {
         accessorKey: "title",

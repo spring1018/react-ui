@@ -32,7 +32,7 @@ export function CustomSelect(props: CustomSelectProps) {
 
   return (
     <Select defaultValue={selectedValue}>
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="border-0 w-[180px]">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
