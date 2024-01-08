@@ -34,7 +34,7 @@ export default {
   component: SimpleShadcnuiTable,
   args: {
     // columns: columns(columnConfigs),
-    data,
+    // data,
   },
 } satisfies Meta<T>;
 

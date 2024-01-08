@@ -20,8 +20,14 @@ export const columns = (columnConfigs: ColumnDef<any>[]): any[] => {
               className="border-0"
               type="text"
               value={row.getValue(columnConfig.accessorKey)}
-              onChange={(e) => {
-                // Handle input change if needed
+              // onChange では data を更新し、API は呼ばない
+              // onChange={}
+              // onBlur では data を更新し、API を呼ぶ
+              onBlur={(e) => {
+                console.log({
+                  id: row.original.id,
+                  [columnConfig.accessorKey]: e.target.value,
+                });
               }}
             />
           );
