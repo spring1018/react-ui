@@ -1,33 +1,7 @@
 "use client";
 import { SimpleShadcnuiTable } from "@/components/molecules/SimpleShadcnuiTable";
 import { columns } from "@/components/molecules/SimpleShadcnuiTable/columns";
-import { useState } from "react";
-
-const initData = [
-  {
-    id: "TASK-8782",
-    title:
-      "You can't compress the program without quantifying the open-source SSD pixel!",
-    status: "in progress",
-    label: "documentation",
-    priority: "medium",
-  },
-  {
-    id: "TASK-7878",
-    title:
-      "Try to calculate the EXE feed, maybe it will index the multi-byte pixel!",
-    status: "backlog",
-    label: "documentation",
-    priority: "medium",
-  },
-  {
-    id: "TASK-7839",
-    title: "We need to bypass the neural TCP card!",
-    status: "todo",
-    label: "bug",
-    priority: "high",
-  },
-];
+import useSWR from "swr";
 
 const columnDefs = [
   {
@@ -90,7 +64,12 @@ const columnDefs = [
 ];
 
 export default function Sample() {
-  const [data, setData] = useState(initData);
+  const fetcher = (url: string): Promise<any> => fetch(url).then(res => res.json());
+  const { data, error } = useSWR('http://localhost:3004/mock-sample', fetcher)
+
+  if (error) return <div>failed to load</div>
+  if (!data) return <div>loading...</div>
+  // const [data, setData] = useState(initData);
 
   return (
     <div className="px-2 py-2">
