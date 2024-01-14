@@ -6,6 +6,31 @@ import { CustomSelect } from "@/components/atoms/CustomSelect";
 import { Input } from "@/components/ui/input";
 import { DataTableColumnHeader } from "./data-table-column-header";
 
+import { useEffect, useState } from "react";
+
+const InputCell = ({ getValue, row, column, table }) => {
+  const initialValue = getValue();
+  const [value, setValue] = useState(initialValue);
+
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+
+  const onBlur = () => {
+    table.options.meta?.updateData(row.index, column.id, value);
+  };
+
+  return (
+    <Input
+      className="border-0"
+      type="text"
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={onBlur}
+    />
+  );
+};
+
 export const columns = (columnConfigs: ColumnDef<any>[]): any[] => {
   return columnConfigs.map((columnConfig: any) => {
     return {
@@ -16,19 +41,11 @@ export const columns = (columnConfigs: ColumnDef<any>[]): any[] => {
       cell: ({ row }: any) => {
         if (columnConfig.componentType === "input") {
           return (
-            <Input
-              className="border-0"
-              type="text"
-              value={row.getValue(columnConfig.accessorKey)}
-              // onChange では data を更新し、API は呼ばない
-              // onChange={}
-              // onBlur では data を更新し、API を呼ぶ
-              onBlur={(e) => {
-                console.log({
-                  id: row.original.id,
-                  [columnConfig.accessorKey]: e.target.value,
-                });
-              }}
+            <InputCell
+              getValue={() => row.getValue(columnConfig.accessorKey)}
+              row={row}
+              column={columnConfig}
+              table={row.table}
             />
           );
         } else if (columnConfig.componentType === "select") {

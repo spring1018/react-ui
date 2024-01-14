@@ -3,7 +3,7 @@ import { SimpleShadcnuiTable } from ".";
 import { columns } from "./columns";
 type T = typeof SimpleShadcnuiTable;
 
-const data = [
+const defaultData = [
   {
     id: "TASK-8782",
     title:
@@ -99,6 +99,6 @@ export const Default: StoryObj<T> = {
         },
       },
     ]),
-    data,
+    defaultData,
   },
 };

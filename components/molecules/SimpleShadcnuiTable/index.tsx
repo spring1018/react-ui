@@ -19,7 +19,7 @@ import {
   getFacetedUniqueValues,
   getFilteredRowModel,
   getSortedRowModel,
-  useReactTable
+  useReactTable,
 } from "@tanstack/react-table";
 import * as React from "react";
 import { DataTableToolbar } from "./data-table-toolbar";
@@ -28,13 +28,14 @@ import { DataTableToolbar } from "./data-table-toolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  defaultData: TData[];
 }
 
 export function SimpleShadcnuiTable<TData, TValue>({
   columns,
-  data,
+  defaultData,
 }: DataTableProps<TData, TValue>) {
+  const [data, setData] = React.useState<TData[]>(defaultData);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -51,6 +52,21 @@ export function SimpleShadcnuiTable<TData, TValue>({
       columnVisibility,
       rowSelection,
       columnFilters,
+    },
+    meta: {
+      updateData: (rowIndex: number, columnId: string, value: string) => {
+        setData((old) =>
+          old.map((row, index) => {
+            if (index === rowIndex) {
+              return {
+                ...old[rowIndex],
+                [columnId]: value,
+              };
+            }
+            return row;
+          })
+        );
+      },
     },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
