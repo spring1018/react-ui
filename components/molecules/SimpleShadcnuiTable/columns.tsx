@@ -2,22 +2,41 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { CustomSelect } from "@/components/atoms/CustomSelect";
+import { Combobox } from "@/components/ui/combobox";
 import { Input } from "@/components/ui/input";
+import { useEffect, useState } from "react";
 import { DataTableColumnHeader } from "./data-table-column-header";
 
-import { useEffect, useState } from "react";
-
-const InputCell = ({ getValue, row, column, table }) => {
+const InputCell = ({ getValue, row, column }) => {
   const initialValue = getValue();
+  const [previousValue, setPreviousValue] = useState(initialValue);
   const [value, setValue] = useState(initialValue);
 
   useEffect(() => {
     setValue(initialValue);
   }, [initialValue]);
 
+  const handleUpdate = async (newData, id) => {
+    try {
+      const response = await fetch(`http://localhost:3004/mock-sample/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...row.original, ...newData }),
+      });
+    } catch (error) {
+      console.error("Error updating data:", error);
+    }
+  };
+
   const onBlur = () => {
-    table.options.meta?.updateData(row.index, column.id, value);
+    if (previousValue !== value) {
+      setPreviousValue(value);
+      const id = row.original.id;
+      const body = { id, [column.accessorKey]: value };
+      handleUpdate(body, id);
+    }
   };
 
   return (
@@ -50,11 +69,11 @@ export const columns = (columnConfigs: ColumnDef<any>[]): any[] => {
           );
         } else if (columnConfig.componentType === "select") {
           return (
-            <CustomSelect
+            <Combobox
               options={columnConfig.params?.selectOptions ?? []}
               initialValue={row.getValue(columnConfig.accessorKey)}
               onChange={(value) => {
-                // Handle select change if needed
+                console.log("value", {row, columnConfig});
               }}
             />
           );

@@ -69,11 +69,10 @@ export default function Sample() {
 
   if (error) return <div>failed to load</div>
   if (!data) return <div>loading...</div>
-  // const [data, setData] = useState(initData);
 
   return (
     <div className="px-2 py-2">
-      <SimpleShadcnuiTable columns={columns(columnDefs)} data={data} />
+      <SimpleShadcnuiTable columns={columns(columnDefs)} defaultData={data} />
     </div>
   );
 }
