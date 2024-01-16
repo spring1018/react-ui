@@ -4,49 +4,42 @@
       "id": "1",
       "title": "You can't compress the program without quantifying the open-source SSD pixel!",
       "status": "in progress",
-      "label": "documentation",
       "priority": "medium"
     },
     {
       "id": "2",
       "title": "Try to calculate the EXE feed, maybe it will index the multi-byte pixel!",
       "status": "backlog",
-      "label": "documentation",
       "priority": "medium"
     },
     {
       "id": "3",
       "title": "We need to bypass the neural TCP card!",
       "status": "todo",
-      "label": "bug",
       "priority": "high"
     },
     {
       "id": "4",
       "title": "The SMTP port is down, index the 1080p port so we can index the HDD port!",
       "status": "in progress",
-      "label": "bug",
       "priority": "low"
     },
     {
       "id": "5",
       "title": "Use the 1080p RAM capacitor, then you can override the redundant capacitor!",
       "status": "todo",
-      "label": "",
       "priority": "low"
     },
     {
       "id": "6",
       "title": "The JSON feed is down, index the auxiliary feed so we can index the HDD feed!",
       "status": "todo",
-      "label": "bug",
       "priority": "low"
     },
     {
       "id": "7",
       "title": "Try to override the SCSI transmitter, maybe it will compress the virtual transmitter!",
       "status": "todo",
-      "label": "bug",
       "priority": "high"
     }
   ]

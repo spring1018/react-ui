@@ -26,13 +26,14 @@ type Option = {
 };
 
 export type ComboboxProps = {
+  className?: string;
   options: Option[];
   initialValue?: number | string;
   onChange?: any;
 };
 
 export const Combobox = (props: ComboboxProps) => {
-  const { options, initialValue, onChange } = props;
+  const { className, options, initialValue, onChange } = props;
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(initialValue);
 
@@ -44,7 +45,7 @@ export const Combobox = (props: ComboboxProps) => {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className={className}
         >
           {value
             ? options.find((option) => option.value === value)?.label
