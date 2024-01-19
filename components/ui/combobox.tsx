@@ -62,7 +62,7 @@ export const Combobox = (props: ComboboxProps) => {
               {options.map((option) => (
                 <CommandItem
                   key={option.value}
-                  value={option.label} // ref: https://github.com/shadcn-ui/ui/pull/989/files
+                  value={option.label + option.description} // ref: https://github.com/shadcn-ui/ui/issues/458
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : option.value);
                     setOpen(false);
