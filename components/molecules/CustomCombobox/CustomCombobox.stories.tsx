@@ -5,14 +5,14 @@ type T = typeof CustomCombobox;
 
 const options = [
   {
-    label: "Light",
+    label: "test1",
     value: "light",
-    description: "Light theme",
+    description: "theme1",
   },
   {
     label: "Dark",
     value: "dark",
-    description: "Dark theme",
+    description: "theme2",
   },
   {
     label: "Blueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
