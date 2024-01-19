@@ -20,9 +20,9 @@ const options = [
     description: "Blue theme",
   },
   {
-    label: "Red",
+    label: "赤",
     value: "red",
-    description: "Red theme",
+    description: "テーマ",
   },
   {
     label: "Green",
