@@ -13,7 +13,7 @@ const handleUpdate = async (rowData, id) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ ...rowData}),
+      body: JSON.stringify({ ...rowData }),
     });
   } catch (error) {
     console.error("Error updating data:", error);
@@ -105,13 +105,25 @@ const cellComponent = (props: CellComponentProps) => {
 const columnHelper = createColumnHelper();
 
 export const columnDefs = (columnConfigs: ColumnDef<any>[]): any[] => {
+  const defaultFilterFn = (row, id, value) => value.includes(row.getValue(id));
+
   return columnConfigs.map((columnConfig: any) => {
-    return columnHelper.accessor(columnConfig.accessorKey, {
-      ...columnConfig,
+    const commonConfig = {
       header: ({ column }: any) => (
         <DataTableColumnHeader column={column} title={columnConfig.title} />
       ),
       cell: (props) => cellComponent({ ...props, columnConfig }),
+    };
+
+    const specificConfig =
+      columnConfig.componentType === "select"
+        ? { filterFn: defaultFilterFn }
+        : {};
+
+    return columnHelper.accessor(columnConfig.accessorKey, {
+      ...columnConfig,
+      ...commonConfig,
+      ...specificConfig,
     });
   });
 };

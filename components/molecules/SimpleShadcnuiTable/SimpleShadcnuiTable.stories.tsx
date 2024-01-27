@@ -58,9 +58,6 @@ const columns = [
         },
       ],
     },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
-    },
   },
   {
     accessorKey: "priority",
@@ -81,9 +78,6 @@ const columns = [
           label: "High",
         },
       ],
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
     },
   },
 ];
