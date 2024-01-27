@@ -9,7 +9,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
-  ColumnDef,
   ColumnFiltersState,
   SortingState,
   VisibilityState,
@@ -19,23 +18,24 @@ import {
   getFacetedUniqueValues,
   getFilteredRowModel,
   getSortedRowModel,
-  useReactTable,
+  useReactTable
 } from "@tanstack/react-table";
 import * as React from "react";
+import { columnDefs as getColumnDefs } from "./columns";
 import { DataTableToolbar } from "./data-table-toolbar";
-
 // import { DataTablePagination } from "../components/data-table-pagination"
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
+  columnDefs: any[];
   defaultData: TData[];
 }
 
 export function SimpleShadcnuiTable<TData, TValue>({
-  columns,
+  columnDefs,
   defaultData,
 }: DataTableProps<TData, TValue>) {
   const [data, setData] = React.useState<TData[]>(defaultData);
+  const columns = getColumnDefs(columnDefs)
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});

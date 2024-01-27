@@ -104,7 +104,7 @@ const cellComponent = (props: CellComponentProps) => {
 
 const columnHelper = createColumnHelper();
 
-export const columns = (columnConfigs: ColumnDef<any>[]): any[] => {
+export const columnDefs = (columnConfigs: ColumnDef<any>[]): any[] => {
   return columnConfigs.map((columnConfig: any) => {
     return columnHelper.accessor(columnConfig.accessorKey, {
       ...columnConfig,

@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { SimpleShadcnuiTable } from ".";
-import { columns } from "./columns";
 type T = typeof SimpleShadcnuiTable;
 
-const defaultData = [
+const data = [
   {
     id: "TASK-8782",
     title:
@@ -29,76 +28,73 @@ const defaultData = [
   },
 ];
 
+const columns = [
+  {
+    accessorKey: "id",
+    title: "ID",
+  },
+  {
+    accessorKey: "title",
+    title: "Title",
+    componentType: "input",
+  },
+  {
+    accessorKey: "status",
+    title: "Status",
+    componentType: "select",
+    params: {
+      selectOptions: [
+        {
+          value: "backlog",
+          label: "Backlog",
+        },
+        {
+          value: "todo",
+          label: "To Do",
+        },
+        {
+          value: "in progress",
+          label: "In Progress",
+        },
+      ],
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+  {
+    accessorKey: "priority",
+    title: "Priority",
+    componentType: "select",
+    params: {
+      selectOptions: [
+        {
+          value: "low",
+          label: "Low",
+        },
+        {
+          value: "medium",
+          label: "Medium",
+        },
+        {
+          value: "high",
+          label: "High",
+        },
+      ],
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+];
+
 export default {
   title: "molecules/SimpleShadcnuiTable",
   component: SimpleShadcnuiTable,
   args: {
-    // columns: columns(columnConfigs),
-    // data,
+    columnDefs: columns,
+    defaultData: data,
   },
 } satisfies Meta<T>;
 
-export const Default: StoryObj<T> = {
-  args: {
-    columns: columns([
-      {
-        accessorKey: "id",
-        title: "ID",
-      },
-      {
-        accessorKey: "title",
-        title: "Title",
-        componentType: "input",
-      },
-      {
-        accessorKey: "status",
-        title: "Status",
-        componentType: "select",
-        params: {
-          selectOptions: [
-            {
-              value: "backlog",
-              label: "Backlog",
-            },
-            {
-              value: "todo",
-              label: "To Do",
-            },
-            {
-              value: "in progress",
-              label: "In Progress",
-            },
-          ],
-        },
-        filterFn: (row, id, value) => {
-          return value.includes(row.getValue(id));
-        },
-      },
-      {
-        accessorKey: "priority",
-        title: "Priority",
-        componentType: "select",
-        params: {
-          selectOptions: [
-            {
-              value: "low",
-              label: "Low",
-            },
-            {
-              value: "medium",
-              label: "Medium",
-            },
-            {
-              value: "high",
-              label: "High",
-            },
-          ],
-        },
-        filterFn: (row, id, value) => {
-          return value.includes(row.getValue(id));
-        },
-      },
-    ]),
-    defaultData,
-  },
-};
+export const Default: StoryObj<T> = {};
