@@ -1,5 +1,5 @@
 "use client";
-import { SimpleShadcnuiTable } from "@/components/molecules/SimpleShadcnuiTable";
+import { SimpleShadcnuiTable } from "@/components/organisms/SimpleShadcnuiTable";
 import useSWR from "swr";
 
 const columnDefs = [

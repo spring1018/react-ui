@@ -83,7 +83,7 @@ const columns = [
 ];
 
 export default {
-  title: "molecules/SimpleShadcnuiTable",
+  title: "organisms/SimpleShadcnuiTable",
   component: SimpleShadcnuiTable,
   args: {
     columnDefs: columns,
