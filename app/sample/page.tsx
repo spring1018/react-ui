@@ -1,6 +1,5 @@
 "use client";
 import { SimpleShadcnuiTable } from "@/components/molecules/SimpleShadcnuiTable";
-import { columns } from "@/components/molecules/SimpleShadcnuiTable/columns";
 import useSWR from "swr";
 
 const columnDefs = [
@@ -72,7 +71,7 @@ export default function Sample() {
 
   return (
     <div className="px-2 py-2">
-      <SimpleShadcnuiTable columns={columns(columnDefs)} defaultData={data} />
+      <SimpleShadcnuiTable columnDefs={columnDefs} defaultData={data} />
     </div>
   );
 }
