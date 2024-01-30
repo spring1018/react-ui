@@ -1,12 +1,11 @@
 "use client";
 
+import { Input } from "@/components/atoms/CustomInput";
 import { Combobox } from "@/components/ui/combobox";
-import { Input } from "@/components/ui/input";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
-import { useEffect, useState } from "react";
 import { DataTableColumnHeader } from "./data-table-column-header";
 
-const handleUpdate = async (rowData, id) => {
+const updateData = async (rowData, id) => {
   try {
     const response = await fetch(`http://localhost:3004/mock-sample/${id}`, {
       method: "PUT",
@@ -20,85 +19,49 @@ const handleUpdate = async (rowData, id) => {
   }
 };
 
+const handleChange = (props) => {
+  const { value, row, column, table } = props;
+  const id = row.original.id;
+  const rowData = { ...row.original, [column.id]: value };
+  updateData(rowData, id);
+  table.options.meta?.updateData(row.index, column.id, value);
+};
+
 type CellComponentProps = {
   row: any;
   column: any;
-  getValue: any;
   table: any;
+  getValue: any;
   columnConfig: any;
 };
 
-const DefaultCell = (props: CellComponentProps) => {
-  const { row, columnConfig } = props;
-  return (
-    <div className="flex max-w-[500px] h-1 items-center">
-      {row.getValue(columnConfig.accessorKey)}
-    </div>
-  );
-};
-
-const InputCell = (props: CellComponentProps) => {
-  const { getValue, row, column, table } = props;
-  const initialValue = getValue();
-  const [previousValue, setPreviousValue] = useState(initialValue);
-  const [value, setValue] = useState(initialValue);
-
-  useEffect(() => {
-    setValue(initialValue);
-  }, [initialValue]);
-
-  const onBlur = () => {
-    if (previousValue !== value) {
-      setPreviousValue(value);
-      const id = row.original.id;
-      const rowData = { ...row.original, [column.id]: value };
-      handleUpdate(rowData, id);
-      table.options.meta?.updateData(row.index, column.id, value);
-    }
-  };
-
-  return (
-    <Input
-      className="border-0"
-      type="text"
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
-      onBlur={onBlur}
-    />
-  );
-};
-
-const SelectCell = (props: CellComponentProps) => {
+const CellComponent = (props: CellComponentProps) => {
   const { row, column, table, columnConfig } = props;
-
-  const handleChange = (option) => {
-    const id = row.original.id;
-    const value = option.value;
-    const body = { ...row.original, [column.id]: value };
-    handleUpdate(body, id);
-    table.options.meta?.updateData(row.index, column.id, value);
-  };
-
-  return (
-    <Combobox
-      className="w-[200px] justify-between border-0"
-      options={columnConfig.params?.selectOptions ?? []}
-      initialValue={props.row.getValue(columnConfig.accessorKey)}
-      onChange={handleChange}
-    />
-  );
-};
-
-const cellComponent = (props: CellComponentProps) => {
-  const { columnConfig } = props;
   const componentType = columnConfig.componentType;
   switch (componentType) {
     case "input":
-      return InputCell(props);
+      return (
+        <Input
+          className="border-0"
+          onBlurAction={(value) => handleChange({ ...props, value })}
+          getValue={props.getValue}
+        />
+      )
     case "select":
-      return SelectCell(props);
+      return (
+        <Combobox
+          className="w-[200px] justify-between border-0"
+          options={columnConfig.params?.selectOptions ?? []}
+          initialValue={props.row.getValue(columnConfig.accessorKey)}
+          onChange={(option) => handleChange({ ...props, value: option.value })}
+        />
+      );
     default:
-      return DefaultCell(props);
+      return (
+        <div className="flex max-w-[500px] h-1 items-center">
+          {row.getValue(columnConfig.accessorKey)}
+        </div>
+      );
   }
 };
 
@@ -112,7 +75,7 @@ export const columnDefs = (columnConfigs: ColumnDef<any>[]): any[] => {
       header: ({ column }: any) => (
         <DataTableColumnHeader column={column} title={columnConfig.title} />
       ),
-      cell: (props) => cellComponent({ ...props, columnConfig }),
+      cell: (props) => CellComponent({ ...props, columnConfig }),
     };
 
     const specificConfig =
