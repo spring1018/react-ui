@@ -4,7 +4,7 @@ import path from "path";
 const config: StorybookConfig = {
   stories: [
     "../stories/**/*.mdx",
-    // "../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)",
     "../components/**/**/*.stories.@(js|jsx|mjs|ts|tsx)",
   ],
   addons: [
@@ -26,6 +26,7 @@ const config: StorybookConfig = {
         ...config.resolve.alias,
         "@/components": path.resolve(__dirname, "../components"),
         "@/lib": path.resolve(__dirname, "../lib"),
+        "@/env.mjs": path.resolve(__dirname, "../env.mjs"),
       };
     }
     return config;
