@@ -1,18 +1,18 @@
-import Link from "next/link"
+import Link from "next/link";
 
-import { NavBar } from "@/components/molecules/NavBar"
-import { buttonVariants } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
+import { NavBar } from "@/components/molecules/NavBar";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface MarketingLayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 const items = [
-    { title: "Home", href: "/" },
-    { title: "About", href: "/about" },
-    { title: "Contact", href: "/contact" },
-    ]
+  { title: "Home", href: "/taxonomy" },
+  { title: "About", href: "/about" },
+  { title: "Contact", href: "/contact" },
+];
 
 export default async function MarketingLayout({
   children,
@@ -38,5 +38,5 @@ export default async function MarketingLayout({
       <main className="flex-1">{children}</main>
       {/* <SiteFooter /> */}
     </div>
-  )
+  );
 }

@@ -1,5 +1,5 @@
 // import { redirect } from "next/navigation"
-
+import { LoadingWrapper } from "@/components/molecules/LoadingWrapper"
 import { DashboardHeader } from "@/features/taxonomy/header"
 import { PostCreateButton } from "@/features/taxonomy/post-create-button"
 import { PostItem } from "@/features/taxonomy/post-item"
@@ -35,6 +35,8 @@ export default async function DashboardPage() {
   })
 
   return (
+    <div>
+      <LoadingWrapper>
     <DashboardShell>
       <DashboardHeader heading="Posts" text="Create and manage posts.">
         <PostCreateButton />
@@ -53,5 +55,7 @@ export default async function DashboardPage() {
         )}
       </div>
     </DashboardShell>
+    </LoadingWrapper>
+    </div>
   )
 }
