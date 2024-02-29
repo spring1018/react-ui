@@ -1,5 +1,4 @@
 import { options } from "@/app/_clients/nextAuth";
-import { LoginButton } from "@/components/molecules/LoginButton";
 import { DashboardHeader } from "@/features/taxonomy/header";
 import { PostCreateButton } from "@/features/taxonomy/post-create-button";
 import { PostItem } from "@/features/taxonomy/post-item";
@@ -51,7 +50,7 @@ export default async function DashboardPage() {
           </div>
         </DashboardShell>
       ) : (
-        <LoginButton />
+        <div>no session</div>
       )}
     </div>
   );

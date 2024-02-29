@@ -1,6 +1,8 @@
+import { options } from "@/app/_clients/nextAuth";
 import { AuthProvider } from "@/app/_providers/AuthProviders";
-import { NavBar } from "@/components/molecules/NavBar";
+import AuthNavBar from "@/components/molecules/AuthNavBar";
 import type { Metadata } from "next";
+import { getServerSession } from "next-auth";
 import { Inter } from "next/font/google";
 import type { PropsWithChildren, ReactNode } from "react";
 
@@ -21,20 +23,20 @@ type Props = PropsWithChildren<{
   dialog: ReactNode;
 }>;
 
-export default function DashboardLayout({ dialog, children }: Props) {
+export default async function DashboardLayout({ dialog, children }: Props) {
+  const session = await getServerSession(options);
   return (
     <html lang="en">
       <body
         className={[
           inter.className,
-          "bg-gray-700 text-gray-200 h-screen flex flex-col",
+          "h-screen flex flex-col",
           // for dialog
           "has-[dialog[open]]:overflow-hidden",
         ].join(" ")}
       >
         <AuthProvider>
-          {/* <Header /> */}
-          <NavBar items={items} />
+          <AuthNavBar items={items} session={session} />
           <main className="py-4 px-8 flex-1 overflow-y-auto">{children}</main>
         </AuthProvider>
         {dialog}

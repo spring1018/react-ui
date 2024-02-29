@@ -30,7 +30,7 @@ export default async function MarketingLayout({
                 "px-4"
               )}
             >
-              Login
+              SignIn
             </Link>
           </nav>
         </div>
