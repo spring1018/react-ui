@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 // import GitHubProvider from "next-auth/providers/github";
 // import GoogleProvider from "next-auth/providers/google";
 
-export const authOptions: NextAuthOptions = {
+export const options: NextAuthOptions = {
   debug: true,
   session: { strategy: "jwt" },
   providers: [
