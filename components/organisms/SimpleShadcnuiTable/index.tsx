@@ -18,7 +18,7 @@ import {
   getFacetedUniqueValues,
   getFilteredRowModel,
   getSortedRowModel,
-  useReactTable
+  useReactTable,
 } from "@tanstack/react-table";
 import * as React from "react";
 import { columnDefs as getColumnDefs } from "./columns";
@@ -35,7 +35,7 @@ export function SimpleShadcnuiTable<TData, TValue>({
   defaultData,
 }: DataTableProps<TData, TValue>) {
   const [data, setData] = React.useState<TData[]>(defaultData);
-  const columns = getColumnDefs(columnDefs)
+  const columns = getColumnDefs(columnDefs);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -54,12 +54,12 @@ export function SimpleShadcnuiTable<TData, TValue>({
       columnFilters,
     },
     meta: {
-      updateData: (rowIndex: number, columnId: string, value: string) => {
-        setData((old) =>
-          old.map((row, index) => {
-            if (index === rowIndex) {
+      updateData: (id: number, columnId: string, value: string) => {
+        setData((old: any) =>
+          old.map((row: any) => {
+            if (row.id === id) {
               return {
-                ...old[rowIndex],
+                ...row,
                 [columnId]: value,
               };
             }
@@ -67,6 +67,13 @@ export function SimpleShadcnuiTable<TData, TValue>({
           })
         );
       },
+      // updateData: (id: number, newData: TData) => {
+      //   setData((old: any) =>
+      //     old.map((row: any) => {
+      //       (row.id === id) ? newData : row;
+      //     })
+      //   );
+      // }
     },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,

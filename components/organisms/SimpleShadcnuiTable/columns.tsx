@@ -1,15 +1,20 @@
 "use client";
 
 import { Input } from "@/components/atoms/CustomInput";
+import { FormBuilder } from "@/components/molecules/FormBuilder";
 import { Sheet } from "@/components/molecules/Sheet";
-import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "./data-table-column-header";
 
-const updateData = async (rowData, id) => {
+type RowDataProps = {
+  id: string;
+  [key: string]: string;
+};
+
+const PUT = async (rowData: RowDataProps) => {
   try {
-    const response = await fetch(`http://localhost:3004/mock-sample/${id}`, {
+    const response = await fetch(`http://localhost:3004/mock-sample/${rowData.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -21,12 +26,15 @@ const updateData = async (rowData, id) => {
   }
 };
 
+const updateTableData = (table, id, columnId, value) => {
+  table.options.meta?.updateData(id, columnId, value);
+};
+
 const handleChange = (props) => {
   const { value, row, column, table } = props;
-  const id = row.original.id;
   const rowData = { ...row.original, [column.id]: value };
-  updateData(rowData, id);
-  table.options.meta?.updateData(row.index, column.id, value);
+  PUT(rowData);
+  updateTableData(table, row.original.id, column.id, value);
 };
 
 type CellComponentProps = {
@@ -39,7 +47,7 @@ type CellComponentProps = {
 
 const CellComponent = (props: CellComponentProps) => {
   const { row, column, table, columnConfig } = props;
-  const { componentType ,editableOnRowClick } = columnConfig
+  const { componentType, editableOnRowClick } = columnConfig;
 
   const DefaultComponent = ({ row }) => {
     return (
@@ -48,33 +56,6 @@ const CellComponent = (props: CellComponentProps) => {
       </div>
     );
   };
-
-  if (componentType === "button") {
-    return (
-      <Sheet
-        text="Edit"
-        children={
-          <div className="flex flex-col space-y-4">
-            <Input
-              className="border-0"
-              onBlurAction={(value) =>
-                handleChange({ ...props, value, columnConfig })
-              }
-              getValue={props.getValue}
-            />
-            <Button
-              className="w-[200px] justify-between border-0"
-              onClick={() => handleChange({ ...props, value: "clicked" })}
-            >
-              Save
-            </Button>
-          </div>
-        }
-      >
-        edit
-      </Sheet>
-    );
-  }
 
   if (!editableOnRowClick) {
     return <DefaultComponent row={row} />;
@@ -108,12 +89,35 @@ const columnHelper = createColumnHelper();
 export const columnDefs = (columnConfigs: ColumnDef<any>[]): any[] => {
   const defaultFilterFn = (row, id, value) => value.includes(row.getValue(id));
 
+  const SheetButton = ({ row }) => {
+    return (
+      <Sheet
+        text="Edit"
+        children={
+          <FormBuilder
+            columnDefs={columnConfigs}
+            initialValues={row}
+            openedInSheet={true}
+            // onSubmit={PUT}
+            onSubmit={(values) => console.log("values", values)}
+          />
+        }
+      />
+    );
+  };
+
   return columnConfigs.map((columnConfig: any) => {
     const commonConfig = {
       header: ({ column }: any) => (
         <DataTableColumnHeader column={column} title={columnConfig.title} />
       ),
-      cell: (props) => CellComponent({ ...props, columnConfig }),
+      cell: (props: any) => {
+        if (columnConfig.componentType === "button") {
+          return <SheetButton row={props.row.original} table={props.table}/>;
+        } else {
+          return <CellComponent {...props} columnConfig={columnConfig} />;
+        }
+      },
     };
 
     const specificConfig =
