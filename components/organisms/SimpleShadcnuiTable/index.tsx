@@ -76,7 +76,7 @@ export function SimpleShadcnuiTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} />
+      <DataTableToolbar table={table} columnDefs={columnDefs} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>

@@ -4,12 +4,14 @@ import { Cross2Icon } from "@radix-ui/react-icons";
 import { Table } from "@tanstack/react-table";
 
 // import { DataTableViewOptions } from "@/app/examples/tasks/components/data-table-view-options"
+import { FormSheetButton } from "@/components/molecules/FormSheetButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
+  columnDefs: any[];
 }
 
 function mapToOptions(arg: Map<any, number> | undefined) {
@@ -22,6 +24,7 @@ function mapToOptions(arg: Map<any, number> | undefined) {
 
 export function DataTableToolbar<TData>({
   table,
+  columnDefs,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
   const facetedColumns = table.getAllColumns().filter((column) => {
@@ -59,6 +62,9 @@ export function DataTableToolbar<TData>({
             <Cross2Icon className="ml-2 h-4 w-4" />
           </Button>
         )}
+        <div className="flex justify-end">
+          <FormSheetButton headerText="登録" columnDefs={columnDefs} />
+        </div>
       </div>
       {/* <DataTableViewOptions table={table} /> */}
     </div>
