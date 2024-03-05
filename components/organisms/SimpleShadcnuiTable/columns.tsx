@@ -5,6 +5,7 @@ import { FormBuilder } from "@/components/molecules/FormBuilder";
 import { Sheet } from "@/components/molecules/Sheet";
 import { Combobox } from "@/components/ui/combobox";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
+import { mutate } from "swr";
 import { DataTableColumnHeader } from "./data-table-column-header";
 
 type RowDataProps = {
@@ -14,27 +15,19 @@ type RowDataProps = {
 
 const PUT = async (rowData: RowDataProps) => {
   try {
-    const response = await fetch(`http://localhost:3004/mock-sample/${rowData.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ...rowData }),
-    });
+    const response = await fetch(
+      `http://localhost:3004/mock-sample/${rowData.id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...rowData }),
+      }
+    );
   } catch (error) {
     console.error("Error updating data:", error);
   }
-};
-
-const updateTableData = (table, id, columnId, value) => {
-  table.options.meta?.updateData(id, columnId, value);
-};
-
-const handleChange = (props) => {
-  const { value, row, column, table } = props;
-  const rowData = { ...row.original, [column.id]: value };
-  PUT(rowData);
-  updateTableData(table, row.original.id, column.id, value);
 };
 
 type CellComponentProps = {
@@ -48,6 +41,13 @@ type CellComponentProps = {
 const CellComponent = (props: CellComponentProps) => {
   const { row, column, table, columnConfig } = props;
   const { componentType, editableOnRowClick } = columnConfig;
+
+  const handleChange = (props) => {
+    const { value, row, column, table } = props;
+    const rowData = { ...row.original, [column.id]: value };
+    PUT(rowData);
+    props.updateTableData(rowData);
+  };
 
   const DefaultComponent = ({ row }) => {
     return (
@@ -89,17 +89,23 @@ const columnHelper = createColumnHelper();
 export const columnDefs = (columnConfigs: ColumnDef<any>[]): any[] => {
   const defaultFilterFn = (row, id, value) => value.includes(row.getValue(id));
 
-  const SheetButton = ({ row }) => {
+  const SheetButton = (props) => {
     return (
       <Sheet
         text="Edit"
         children={
           <FormBuilder
             columnDefs={columnConfigs}
-            initialValues={row}
+            initialValues={props.row.original}
             openedInSheet={true}
-            // onSubmit={PUT}
-            onSubmit={(values) => console.log("values", values)}
+            onSubmit={(values) => {
+              PUT(values);
+              props.updateTableData(values);
+              const newTableData = props.table.options.data.map((row) => {
+                return row.id === values.id ? values : row;
+              });
+              mutate("http://localhost:3004/mock-sample", newTableData, false);
+            }}
           />
         }
       />
@@ -111,11 +117,16 @@ export const columnDefs = (columnConfigs: ColumnDef<any>[]): any[] => {
       header: ({ column }: any) => (
         <DataTableColumnHeader column={column} title={columnConfig.title} />
       ),
-      cell: (props: any) => {
+      cell: (cellProps: any) => {
+        const props = {
+          ...cellProps,
+          columnConfig,
+          updateTableData: cellProps.table.options.meta?.updateData,
+        };
         if (columnConfig.componentType === "button") {
-          return <SheetButton row={props.row.original} table={props.table}/>;
+          return <SheetButton {...props} />;
         } else {
-          return <CellComponent {...props} columnConfig={columnConfig} />;
+          return <CellComponent {...props} />;
         }
       },
     };

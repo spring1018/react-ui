@@ -54,26 +54,13 @@ export function SimpleShadcnuiTable<TData, TValue>({
       columnFilters,
     },
     meta: {
-      updateData: (id: number, columnId: string, value: string) => {
+      updateData: (newData: {id: string, [key: string]: string}) => {
         setData((old: any) =>
           old.map((row: any) => {
-            if (row.id === id) {
-              return {
-                ...row,
-                [columnId]: value,
-              };
-            }
-            return row;
+            return (row.id === newData.id) ? newData : row;
           })
         );
-      },
-      // updateData: (id: number, newData: TData) => {
-      //   setData((old: any) =>
-      //     old.map((row: any) => {
-      //       (row.id === id) ? newData : row;
-      //     })
-      //   );
-      // }
+      }
     },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
