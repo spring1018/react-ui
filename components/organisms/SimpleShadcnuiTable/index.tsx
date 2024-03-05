@@ -21,7 +21,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import * as React from "react";
-import { columnDefs as getColumnDefs } from "./columns";
+import { getColumnDefs } from "./columns";
 import { DataTableToolbar } from "./data-table-toolbar";
 // import { DataTablePagination } from "../components/data-table-pagination"
 

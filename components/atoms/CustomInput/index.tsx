@@ -5,11 +5,11 @@ import { ChangeEvent, ComponentProps, useState } from "react";
 type ShadcnInputProps = ComponentProps<typeof ShadcnInput>;
 type Props = ShadcnInputProps & {
   onBlurAction?: (value: string) => void;
-  getValue?: () => string;
+  initialValue?: string;
 };
 
 export const Input = (props: Props) => {
-  const initialValue = props.getValue?.() ?? "";
+  const initialValue = props.initialValue ?? "";
   const [previousValue, setPreviousValue] = useState(initialValue);
   const [value, setValue] = useState(initialValue);
 
