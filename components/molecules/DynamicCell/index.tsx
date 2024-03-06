@@ -18,7 +18,11 @@ export const DynamicCell = ({
     case "label":
       return (
         <div className="flex max-w-[500px] h-4 items-center">
-          <p className="truncate ...">{initialValue}</p>
+          {options? (
+            <p className="truncate ...">{options.find((option) => option.value === initialValue)?.label}</p>
+          ) : (
+            <p className="truncate ...">{initialValue}</p>
+          )}
         </div>
       );
     case "input":

@@ -81,7 +81,7 @@ export const getColumnDefs = (columnConfigs: ColumnDef<any>[], apiUrl: string): 
                   : "label"
               }
               initialValue={original[id]}
-              options={columnConfig.params?.selectOptions ?? []}
+              options={columnConfig.params?.selectOptions}
               handleChange={handleSubmit}
             />
           );
