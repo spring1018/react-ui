@@ -9,15 +9,16 @@ type NavItem = {
 };
 
 interface AuthNavBarProps {
+  logo?: string;
   items: NavItem[];
   session: any;
 }
 
-export default function AuthNavBar({ items, session }: AuthNavBarProps) {
+export default function AuthNavBar({ logo, items, session }: AuthNavBarProps) {
   return (
-    <header className="container z-40">
+    <header className="mx-8 z-40">
       <div className="flex h-20 items-center justify-between py-6">
-        <NavBar items={items} />
+        <NavBar logo={logo} items={items} />
         {session?.user ? <LogoutButton /> : <LoginButton />}
       </div>
     </header>

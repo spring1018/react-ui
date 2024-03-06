@@ -15,11 +15,12 @@ type NavItem = {
 };
 
 interface NavBarProps {
+  logo?: string;
   items?: NavItem[];
   children?: React.ReactNode;
 }
 
-export function NavBar({ items, children }: NavBarProps) {
+export function NavBar({ logo, items, children }: NavBarProps) {
   const segment = useSelectedLayoutSegment(); // ERROR: storybook でエラーが発生する
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
 
@@ -28,7 +29,7 @@ export function NavBar({ items, children }: NavBarProps) {
       <Link href="/" className="hidden items-center space-x-2 md:flex">
         {/* <Icons.logo /> */}
         <span className="hidden font-bold sm:inline-block">
-          test
+          {logo || "Logo"}
         </span>
       </Link>
       {items?.length ? (

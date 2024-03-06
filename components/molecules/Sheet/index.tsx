@@ -19,7 +19,7 @@ export function Sheet(props: FormSheetProps) {
   return (
     <ShadcnSheet>
       <SheetTrigger asChild>
-        <Button variant="outline" className="h-8">
+        <Button variant="default" className="h-8">
           {text}
         </Button>
       </SheetTrigger>
