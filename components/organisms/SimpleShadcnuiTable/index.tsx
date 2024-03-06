@@ -28,14 +28,16 @@ import { DataTableToolbar } from "./data-table-toolbar";
 interface DataTableProps<TData, TValue> {
   columnDefs: any[];
   defaultData: TData[];
+  apiUrl: string;
 }
 
 export function SimpleShadcnuiTable<TData, TValue>({
   columnDefs,
   defaultData,
+  apiUrl,
 }: DataTableProps<TData, TValue>) {
   const [data, setData] = React.useState<TData[]>(defaultData);
-  const columns = getColumnDefs(columnDefs);
+  const columns = getColumnDefs(columnDefs, apiUrl);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -54,7 +56,11 @@ export function SimpleShadcnuiTable<TData, TValue>({
       columnFilters,
     },
     meta: {
-      updateData: (newData: {id: string, [key: string]: string}) => {
+      updateData: (newData: {id: string, [key: string]: string}, method: string = "PUT") => {
+        if (method === "POST") {
+          setData((old: any) => [...old, newData]);
+          return;
+        }
         setData((old: any) =>
           old.map((row: any) => {
             return (row.id === newData.id) ? newData : row;
@@ -76,7 +82,7 @@ export function SimpleShadcnuiTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} columnDefs={columnDefs} />
+      <DataTableToolbar table={table} columnDefs={columnDefs} apiUrl={apiUrl} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>

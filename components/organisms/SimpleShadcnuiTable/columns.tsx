@@ -11,10 +11,11 @@ type RowDataProps = {
   [key: string]: string;
 };
 
-const PUT = async (rowData: RowDataProps) => {
+const PUT = async (rowData: RowDataProps, apiUrl: string) => {
+  const id = rowData.id;
   try {
     const response = await fetch(
-      `http://localhost:3004/mock-sample/${rowData.id}`,
+      `${apiUrl}/${id}`,
       {
         method: "PUT",
         headers: {
@@ -30,7 +31,7 @@ const PUT = async (rowData: RowDataProps) => {
 
 const columnHelper = createColumnHelper();
 
-export const getColumnDefs = (columnConfigs: ColumnDef<any>[]): any[] => {
+export const getColumnDefs = (columnConfigs: ColumnDef<any>[], apiUrl: string): any[] => {
   const defaultFilterFn = (row, id, value) => value.includes(row.getValue(id));
 
   return columnConfigs.map((columnConfig: any) => {
@@ -54,12 +55,12 @@ export const getColumnDefs = (columnConfigs: ColumnDef<any>[]): any[] => {
           } else if (columnConfig.componentType === "select") {
             values = { ...original, [id]: e.value };
           }
-          PUT(values);
+          PUT(values, apiUrl);
           updateData(values);
           const newTableData = data.map((row) => {
             return row.id === values.id ? values : row;
           });
-          mutate("http://localhost:3004/mock-sample", newTableData, false);
+          mutate(apiUrl, newTableData, false);
         };
 
         if (columnConfig.componentType === "button") {
