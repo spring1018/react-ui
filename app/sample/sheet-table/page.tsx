@@ -19,6 +19,7 @@ export default function SheetTablePage() {
         columnDefs={columnDefs}
         defaultData={data}
         apiUrl={apiUrl}
+        pageSizes={[5, 20, 30, 40, 50]}
       />
     </div>
   );

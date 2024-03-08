@@ -30,12 +30,14 @@ interface DataTableProps<TData, TValue> {
   columnDefs: any[];
   defaultData: TData[];
   apiUrl: string;
+  pageSizes?: number[];
 }
 
 export function SimpleShadcnuiTable<TData, TValue>({
   columnDefs,
   defaultData,
   apiUrl,
+  pageSizes = [10, 20, 30, 40, 50],
 }: DataTableProps<TData, TValue>) {
   const [data, setData] = React.useState<TData[]>(defaultData);
   const columns = getColumnDefs(columnDefs, apiUrl);
@@ -138,7 +140,7 @@ export function SimpleShadcnuiTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+      <DataTablePagination table={table} pageSizes={pageSizes} />
     </div>
   );
 }
