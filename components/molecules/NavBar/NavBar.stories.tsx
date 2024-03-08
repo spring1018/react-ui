@@ -1,29 +1,29 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { NavBar } from '.';
+import { NavBar } from ".";
 
-type T = typeof NavBar
+type T = typeof NavBar;
 
 const items = [
-  {
-    title: "Home",
-    href: "/",
-  },
-  {
-    title: "About",
-    href: "/about",
-  },
-  {
-    title: "Contact",
-    href: "/contact",
-  },
+	{
+		title: "Home",
+		href: "/",
+	},
+	{
+		title: "About",
+		href: "/about",
+	},
+	{
+		title: "Contact",
+		href: "/contact",
+	},
 ];
 
 export default {
-  component: NavBar,
+	component: NavBar,
 } satisfies Meta<T>;
 
 export const Default: StoryObj<T> = {
-  args: {
-    items: items,
-  },
+	args: {
+		items: items,
+	},
 };

@@ -9,49 +9,49 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 type NavItem = {
-  title: string;
-  href: string;
-  disabled?: boolean;
+	title: string;
+	href: string;
+	disabled?: boolean;
 };
 
 interface NavBarProps {
-  logo?: string;
-  items?: NavItem[];
-  children?: React.ReactNode;
+	logo?: string;
+	items?: NavItem[];
+	children?: React.ReactNode;
 }
 
 export function NavBar({ logo, items, children }: NavBarProps) {
-  const segment = useSelectedLayoutSegment(); // ERROR: storybook でエラーが発生する
-  const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
+	const segment = useSelectedLayoutSegment(); // ERROR: storybook でエラーが発生する
+	const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
 
-  return (
-    <div className="flex gap-6 md:gap-10">
-      <Link href="/" className="hidden items-center space-x-2 md:flex">
-        {/* <Icons.logo /> */}
-        <span className="hidden font-bold sm:inline-block">
-          {logo || "Logo"}
-        </span>
-      </Link>
-      {items?.length ? (
-        <nav className="hidden gap-6 md:flex">
-          {items?.map((item, index) => (
-            <Link
-              key={index}
-              href={item.disabled ? "#" : item.href}
-              className={cn(
-                "flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm",
-                item.href.startsWith(`/${segment}`)
-                  ? "text-foreground"
-                  : "text-foreground/60",
-                item.disabled && "cursor-not-allowed opacity-80"
-              )}
-            >
-              {item.title}
-            </Link>
-          ))}
-        </nav>
-      ) : null}
-      {/* <button
+	return (
+		<div className="flex gap-6 md:gap-10">
+			<Link href="/" className="hidden items-center space-x-2 md:flex">
+				{/* <Icons.logo /> */}
+				<span className="hidden font-bold sm:inline-block">
+					{logo || "Logo"}
+				</span>
+			</Link>
+			{items?.length ? (
+				<nav className="hidden gap-6 md:flex">
+					{items?.map((item, index) => (
+						<Link
+							key={index}
+							href={item.disabled ? "#" : item.href}
+							className={cn(
+								"flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm",
+								item.href.startsWith(`/${segment}`)
+									? "text-foreground"
+									: "text-foreground/60",
+								item.disabled && "cursor-not-allowed opacity-80",
+							)}
+						>
+							{item.title}
+						</Link>
+					))}
+				</nav>
+			) : null}
+			{/* <button
         className="flex items-center space-x-2 md:hidden"
         onClick={() => setShowMobileMenu(!showMobileMenu)}
       >
@@ -61,6 +61,6 @@ export function NavBar({ logo, items, children }: NavBarProps) {
       {showMobileMenu && items && (
         <MobileNav items={items}>{children}</MobileNav>
       )} */}
-    </div>
-  );
+		</div>
+	);
 }
