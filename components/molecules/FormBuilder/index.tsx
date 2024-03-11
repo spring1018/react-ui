@@ -52,7 +52,11 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({
         <div key={column.accessorKey} className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label>{column.title}</Label>
-            {!column.componentType && <p>{formValues[column.accessorKey]}</p>}
+            {!column.componentType && (
+              <Label className="col-span-3">
+                {formValues[column.accessorKey]}
+              </Label>
+            )}
             {column.componentType === "input" && (
               <Input
                 className="col-span-3"

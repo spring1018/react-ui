@@ -11,7 +11,6 @@ export const columnDefs = [
   {
     accessorKey: "title",
     title: "Title",
-    componentType: "input",
   },
   {
     accessorKey: "status",
