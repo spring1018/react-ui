@@ -25,19 +25,43 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import { mutate } from "swr";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  defaultData: TData[];
+  apiUrl: string;
 }
+
+type RowDataProps = {
+  id: string;
+  [key: string]: string;
+};
+
+const PUT = async (rowData: RowDataProps, apiUrl: string) => {
+  const id = rowData.id;
+  try {
+    const response = await fetch(`${apiUrl}/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...rowData }),
+    });
+  } catch (error) {
+    console.error("Error updating data:", error);
+  }
+};
 
 export function ShadcnuiTable<TData, TValue>({
   columns,
-  data,
+  defaultData,
+  apiUrl,
 }: DataTableProps<TData, TValue>) {
+  const [data, setData] = React.useState<TData[]>(defaultData);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -54,6 +78,23 @@ export function ShadcnuiTable<TData, TValue>({
       columnVisibility,
       rowSelection,
       columnFilters,
+    },
+    meta: {
+      updateData: (newData: { id: string; [key: string]: string }, method) => {
+        switch (method) {
+          case "POST":
+            setData((old: any) => [...old, newData]);
+            break;
+          case "PUT":
+            const newTableData = data.map((row) => {
+              return row.id === newData.id ? newData : row;
+            });
+            setData(newTableData);
+            PUT(newData, apiUrl);
+            mutate(apiUrl, newTableData, false);
+            break;
+        }
+      },
     },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,

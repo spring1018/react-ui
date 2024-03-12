@@ -34,10 +34,11 @@ export const columns: ColumnDef<Task>[] = [
   {
     id: "button",
     header: "",
-    cell: ({ row }) => (
+    cell: ({ row, table }) => (
       <FormSheetButton
         columnDefs={formColumnDefs}
         initialValues={row.original}
+        handleSubmit={(e) => table.options.meta?.updateData(e, "PUT")}
       />
     ),
     enableSorting: false,
