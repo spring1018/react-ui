@@ -25,6 +25,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
 
@@ -81,7 +82,12 @@ export function ShadcnuiTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
+                            ({ column }) => (
+                              <DataTableColumnHeader
+                                column={column}
+                                title={header.column.columnDef.header as string}
+                              />
+                            ),
                             header.getContext(),
                           )}
                     </TableHead>

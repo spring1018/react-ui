@@ -3,7 +3,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 
 import { FormSheetButton } from "@/components/molecules/FormSheetButton";
-import { DataTableColumnHeader } from "./data-table-column-header";
 import { priorities, statuses } from "./options";
 import { Task } from "./schema";
 
@@ -34,7 +33,7 @@ const formColumnDefs = [
 export const columns: ColumnDef<Task>[] = [
   {
     id: "button",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="" />,
+    header: "",
     cell: ({ row }) => (
       <FormSheetButton
         columnDefs={formColumnDefs}
@@ -46,18 +45,14 @@ export const columns: ColumnDef<Task>[] = [
   },
   {
     accessorKey: "id",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="ID" />
-    ),
+    header: "ID",
     cell: ({ row }) => <div className="w-[80px]">{row.getValue("id")}</div>,
     enableSorting: false,
     enableHiding: false,
   },
   {
     accessorKey: "title",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Title" />
-    ),
+    header: "Title",
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
@@ -70,9 +65,7 @@ export const columns: ColumnDef<Task>[] = [
   },
   {
     accessorKey: "status",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Status" />
-    ),
+    header: "Status",
     cell: ({ row }) => {
       const status = statuses.find(
         (status) => status.value === row.getValue("status"),
@@ -94,9 +87,7 @@ export const columns: ColumnDef<Task>[] = [
   },
   {
     accessorKey: "priority",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Priority" />
-    ),
+    header: "Priority",
     cell: ({ row }) => {
       const priority = priorities.find(
         (priority) => priority.value === row.getValue("priority"),
