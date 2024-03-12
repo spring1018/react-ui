@@ -67,6 +67,8 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: "status",
     header: "Status",
+    enableFacetFilter: true,
+    facetFilterOptions: statuses,
     cell: ({ row }) => {
       const status = statuses.find(
         (status) => status.value === row.getValue("status"),
@@ -89,6 +91,8 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: "priority",
     header: "Priority",
+    enableFacetFilter: true,
+    facetFilterOptions: priorities,
     cell: ({ row }) => {
       const priority = priorities.find(
         (priority) => priority.value === row.getValue("priority"),

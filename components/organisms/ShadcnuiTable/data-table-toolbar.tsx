@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
-import { priorities, statuses } from "./options";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -29,19 +28,25 @@ export function DataTableToolbar<TData>({
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {table.getColumn("status") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("status")}
-            title="Status"
-            options={statuses}
-          />
-        )}
-        {table.getColumn("priority") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("priority")}
-            title="Priority"
-            options={priorities}
-          />
+        {table.getHeaderGroups().map((headerGroup) =>
+          headerGroup.headers.map((header) => {
+            const {
+              accessorKey,
+              header: title,
+              enableFacetFilter,
+              facetFilterOptions,
+            } = header.column.columnDef;
+            if (!enableFacetFilter) {
+              return null;
+            }
+            return (
+              <DataTableFacetedFilter
+                column={table.getColumn(accessorKey)}
+                title={title as string}
+                options={facetFilterOptions}
+              />
+            );
+          }),
         )}
         {isFiltered && (
           <Button
