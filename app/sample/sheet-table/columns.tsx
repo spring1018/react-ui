@@ -1,10 +1,14 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
-
 import { FormSheetButton } from "@/components/molecules/FormSheetButton";
+import { ColumnDef } from "@tanstack/react-table";
 import { priorities, statuses } from "./options";
 import { Task } from "./schema";
+
+type ExtendedColumnDef<T> = T & {
+  enableFacetFilter?: boolean;
+  facetFilterOptions?: { label: string; value: string }[];
+};
 
 export const formColumnDefs = [
   {
@@ -30,7 +34,7 @@ export const formColumnDefs = [
   },
 ];
 
-export const columns: ColumnDef<Task>[] = [
+export const columns: ExtendedColumnDef<ColumnDef<Task>>[] = [
   {
     id: "button",
     header: "",
