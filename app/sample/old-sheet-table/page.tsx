@@ -3,7 +3,7 @@ import { SimpleShadcnuiTable } from "@/components/organisms/SimpleShadcnuiTable"
 import useSWR from "swr";
 import { columnDefs } from "./columnDefs";
 
-export default function SheetTablePage() {
+export default function OldSheetTablePage() {
   const apiUrl = "http://localhost:3004/mock-sample";
 
   const fetcher = (url: string): Promise<any> =>
