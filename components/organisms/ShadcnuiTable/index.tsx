@@ -33,7 +33,8 @@ import { DataTableToolbar } from "./data-table-toolbar";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   defaultData: TData[];
-  apiUrl: string;
+  apiUrl?: string;
+  enablePost?: boolean;
 }
 
 type RowDataProps = {
@@ -56,10 +57,26 @@ const PUT = async (rowData: RowDataProps, apiUrl: string) => {
   }
 };
 
+const POST = async (rowData: any, apiUrl: string) => {
+  try {
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...rowData }),
+    });
+    return response.json();
+  } catch (error) {
+    console.error("Error updating data:", error);
+  }
+};
+
 export function ShadcnuiTable<TData, TValue>({
   columns,
   defaultData,
   apiUrl,
+  enablePost = false,
 }: DataTableProps<TData, TValue>) {
   const [data, setData] = React.useState<TData[]>(defaultData);
   const [rowSelection, setRowSelection] = React.useState({});
@@ -80,20 +97,28 @@ export function ShadcnuiTable<TData, TValue>({
       columnFilters,
     },
     meta: {
-      updateData: (newData: { id: string; [key: string]: string }, method) => {
+      updateData: async (
+        newData: { id: string; [key: string]: string },
+        method: "POST" | "PUT",
+      ) => {
+        if (!apiUrl) return;
+        let newTableData: TData[] = [];
         switch (method) {
-          case "POST":
-            setData((old: any) => [...old, newData]);
+          case "POST": {
+            const res = await POST(newData, apiUrl);
+            newTableData = data.concat(res);
             break;
-          case "PUT":
-            const newTableData = data.map((row) => {
+          }
+          case "PUT": {
+            PUT(newData, apiUrl);
+            newTableData = data.map((row) => {
               return row.id === newData.id ? newData : row;
             });
-            setData(newTableData);
-            PUT(newData, apiUrl);
-            mutate(apiUrl, newTableData, false);
             break;
+          }
         }
+        setData(newTableData);
+        mutate(apiUrl, newTableData, false);
       },
     },
     enableRowSelection: true,
@@ -111,7 +136,7 @@ export function ShadcnuiTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} />
+      <DataTableToolbar table={table} enablePost={enablePost} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>

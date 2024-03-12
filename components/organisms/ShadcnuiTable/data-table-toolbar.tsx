@@ -6,14 +6,18 @@ import { Table } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+import { formColumnDefs } from "@/app/sample/sheet-table/columns";
+import { FormSheetButton } from "@/components/molecules/FormSheetButton";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
+  enablePost?: boolean;
 }
 
 export function DataTableToolbar<TData>({
   table,
+  enablePost = false,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
 
@@ -59,6 +63,13 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
+      {enablePost && (
+        <FormSheetButton
+          headerText="新規登録"
+          columnDefs={formColumnDefs}
+          handleSubmit={(e) => table.options.meta?.updateData(e, "POST")}
+        />
+      )}
     </div>
   );
 }
