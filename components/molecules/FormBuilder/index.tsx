@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { SheetClose } from "@/components/ui/sheet";
 import React, { useState } from "react";
+import { DeleteDialogButton } from "../DeleteDialog";
 
 interface FormProps {
   id: string;
@@ -25,8 +26,9 @@ interface ColumnDef {
 interface FormBuilderProps {
   columnDefs: ColumnDef[];
   initialValues?: FormProps;
-  onSubmit?: (values: FormProps) => void;
   openedInSheet?: boolean;
+  onSubmit?: (values: FormProps) => void;
+  onDelete?: () => void;
 }
 
 export const FormBuilder: React.FC<FormBuilderProps> = ({
@@ -34,6 +36,7 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({
   initialValues = {},
   openedInSheet = false,
   onSubmit = () => {},
+  onDelete = () => {},
 }) => {
   const [formValues, setFormValues] = useState<FormProps>(initialValues);
 
@@ -81,10 +84,15 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({
         </div>
       ))}
       {openedInSheet ? (
-        <div className="flex justify-end">
-          <SheetClose>
-            <Button type="submit">保存</Button>
-          </SheetClose>
+        <div>
+          <div className="flex justify-end">
+            <SheetClose>
+              <Button type="submit">保存</Button>
+            </SheetClose>
+          </div>
+          <div className="flex justify-end my-6">
+            <DeleteDialogButton onDelete={onDelete} />
+          </div>
         </div>
       ) : (
         <div className="flex justify-end">

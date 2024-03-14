@@ -43,6 +43,9 @@ export const columns: ExtendedColumnDef<ColumnDef<Task>>[] = [
         columnDefs={formColumnDefs}
         initialValues={row.original}
         handleSubmit={(e) => table.options.meta?.updateData(e, "PUT")}
+        handleDelete={() =>
+          table.options.meta?.updateData(row.original, "DELETE")
+        }
       />
     ),
     enableSorting: false,

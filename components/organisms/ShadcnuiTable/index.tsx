@@ -42,6 +42,21 @@ type RowDataProps = {
   [key: string]: string;
 };
 
+const POST = async (rowData: any, apiUrl: string) => {
+  try {
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...rowData }),
+    });
+    return response.json();
+  } catch (error) {
+    console.error("Error updating data:", error);
+  }
+};
+
 const PUT = async (rowData: RowDataProps, apiUrl: string) => {
   const id = rowData.id;
   try {
@@ -57,18 +72,16 @@ const PUT = async (rowData: RowDataProps, apiUrl: string) => {
   }
 };
 
-const POST = async (rowData: any, apiUrl: string) => {
+const DELETE = async (id: string, apiUrl: string) => {
   try {
-    const response = await fetch(apiUrl, {
-      method: "POST",
+    const response = await fetch(`${apiUrl}/${id}`, {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ ...rowData }),
     });
-    return response.json();
   } catch (error) {
-    console.error("Error updating data:", error);
+    console.error("Error deleting data:", error);
   }
 };
 
@@ -99,7 +112,7 @@ export function ShadcnuiTable<TData, TValue>({
     meta: {
       updateData: async (
         newData: { id: string; [key: string]: string },
-        method: "POST" | "PUT",
+        method: "POST" | "PUT" | "DELETE",
       ) => {
         if (!apiUrl) return;
         let newTableData: TData[] = [];
@@ -114,6 +127,11 @@ export function ShadcnuiTable<TData, TValue>({
             newTableData = data.map((row) => {
               return row.id === newData.id ? newData : row;
             });
+            break;
+          }
+          case "DELETE": {
+            DELETE(newData.id, apiUrl);
+            newTableData = data.filter((row) => row.id !== newData.id);
             break;
           }
         }

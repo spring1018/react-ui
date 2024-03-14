@@ -5,7 +5,8 @@ type FormSheetButtonProps = {
   headerText?: string;
   columnDefs: any;
   initialValues?: any;
-  handleSubmit?: any;
+  handleSubmit?: () => void;
+  handleDelete?: () => void;
 };
 
 export const FormSheetButton = ({
@@ -13,6 +14,7 @@ export const FormSheetButton = ({
   columnDefs,
   initialValues = {},
   handleSubmit = () => {},
+  handleDelete = () => {},
 }: FormSheetButtonProps) => {
   return (
     <Sheet
@@ -23,6 +25,7 @@ export const FormSheetButton = ({
           initialValues={initialValues}
           openedInSheet={true}
           onSubmit={handleSubmit}
+          onDelete={handleDelete}
         />
       }
     />
