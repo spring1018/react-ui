@@ -1,3 +1,4 @@
+import { Separator } from "@/components/ui/separator";
 import { LoginButton } from "../LoginButton";
 import { LogoutButton } from "../LogoutButton";
 import { NavBar } from "../NavBar";
@@ -16,11 +17,12 @@ interface AuthNavBarProps {
 
 export default function AuthNavBar({ logo, items, session }: AuthNavBarProps) {
   return (
-    <header className="mx-8 z-40">
+    <header className="bg-white sticky top-0 mx-8 z-40">
       <div className="flex h-20 items-center justify-between py-6">
         <NavBar logo={logo} items={items} />
         {session?.user ? <LogoutButton /> : <LoginButton />}
       </div>
+      <Separator />
     </header>
   );
 }
