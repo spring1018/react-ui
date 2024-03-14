@@ -79,6 +79,7 @@ const DELETE = async (id: string, apiUrl: string) => {
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({ id }),
     });
   } catch (error) {
     console.error("Error deleting data:", error);
