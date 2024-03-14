@@ -18,7 +18,7 @@ interface AuthNavBarProps {
 export default function AuthNavBar({ logo, items, session }: AuthNavBarProps) {
   return (
     <header className="bg-white sticky top-0 mx-8 z-40">
-      <div className="flex h-20 items-center justify-between py-6">
+      <div className="flex h-16 items-center justify-between py-6">
         <NavBar logo={logo} items={items} />
         {session?.user ? <LogoutButton /> : <LoginButton />}
       </div>
