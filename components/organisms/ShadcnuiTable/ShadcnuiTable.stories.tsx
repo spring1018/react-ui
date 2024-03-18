@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { ShadcnuiTable } from ".";
-import { columns } from "./columns";
+import { columns, formColumnDefs } from "./columns";
 
 type T = typeof ShadcnuiTable;
 
@@ -35,7 +35,9 @@ export default {
   component: ShadcnuiTable,
   args: {
     columns,
-    data,
+    defaultData: data,
+    enablePost: true,
+    formColumnDefs,
   },
 } satisfies Meta<T>;
 

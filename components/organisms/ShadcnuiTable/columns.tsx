@@ -6,7 +6,7 @@ import { FormSheetButton } from "@/components/molecules/FormSheetButton";
 import { priorities, statuses } from "./options";
 import { Task } from "./schema";
 
-const formColumnDefs = [
+export const formColumnDefs = [
   {
     accessorKey: "title",
     title: "Title",

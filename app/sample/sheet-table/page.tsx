@@ -1,7 +1,7 @@
 "use client";
 import { ShadcnuiTable } from "@/components/organisms/ShadcnuiTable";
 import useSWR from "swr";
-import { columns } from "./columns";
+import { columns, formColumnDefs } from "./columns";
 
 export default function SheetTablePage() {
   const apiUrl = "http://localhost:3004/mock-sample";
@@ -20,6 +20,7 @@ export default function SheetTablePage() {
         defaultData={data}
         apiUrl={apiUrl}
         enablePost={true}
+        formColumnDefs={formColumnDefs}
         // pageSizes={[5, 20, 30, 40, 50]}
       />
     </div>

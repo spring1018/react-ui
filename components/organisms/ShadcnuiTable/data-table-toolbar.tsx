@@ -6,18 +6,19 @@ import { Table } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-import { formColumnDefs } from "@/app/sample/sheet-table/columns";
 import { FormSheetButton } from "@/components/molecules/FormSheetButton";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
   enablePost?: boolean;
+  formColumnDefs?: any;
 }
 
 export function DataTableToolbar<TData>({
   table,
   enablePost = false,
+  formColumnDefs
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
 

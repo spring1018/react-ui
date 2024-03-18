@@ -35,6 +35,7 @@ interface DataTableProps<TData, TValue> {
   defaultData: TData[];
   apiUrl?: string;
   enablePost?: boolean;
+  formColumnDefs?: any;
 }
 
 type RowDataProps = {
@@ -91,6 +92,7 @@ export function ShadcnuiTable<TData, TValue>({
   defaultData,
   apiUrl,
   enablePost = false,
+  formColumnDefs,
 }: DataTableProps<TData, TValue>) {
   const [data, setData] = React.useState<TData[]>(defaultData);
   const [rowSelection, setRowSelection] = React.useState({});
@@ -155,7 +157,7 @@ export function ShadcnuiTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} enablePost={enablePost} />
+      <DataTableToolbar table={table} enablePost={enablePost} formColumnDefs={formColumnDefs}/>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
