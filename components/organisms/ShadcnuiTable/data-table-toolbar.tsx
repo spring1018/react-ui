@@ -12,13 +12,13 @@ import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
   enablePost?: boolean;
-  formColumnDefs?: any;
+  formColumnDefs?: Record<string, string>[];
 }
 
 export function DataTableToolbar<TData>({
   table,
   enablePost = false,
-  formColumnDefs
+  formColumnDefs,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
 

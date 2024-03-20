@@ -6,6 +6,18 @@ import { FormSheetButton } from "@/components/molecules/FormSheetButton";
 import { priorities, statuses } from "./options";
 import { Task } from "./schema";
 
+type ExtendedColumnDef<T> = ColumnDef<T> &
+  (
+    | {
+        enableFacetFilter: true;
+        facetFilterOptions: { value: string; label: string }[];
+      }
+    | {
+        enableFacetFilter?: false | undefined;
+        facetFilterOptions?: undefined;
+      }
+  );
+
 export const formColumnDefs = [
   {
     accessorKey: "title",
@@ -30,7 +42,7 @@ export const formColumnDefs = [
   },
 ];
 
-export const columns: ColumnDef<Task>[] = [
+export const columns: ExtendedColumnDef<Task>[] = [
   {
     id: "button",
     header: "",
@@ -66,6 +78,8 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: "status",
     header: "Status",
+    enableFacetFilter: true,
+    facetFilterOptions: statuses,
     cell: ({ row }) => {
       const status = statuses.find(
         (status) => status.value === row.getValue("status"),
@@ -88,6 +102,8 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: "priority",
     header: "Priority",
+    enableFacetFilter: true,
+    facetFilterOptions: priorities,
     cell: ({ row }) => {
       const priority = priorities.find(
         (priority) => priority.value === row.getValue("priority"),

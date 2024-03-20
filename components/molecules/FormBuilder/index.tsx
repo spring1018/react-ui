@@ -1,3 +1,4 @@
+import { ColumnDef } from "@/components/organisms/ShadcnuiTable/types";
 import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
 import { Input } from "@/components/ui/input";
@@ -9,18 +10,6 @@ import { DeleteDialogButton } from "../DeleteDialog";
 interface FormProps {
   id: string;
   value: string;
-}
-
-interface SelectOption {
-  value: string;
-  label: string;
-}
-
-interface ColumnDef {
-  accessorKey: string;
-  title: string;
-  componentType: "button" | "input" | "select";
-  params?: { selectOptions: SelectOption[] };
 }
 
 interface FormBuilderProps {

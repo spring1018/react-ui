@@ -30,20 +30,27 @@ import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
 
-interface DataTableProps<TData, TValue> {
+type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
   defaultData: TData[];
   apiUrl?: string;
-  enablePost?: boolean;
-  formColumnDefs?: any;
-}
+} & (
+  | {
+      enablePost: true;
+      formColumnDefs: Record<string, string>[];
+    }
+  | {
+      enablePost?: false | undefined;
+      formColumnDefs?: undefined;
+    }
+);
 
 type RowDataProps = {
   id: string;
   [key: string]: string;
 };
 
-const POST = async (rowData: any, apiUrl: string) => {
+const POST = async (rowData: Record<string, string>, apiUrl: string) => {
   try {
     const response = await fetch(apiUrl, {
       method: "POST",
@@ -157,7 +164,11 @@ export function ShadcnuiTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} enablePost={enablePost} formColumnDefs={formColumnDefs}/>
+      <DataTableToolbar
+        table={table}
+        enablePost={enablePost}
+        formColumnDefs={formColumnDefs}
+      />
       <div className="rounded-md border">
         <Table>
           <TableHeader>

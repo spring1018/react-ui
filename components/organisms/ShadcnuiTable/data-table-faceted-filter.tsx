@@ -1,7 +1,4 @@
-import { CheckIcon, PlusCircledIcon } from "@radix-ui/react-icons";
-import { Column } from "@tanstack/react-table";
-import * as React from "react";
-
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -19,6 +16,9 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { CheckIcon, PlusCircledIcon } from "@radix-ui/react-icons";
+import { Column } from "@tanstack/react-table";
+import * as React from "react";
 
 interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>;
@@ -47,7 +47,7 @@ export function DataTableFacetedFilter<TData, TValue>({
           {selectedValues?.size > 0 && (
             <>
               <Separator orientation="vertical" className="mx-2 h-4" />
-              {/* <div className="hidden space-x-1 lg:flex">
+              <div className="hidden space-x-1 lg:flex">
                 {selectedValues.size > 2 ? (
                   <Badge
                     variant="secondary"
@@ -68,7 +68,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                       </Badge>
                     ))
                 )}
-              </div> */}
+              </div>
             </>
           )}
         </Button>

@@ -4,7 +4,7 @@ import { columns, formColumnDefs } from "./columns";
 
 type T = typeof ShadcnuiTable;
 
-const data = [
+const defaultData = [
   {
     id: "TASK-8782",
     title:
@@ -35,7 +35,7 @@ export default {
   component: ShadcnuiTable,
   args: {
     columns,
-    defaultData: data,
+    defaultData,
     enablePost: true,
     formColumnDefs,
   },
