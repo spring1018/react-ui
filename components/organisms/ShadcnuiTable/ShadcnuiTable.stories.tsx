@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { ShadcnuiTable } from ".";
 import { columns, formColumnDefs } from "./columns";
+import { getReadOnlyColumns } from "./utils/get-readonly-columns";
 
 type T = typeof ShadcnuiTable;
 
@@ -42,3 +43,15 @@ export default {
 } satisfies Meta<T>;
 
 export const Default: StoryObj<T> = {};
+
+const readOnlyColumns = getReadOnlyColumns([
+  { accessorKey: "id", title: "ID" },
+  { accessorKey: "title", title: "Title" },
+]);
+
+export const ReadOnly: StoryObj<T> = {
+  args: {
+    columns: readOnlyColumns,
+    enablePost: false,
+  },
+};

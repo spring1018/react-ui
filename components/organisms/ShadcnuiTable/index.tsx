@@ -26,10 +26,10 @@ import {
 } from "@/components/ui/table";
 
 import { mutate } from "swr";
-import { DELETE, POST, PUT } from "./apis";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
+import { DELETE, POST, PUT } from "./utils/apis";
 
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
