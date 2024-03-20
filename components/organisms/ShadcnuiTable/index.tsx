@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/table";
 
 import { mutate } from "swr";
+import { DELETE, POST, PUT } from "./apis";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
@@ -44,55 +45,6 @@ type DataTableProps<TData, TValue> = {
       formColumnDefs?: undefined;
     }
 );
-
-type RowDataProps = {
-  id: string;
-  [key: string]: string;
-};
-
-const POST = async (rowData: Record<string, string>, apiUrl: string) => {
-  try {
-    const response = await fetch(apiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ...rowData }),
-    });
-    return response.json();
-  } catch (error) {
-    console.error("Error updating data:", error);
-  }
-};
-
-const PUT = async (rowData: RowDataProps, apiUrl: string) => {
-  const id = rowData.id;
-  try {
-    const response = await fetch(`${apiUrl}/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ...rowData }),
-    });
-  } catch (error) {
-    console.error("Error updating data:", error);
-  }
-};
-
-const DELETE = async (id: string, apiUrl: string) => {
-  try {
-    const response = await fetch(`${apiUrl}/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id }),
-    });
-  } catch (error) {
-    console.error("Error deleting data:", error);
-  }
-};
 
 export function ShadcnuiTable<TData, TValue>({
   columns,

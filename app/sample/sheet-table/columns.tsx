@@ -1,14 +1,10 @@
 "use client";
 
 import { FormSheetButton } from "@/components/molecules/FormSheetButton";
+import { ExtendedColumnDef } from "@/components/organisms/ShadcnuiTable/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { priorities, statuses } from "./options";
 import { Task } from "./schema";
-
-type ExtendedColumnDef<T> = T & {
-  enableFacetFilter?: boolean;
-  facetFilterOptions?: { label: string; value: string }[];
-};
 
 export const formColumnDefs = [
   {

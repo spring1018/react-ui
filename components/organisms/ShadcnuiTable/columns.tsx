@@ -1,22 +1,9 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
-
 import { FormSheetButton } from "@/components/molecules/FormSheetButton";
 import { priorities, statuses } from "./options";
 import { Task } from "./schema";
-
-type ExtendedColumnDef<T> = ColumnDef<T> &
-  (
-    | {
-        enableFacetFilter: true;
-        facetFilterOptions: { value: string; label: string }[];
-      }
-    | {
-        enableFacetFilter?: false | undefined;
-        facetFilterOptions?: undefined;
-      }
-  );
+import { ExtendedColumnDef } from "./types";
 
 export const formColumnDefs = [
   {

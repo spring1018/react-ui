@@ -46,6 +46,7 @@ export function DataTableToolbar<TData>({
             }
             return (
               <DataTableFacetedFilter
+                key={accessorKey}
                 column={table.getColumn(accessorKey)}
                 title={title as string}
                 options={facetFilterOptions}
