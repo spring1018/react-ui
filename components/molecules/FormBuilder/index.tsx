@@ -8,8 +8,7 @@ import React, { useState } from "react";
 import { DeleteDialogButton } from "../DeleteDialog";
 
 interface FormProps {
-  id: string;
-  value: string;
+  [key: string]: string;
 }
 
 interface FormBuilderProps {

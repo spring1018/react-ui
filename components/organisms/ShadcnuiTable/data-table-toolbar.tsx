@@ -12,13 +12,13 @@ import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
   enablePost?: boolean;
-  formColumnDefs?: Record<string, string>[];
+  postFormColumnDefs?: Record<string, string>[];
 }
 
 export function DataTableToolbar<TData>({
   table,
   enablePost = false,
-  formColumnDefs,
+  postFormColumnDefs,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
 
@@ -68,7 +68,13 @@ export function DataTableToolbar<TData>({
       {enablePost && (
         <FormSheetButton
           headerText="新規登録"
-          columnDefs={formColumnDefs}
+          columnDefs={postFormColumnDefs}
+          initialValues={
+            postFormColumnDefs?.reduce((acc, item) => {
+              acc[item.accessorKey] = item.initialValue;
+              return acc;
+            }, {}) as Record<string, string>
+          }
           handleSubmit={(e) => table.options.meta?.updateData(e, "POST")}
         />
       )}

@@ -4,7 +4,7 @@ import { Sheet } from "../Sheet";
 type FormSheetButtonProps = {
   headerText?: string;
   columnDefs: any;
-  initialValues?: any;
+  initialValues?: { [key: string]: string };
   handleSubmit?: () => void;
   handleDelete?: () => void;
 };

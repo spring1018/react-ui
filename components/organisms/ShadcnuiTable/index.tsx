@@ -38,11 +38,11 @@ type DataTableProps<TData, TValue> = {
 } & (
   | {
       enablePost: true;
-      formColumnDefs: Record<string, string>[];
+      postFormColumnDefs: Record<string, string>[];
     }
   | {
       enablePost?: false | undefined;
-      formColumnDefs?: undefined;
+      postFormColumnDefs?: undefined;
     }
 );
 
@@ -51,7 +51,7 @@ export function ShadcnuiTable<TData, TValue>({
   defaultData,
   apiUrl,
   enablePost = false,
-  formColumnDefs,
+  postFormColumnDefs,
 }: DataTableProps<TData, TValue>) {
   const [data, setData] = React.useState<TData[]>(defaultData);
   const [rowSelection, setRowSelection] = React.useState({});
@@ -119,7 +119,7 @@ export function ShadcnuiTable<TData, TValue>({
       <DataTableToolbar
         table={table}
         enablePost={enablePost}
-        formColumnDefs={formColumnDefs}
+        postFormColumnDefs={postFormColumnDefs}
       />
       <div className="rounded-md border">
         <Table>
