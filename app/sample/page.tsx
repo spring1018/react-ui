@@ -23,6 +23,12 @@ export default async function IndexPage() {
           >
             Chart Clickable
           </Link>
+          <Link
+            href="/sample/chart-ppm"
+            className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
+          >
+            Chart PPM
+          </Link>
         </div>
       </section>
     </>
