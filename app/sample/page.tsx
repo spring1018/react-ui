@@ -17,6 +17,12 @@ export default async function IndexPage() {
           >
             Sheet Table
           </Link>
+          <Link
+            href="/sample/chart-clickable"
+            className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
+          >
+            Chart Clickable
+          </Link>
         </div>
       </section>
     </>

@@ -1,6 +1,6 @@
 {
   "name": "@spring1018/react-ui",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "publishConfig": {
     "access": "restricted",
     "registry": "https://npm.pkg.github.com/"
@@ -39,6 +39,7 @@
     "@t3-oss/env-nextjs": "^0.9.2",
     "@tanstack/react-table": "^8.10.7",
     "bcrypt": "^5.1.1",
+    "chart.js": "^4.4.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
@@ -50,6 +51,7 @@
     "next-themes": "^0.2.1",
     "plop": "^4.0.0",
     "react": "^18",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
     "react-hook-form": "^7.50.1",
     "react-spreadsheet": "^0.9.4",
