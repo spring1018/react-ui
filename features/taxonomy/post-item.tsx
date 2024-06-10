@@ -1,4 +1,4 @@
-import { Post } from "@prisma/client";
+// import { Post } from "@prisma/client";
 import Link from "next/link";
 
 // import { PostOperations } from "@/components/post-operations"
@@ -6,7 +6,7 @@ import Link from "next/link";
 import { formatDate } from "@/lib/utils";
 
 interface PostItemProps {
-  post: Pick<Post, "id" | "title" | "published" | "createdAt">;
+  post: Pick<any, "id" | "title" | "published" | "createdAt">;
 }
 
 export function PostItem({ post }: PostItemProps) {
