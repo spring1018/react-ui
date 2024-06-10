@@ -1,3 +1,4 @@
+import { Progress } from "@/components/ui/progress";
 import React, { useMemo } from "react";
 import styles from "./task-list-table.module.css";
 // import { Task } from "../../types/public-types";
@@ -66,6 +67,7 @@ export const TaskListTable: React.FC<{
             className={styles.taskListTableRow}
             style={{ height: rowHeight }}
             key={`${t.id}row`}
+            // onClick={() => console.log(t.id)}
           >
             <div
               className={styles.taskListCell}
@@ -96,7 +98,10 @@ export const TaskListTable: React.FC<{
                 maxWidth: rowWidth,
               }}
             >
-              &nbsp;{toLocaleDateString(t.start, dateTimeOptions)}
+              {/* &nbsp;{toLocaleDateString(t.start, dateTimeOptions)} */}
+              {/* yyyy/mm/dd 表記にする */}
+              &nbsp;{t.start.getFullYear()}/{t.start.getMonth()}/
+              {t.start.getDate()}
             </div>
             <div
               className={styles.taskListCell}
@@ -105,7 +110,9 @@ export const TaskListTable: React.FC<{
                 maxWidth: rowWidth,
               }}
             >
-              &nbsp;{toLocaleDateString(t.end, dateTimeOptions)}
+              {/* &nbsp;{toLocaleDateString(t.end, dateTimeOptions)} */}
+              {/* yyyy/mm/dd 表記にする */}
+              &nbsp;{t.end.getFullYear()}/{t.end.getMonth()}/{t.end.getDate()}
             </div>
             <div
               className={styles.taskListCell}
@@ -114,7 +121,7 @@ export const TaskListTable: React.FC<{
                 maxWidth: rowWidth,
               }}
             >
-              &nbsp;{t.progress}%
+              <Progress value={t.progress} className="w-[90%] bg-slate-200 " />
             </div>
           </div>
         );
