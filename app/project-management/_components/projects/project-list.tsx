@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function ProjectList({
@@ -16,7 +17,10 @@ export default function ProjectList({
           onClick={() => setSelectedProject(project)}
         >
           <h3>{project.title}</h3>
-          <p className="text-sm text-gray-400">{project.description}</p>
+          <div className="flex gap-2">
+            <Badge>Tag</Badge>
+            <Badge>X%</Badge>
+          </div>
         </button>
       ))}
     </ScrollArea>
