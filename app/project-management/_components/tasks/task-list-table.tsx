@@ -72,7 +72,8 @@ export const TaskListTable: React.FC<{
             <div
               className={styles.taskListCell}
               style={{
-                minWidth: rowWidth,
+                // minWidth: rowWidth,
+                minWidth: "200px",
                 maxWidth: rowWidth,
               }}
               title={t.name}
@@ -94,7 +95,8 @@ export const TaskListTable: React.FC<{
             <div
               className={styles.taskListCell}
               style={{
-                minWidth: rowWidth,
+                // minWidth: rowWidth,
+                minWidth: "100px",
                 maxWidth: rowWidth,
               }}
             >
@@ -106,7 +108,8 @@ export const TaskListTable: React.FC<{
             <div
               className={styles.taskListCell}
               style={{
-                minWidth: rowWidth,
+                // minWidth: rowWidth,
+                minWidth: "100px",
                 maxWidth: rowWidth,
               }}
             >

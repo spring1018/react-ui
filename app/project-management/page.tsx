@@ -7,14 +7,12 @@ import {
 import { Combobox } from "@/components/ui/combobox";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { Task } from "gantt-task-react";
 import { useState } from "react";
-import EventDescription from "./_components/events/event-description";
-import EventList from "./_components/events/event-list";
 import ProjectList from "./_components/projects/project-list";
 import TaskGantt from "./_components/tasks/task-gantt";
-import { events } from "./data/events";
 import { projects } from "./data/projects";
-import { tasks } from "./data/tasks";
+import { tasks as initTasks } from "./data/tasks";
 
 const yearOptions = [
   { label: "2024年度", value: "2024" },
@@ -28,13 +26,68 @@ const tagOptions = [
   { label: "その他", value: "tag2" },
 ];
 
+const taskTypeOptions = [
+  { label: "All", value: "all" },
+  { label: "タスク", value: "task" },
+  { label: "マイルストーン", value: "milestone" },
+];
+
+export function getStartEndDateForProject(tasks: Task[], projectId: string) {
+  const projectTasks = tasks.filter((t) => t.project === projectId);
+  let start = projectTasks[0].start;
+  let end = projectTasks[0].end;
+
+  for (let i = 0; i < projectTasks.length; i++) {
+    const task = projectTasks[i];
+    if (start.getTime() > task.start.getTime()) {
+      start = task.start;
+    }
+    if (end.getTime() < task.end.getTime()) {
+      end = task.end;
+    }
+  }
+  return [start, end];
+}
+
 export default function ProjectManagemetPage() {
   const [searchProject, setSearchProject] = useState("");
   const [selectedProject, setSelectedProject] = useState(projects[0]);
-  const [selectedEvent, setSelectedEvent] = useState(events[0]);
 
   const [isProjectOpen, setIsProjectOpen] = useState(true);
   const [isTaskOpen, setIsTaskOpen] = useState(true);
+
+  const [tasks, setTasks] = useState(initTasks);
+  const [selectedTaskType, setSelectedTaskType] = useState("all");
+
+  const handleTaskChange = (task) => {
+    console.log(task);
+    let newTasks = tasks.map((t) => (t.id === task.id ? task : t));
+    if (task.project) {
+      const [start, end] = getStartEndDateForProject(newTasks, task.project);
+      const project =
+        newTasks[newTasks.findIndex((t) => t.id === task.project)];
+      if (
+        project.start.getTime() !== start.getTime() ||
+        project.end.getTime() !== end.getTime()
+      ) {
+        const changedProject = { ...project, start, end };
+        newTasks = newTasks.map((t) =>
+          t.id === task.project ? changedProject : t,
+        );
+      }
+    }
+    setTasks(newTasks);
+  };
+
+  const handleTaskTypeChange = (e) => {
+    const type = e.value;
+    setSelectedTaskType(type);
+    if (type === "all") {
+      setTasks(initTasks);
+      return;
+    }
+    setTasks(initTasks.filter((task) => task.type === type));
+  };
 
   return (
     <div className="flex gap-4">
@@ -75,28 +128,21 @@ export default function ProjectManagemetPage() {
             <button className="btn">Tasks</button>
           </CollapsibleTrigger>
           <CollapsibleContent>
+            <Combobox
+              options={taskTypeOptions}
+              initialValue="all"
+              onChange={handleTaskTypeChange}
+            />
             <div className="overflow-x-auto">
               <TaskGantt
                 tasks={tasks.filter(
                   (task) => task.projectId === selectedProject?.id,
                 )}
+                onDateChange={handleTaskChange}
               />
             </div>
           </CollapsibleContent>
         </Collapsible>
-        <div>
-          <h1>Events</h1>
-          <div>
-            <div className="flex gap-4">
-              <EventList
-                events={events}
-                selectedEvent={selectedEvent}
-                setSelectedProject={setSelectedEvent}
-              />
-              <EventDescription event={selectedEvent} />
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );
