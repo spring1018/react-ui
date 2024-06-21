@@ -39,6 +39,12 @@ export default function SheetTablePage() {
       },
       initialValue: "low",
     },
+    {
+      accessorKey: "onlyPostField",
+      title: "Only Post Field",
+      componentType: "input",
+      initialValue: "foo",
+    },
   ];
 
   return (
