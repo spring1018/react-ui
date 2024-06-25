@@ -1,4 +1,5 @@
 import AutoFormCheckbox from "./fields/checkbox";
+import { AutoFormComboBox } from './fields/combobox';
 import AutoFormDate from "./fields/date";
 import AutoFormEnum from "./fields/enum";
 import AutoFormFile from "./fields/file";
@@ -18,6 +19,7 @@ export const INPUT_COMPONENTS = {
   number: AutoFormNumber,
   file: AutoFormFile,
   fallback: AutoFormInput,
+  combobox: AutoFormComboBox,
 };
 
 /**
@@ -29,7 +31,7 @@ export const DEFAULT_ZOD_HANDLERS: {
 } = {
   ZodBoolean: "checkbox",
   ZodDate: "date",
-  ZodEnum: "select",
+  ZodEnum: "combobox",
   ZodNativeEnum: "select",
   ZodNumber: "number",
 };

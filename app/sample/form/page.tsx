@@ -1,26 +1,31 @@
 "use client";
 import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
-import { Input } from "@/components/ui/input";
 import * as z from "zod";
 
-enum BreadTypes {
-  White = "White bread",
-  Brown = "Brown bread",
-  Wholegrain = "Wholegrain bread",
-}
+const users = [
+  { id: 1, name: "Alice" },
+  { id: 2, name: "Bob" },
+  { id: 3, name: "Charlie" },
+];
 
-const formSchema = z.object({
-  name: z.string().min(3).describe("名前"),
-  pass: z.string().min(8).describe("パスワード"),
-  color: z
-    .enum(["赤", "緑", "青"], {
-      required_error: "選択してください。",
-    })
-    .describe("色")
-    .optional(),
-  bread: z.nativeEnum(BreadTypes).optional(),
-  foo: z.string().min(3).describe("ユーザー名"),
-});
+const formSchema = z
+  .object({
+    name: z.string().min(3).describe("名前"),
+    pass: z.string().min(8).describe("パスワード"),
+    color: z
+      .nativeEnum(["赤", "緑", "青"], {
+        required_error: "選択してください。",
+      })
+      .describe("色")
+      .optional(),
+    userName: z.enum(users.map((user) => user.name)).describe("ユーザー"),
+  })
+  .transform((data) => {
+    return {
+      ...data,
+      userId: users.find((user) => user.name === data.userName)?.id,
+    };
+  });
 
 export default function FormPage() {
   return (
@@ -33,11 +38,6 @@ export default function FormPage() {
             inputProps: {
               type: "password",
             },
-          },
-          foo: {
-            fieldType: (props) => (
-              <Input {...props} placeholder="ユーザー名を入力してください" />
-            ),
           },
         }}
       >
