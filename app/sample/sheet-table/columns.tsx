@@ -8,7 +8,7 @@ import { priorities, statuses } from "./options";
 import { Task } from "./schema";
 
 const formSchema = z.object({
-  id: z.string().describe({ type: "input" }),
+  id: z.string().describe({ type: "input", disabled: true }),
   title: z
     .string({ required_error: "Please select an email to display." })
     .describe({ type: "input", placeholder: "email@example.com" }),

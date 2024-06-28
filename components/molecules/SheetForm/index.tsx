@@ -11,6 +11,7 @@ import { DynamicForm } from "../DynamicForm";
 
 export default function SheetForm({
   mode,
+  buttonVariant = "default",
   formSchema,
   initialValues,
   handleSubmit,
@@ -34,7 +35,7 @@ export default function SheetForm({
   return (
     <Sheet open={open}>
       <SheetTrigger onClick={() => setOpen(true)} asChild>
-        <Button variant={"outline"}>
+        <Button variant={buttonVariant}>
           {mode === "create" ? "新規登録" : "編集"}
         </Button>
       </SheetTrigger>

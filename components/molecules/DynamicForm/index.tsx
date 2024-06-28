@@ -15,15 +15,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-function renderField(type, field, options, placeholder) {
+function renderField(type, field, options, placeholder, disabled = false) {
   switch (type) {
     case "input":
-      return <Input placeholder={placeholder} {...field} />;
+      return <Input placeholder={placeholder} disabled={disabled} {...field} />;
     case "textarea":
       return (
         <Textarea
           placeholder={placeholder}
           className="resize-none"
+          disabled={disabled}
           {...field}
         />
       );
@@ -63,7 +64,7 @@ export function DynamicForm({
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         {Object.keys(schemaDescriptions).map((key) => {
-          const { type, options, placeholder } =
+          const { type, options, placeholder, disabled } =
             schemaDescriptions[key].description;
 
           return (
@@ -77,7 +78,7 @@ export function DynamicForm({
                     {key.charAt(0).toUpperCase() + key.slice(1)}
                   </FormLabel>
                   <FormControl>
-                    {renderField(type, field, options, placeholder)}
+                    {renderField(type, field, options, placeholder, disabled)}
                   </FormControl>
                   <FormMessage />
                 </FormItem>
