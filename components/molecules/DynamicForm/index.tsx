@@ -40,7 +40,13 @@ function renderField(type, field, options, placeholder) {
   }
 }
 
-export function DynamicForm({ formSchema, initialValues, handleSubmit }) {
+export function DynamicForm({
+  mode,
+  formSchema,
+  initialValues,
+  handleSubmit,
+  handleDelete,
+}) {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: initialValues, // initialValues を defaultValues に設定
@@ -79,7 +85,14 @@ export function DynamicForm({ formSchema, initialValues, handleSubmit }) {
             />
           );
         })}
-        <Button type="submit">Update profile</Button>
+        <div className="grid gap-y-2">
+          <Button type="submit">保存</Button>
+          {mode === "update" && (
+            <Button onClick={handleDelete} variant="outline">
+              削除
+            </Button>
+          )}
+        </div>
       </form>
     </Form>
   );

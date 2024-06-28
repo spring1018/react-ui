@@ -22,48 +22,19 @@ const formSchema = z.object({
   }),
 });
 
-export const formColumnDefs = [
-  {
-    accessorKey: "title",
-    title: "Title",
-    componentType: "input",
-  },
-  {
-    accessorKey: "status",
-    title: "Status",
-    componentType: "select",
-    params: {
-      selectOptions: statuses,
-    },
-  },
-  {
-    accessorKey: "priority",
-    title: "Priority",
-    componentType: "select",
-    params: {
-      selectOptions: priorities,
-    },
-  },
-];
-
 export const columns: ExtendedColumnDef<ColumnDef<Task>>[] = [
   {
     id: "button",
     header: "",
     cell: ({ row, table }) => (
-      // <FormSheetButton
-      //   columnDefs={formColumnDefs}
-      //   initialValues={row.original}
-      //   handleSubmit={(e) => table.options.meta?.updateData(e, "PUT")}
-      //   handleDelete={() =>
-      //     table.options.meta?.updateData(row.original, "DELETE")
-      //   }
-      // />
       <SheetForm
-        // mode="update"
+        mode="update"
         formSchema={formSchema}
         initialValues={row.original}
-        handleSubmit={(data) => console.log(data)}
+        handleSubmit={(e) => table.options.meta?.updateData(e, "PUT")}
+        handleDelete={() =>
+          table.options.meta?.updateData(row.original, "DELETE")
+        }
       />
     ),
     enableSorting: false,

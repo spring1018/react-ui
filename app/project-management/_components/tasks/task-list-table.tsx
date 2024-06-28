@@ -1,8 +1,24 @@
+// import { Task } from "../../types/public-types";
 import { Progress } from "@/components/ui/progress";
 import React, { useMemo } from "react";
+import { Form } from "./form";
 import styles from "./task-list-table.module.css";
-// import { Task } from "../../types/public-types";
 
+const PUT = (id, task) => {
+  // const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiUrl = "http://localhost:3004/tasks";
+  try {
+    fetch(`${apiUrl}/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(task),
+    });
+  } catch (error) {
+    console.error("Error updating data:", error);
+  }
+};
 const localeDateStringCache = {};
 const toLocaleDateStringFactory =
   (locale: string) =>
@@ -31,7 +47,7 @@ export const TaskListTable: React.FC<{
   tasks: any[];
   selectedTaskId: string;
   setSelectedTask: (taskId: string) => void;
-  onExpanderClick: (task: Task) => void;
+  onExpanderClick: (task: any) => void;
 }> = ({
   rowHeight,
   rowWidth,
@@ -67,7 +83,7 @@ export const TaskListTable: React.FC<{
             className={styles.taskListTableRow}
             style={{ height: rowHeight }}
             key={`${t.id}row`}
-            // onClick={() => console.log(t.id)}
+            onClick={() => console.log(t.id)}
           >
             <div
               className={styles.taskListCell}
@@ -90,6 +106,7 @@ export const TaskListTable: React.FC<{
                   {expanderSymbol}
                 </div>
                 <div>{t.name}</div>
+                <Form />
               </div>
             </div>
             <div
@@ -100,7 +117,7 @@ export const TaskListTable: React.FC<{
                 maxWidth: rowWidth,
               }}
             >
-              {/* &nbsp;{toLocaleDateString(t.start, dateTimeOptions)} */}
+              {/* &nbsp;{toLocaleDateString(t.start, dateTimeOptions)}
               {/* yyyy/mm/dd 表記にする */}
               &nbsp;{t.start.getFullYear()}/{t.start.getMonth()}/
               {t.start.getDate()}

@@ -1,6 +1,7 @@
 "use client";
 import { ShadcnuiTable } from "@/components/organisms/ShadcnuiTable";
 import useSWR from "swr";
+import z from "zod";
 import { columns } from "./columns";
 import { priorities, statuses } from "./options";
 
@@ -14,38 +15,20 @@ export default function SheetTablePage() {
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
 
-  const postFormColumnDefs = [
-    {
-      accessorKey: "title",
-      title: "Title",
-      componentType: "input",
-      initialValue: "title",
-    },
-    {
-      accessorKey: "status",
-      title: "Status",
-      componentType: "select",
-      params: {
-        selectOptions: statuses,
-      },
-      initialValue: "todo",
-    },
-    {
-      accessorKey: "priority",
-      title: "Priority",
-      componentType: "select",
-      params: {
-        selectOptions: priorities,
-      },
-      initialValue: "low",
-    },
-    {
-      accessorKey: "onlyPostField",
-      title: "Only Post Field",
-      componentType: "input",
-      initialValue: "foo",
-    },
-  ];
+  const formSchema = z.object({
+    id: z.string().describe({ type: "input" }),
+    title: z
+      .string({ required_error: "Please select an email to display." })
+      .describe({ type: "input", placeholder: "email@example.com" }),
+    status: z.string().describe({
+      type: "combobox",
+      options: statuses,
+    }),
+    priority: z.string().describe({
+      type: "combobox",
+      options: priorities,
+    }),
+  });
 
   return (
     <div className="px-2 py-2">
@@ -54,7 +37,7 @@ export default function SheetTablePage() {
         defaultData={data}
         apiUrl={apiUrl}
         enablePost={true}
-        postFormColumnDefs={postFormColumnDefs}
+        formSchama={formSchema}
         // pageSizes={[5, 20, 30, 40, 50]}
       />
     </div>

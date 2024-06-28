@@ -38,7 +38,7 @@ export default {
     columns,
     defaultData,
     enablePost: true,
-    postFormColumnDefs: formColumnDefs,
+    formSchama: formColumnDefs,
   },
 } satisfies Meta<T>;
 

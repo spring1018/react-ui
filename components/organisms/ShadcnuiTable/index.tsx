@@ -25,6 +25,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import SheetForm from "@/components/molecules/SheetForm";
 import { mutate } from "swr";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTablePagination } from "./data-table-pagination";
@@ -38,11 +39,11 @@ type DataTableProps<TData, TValue> = {
 } & (
   | {
       enablePost: true;
-      postFormColumnDefs: Record<string, string>[];
+      formSchama: Record<string, string>[];
     }
   | {
       enablePost?: false | undefined;
-      postFormColumnDefs?: undefined;
+      formSchema?: undefined;
     }
 );
 
@@ -51,7 +52,7 @@ export function ShadcnuiTable<TData, TValue>({
   defaultData,
   apiUrl,
   enablePost = false,
-  postFormColumnDefs,
+  formSchama,
 }: DataTableProps<TData, TValue>) {
   const [data, setData] = React.useState<TData[]>(defaultData);
   const [rowSelection, setRowSelection] = React.useState({});
@@ -119,7 +120,16 @@ export function ShadcnuiTable<TData, TValue>({
       <DataTableToolbar
         table={table}
         enablePost={enablePost}
-        postFormColumnDefs={postFormColumnDefs}
+        PostButton={() => (
+          <SheetForm
+            mode="create"
+            formSchema={formSchama}
+            initialValues={{}}
+            handleSubmit={(data) =>
+              table.options.meta?.updateData(data, "POST")
+            }
+          />
+        )}
       />
       <div className="rounded-md border">
         <Table>
