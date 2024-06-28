@@ -1,10 +1,26 @@
 "use client";
 
-import { FormSheetButton } from "@/components/molecules/FormSheetButton";
+import SheetForm from "@/components/molecules/SheetForm";
 import { ExtendedColumnDef } from "@/components/organisms/ShadcnuiTable/types";
 import { ColumnDef } from "@tanstack/react-table";
+import * as z from "zod";
 import { priorities, statuses } from "./options";
 import { Task } from "./schema";
+
+const formSchema = z.object({
+  id: z.string().describe({ type: "input" }),
+  title: z
+    .string({ required_error: "Please select an email to display." })
+    .describe({ type: "input", placeholder: "email@example.com" }),
+  status: z.string().describe({
+    type: "combobox",
+    options: statuses,
+  }),
+  priority: z.string().describe({
+    type: "combobox",
+    options: priorities,
+  }),
+});
 
 export const formColumnDefs = [
   {
@@ -35,13 +51,19 @@ export const columns: ExtendedColumnDef<ColumnDef<Task>>[] = [
     id: "button",
     header: "",
     cell: ({ row, table }) => (
-      <FormSheetButton
-        columnDefs={formColumnDefs}
+      // <FormSheetButton
+      //   columnDefs={formColumnDefs}
+      //   initialValues={row.original}
+      //   handleSubmit={(e) => table.options.meta?.updateData(e, "PUT")}
+      //   handleDelete={() =>
+      //     table.options.meta?.updateData(row.original, "DELETE")
+      //   }
+      // />
+      <SheetForm
+        // mode="update"
+        formSchema={formSchema}
         initialValues={row.original}
-        handleSubmit={(e) => table.options.meta?.updateData(e, "PUT")}
-        handleDelete={() =>
-          table.options.meta?.updateData(row.original, "DELETE")
-        }
+        handleSubmit={(data) => console.log(data)}
       />
     ),
     enableSorting: false,
