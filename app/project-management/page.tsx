@@ -7,12 +7,11 @@ import {
 import { Combobox } from "@/components/ui/combobox";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Task } from "gantt-task-react";
 import { useState } from "react";
+import useSWR from "swr";
 import ProjectList from "./_components/projects/project-list";
 import TaskGantt from "./_components/tasks/task-gantt";
 import { projects } from "./data/projects";
-import { tasks as initTasks } from "./data/tasks";
 
 const yearOptions = [
   { label: "2024年度", value: "2024" },
@@ -32,22 +31,22 @@ const taskTypeOptions = [
   { label: "マイルストーン", value: "milestone" },
 ];
 
-export function getStartEndDateForProject(tasks: Task[], projectId: string) {
-  const projectTasks = tasks.filter((t) => t.project === projectId);
-  let start = projectTasks[0].start;
-  let end = projectTasks[0].end;
+// export function getStartEndDateForProject(tasks: Task[], projectId: string) {
+//   const projectTasks = tasks.filter((t) => t.project === projectId);
+//   let start = projectTasks[0].start;
+//   let end = projectTasks[0].end;
 
-  for (let i = 0; i < projectTasks.length; i++) {
-    const task = projectTasks[i];
-    if (start.getTime() > task.start.getTime()) {
-      start = task.start;
-    }
-    if (end.getTime() < task.end.getTime()) {
-      end = task.end;
-    }
-  }
-  return [start, end];
-}
+//   for (let i = 0; i < projectTasks.length; i++) {
+//     const task = projectTasks[i];
+//     if (start.getTime() > task.start.getTime()) {
+//       start = task.start;
+//     }
+//     if (end.getTime() < task.end.getTime()) {
+//       end = task.end;
+//     }
+//   }
+//   return [start, end];
+// }
 
 export default function ProjectManagemetPage() {
   const [searchProject, setSearchProject] = useState("");
@@ -56,38 +55,51 @@ export default function ProjectManagemetPage() {
   const [isProjectOpen, setIsProjectOpen] = useState(true);
   const [isTaskOpen, setIsTaskOpen] = useState(true);
 
-  const [tasks, setTasks] = useState(initTasks);
   const [selectedTaskType, setSelectedTaskType] = useState("all");
 
+  const apiUrl = "http://localhost:3004/tasks";
+
+  const fetcher = (url: string): Promise<[]> =>
+    fetch(url).then((res) => res.json());
+  const { data: tasks = [], error } = useSWR(apiUrl, fetcher);
+
   const handleTaskChange = (task) => {
-    console.log(task);
-    let newTasks = tasks.map((t) => (t.id === task.id ? task : t));
-    if (task.project) {
-      const [start, end] = getStartEndDateForProject(newTasks, task.project);
-      const project =
-        newTasks[newTasks.findIndex((t) => t.id === task.project)];
-      if (
-        project.start.getTime() !== start.getTime() ||
-        project.end.getTime() !== end.getTime()
-      ) {
-        const changedProject = { ...project, start, end };
-        newTasks = newTasks.map((t) =>
-          t.id === task.project ? changedProject : t,
-        );
-      }
+    const newTask = {
+      id: task.id,
+      name: task.name,
+      type: task.type,
+      status: task.status,
+      priority: task.priority,
+      progress: task.progress,
+      start: task.start.toISOString(),
+      end: task.end.toISOString(),
+      order: task.order,
+    };
+    // PUT リクエストを送る
+    try {
+      fetch(`${apiUrl}/${task.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newTask),
+      });
+    } catch (error) {
+      console.error("Error updating data:", error);
     }
-    setTasks(newTasks);
+
+    // setTasks(newTasks);
   };
 
-  const handleTaskTypeChange = (e) => {
-    const type = e.value;
-    setSelectedTaskType(type);
-    if (type === "all") {
-      setTasks(initTasks);
-      return;
-    }
-    setTasks(initTasks.filter((task) => task.type === type));
-  };
+  // const handleTaskTypeChange = (e) => {
+  //   const type = e.value;
+  //   setSelectedTaskType(type);
+  //   if (type === "all") {
+  //     setTasks(initTasks);
+  //     return;
+  //   }
+  //   setTasks(initTasks.filter((task) => task.type === type));
+  // };
 
   return (
     <div className="flex gap-4">
@@ -131,15 +143,21 @@ export default function ProjectManagemetPage() {
             <Combobox
               options={taskTypeOptions}
               initialValue="all"
-              onChange={handleTaskTypeChange}
+              // onChange={handleTaskTypeChange}
             />
             <div className="overflow-x-auto">
-              <TaskGantt
-                tasks={tasks.filter(
-                  (task) => task.projectId === selectedProject?.id,
-                )}
-                onDateChange={handleTaskChange}
-              />
+              {tasks && tasks.length > 0 ? (
+                <TaskGantt
+                  tasks={tasks.map((task: { start: string; end: string }) => ({
+                    ...(task as object),
+                    start: new Date(task.start),
+                    end: new Date(task.end),
+                  }))}
+                  onDateChange={handleTaskChange}
+                />
+              ) : (
+                <p>loading...</p>
+              )}
             </div>
           </CollapsibleContent>
         </Collapsible>

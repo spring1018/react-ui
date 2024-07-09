@@ -37,7 +37,7 @@ export default async function SampleLayout({ dialog, children }: Props) {
       >
         <AuthProvider>
           <AuthNavBar logo={"App"} items={items} session={session} />
-          <main className="py-4 px-8 flex-1 overflow-y-auto">{children}</main>
+          <main className="py-4 px-4 flex-1 overflow-y-auto">{children}</main>
         </AuthProvider>
         {dialog}
       </body>

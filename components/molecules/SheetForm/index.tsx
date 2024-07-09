@@ -43,7 +43,7 @@ export default function SheetForm({
         onInteractOutside={() => setOpen(false)}
         onCloseClick={() => setOpen(false)}
       >
-        <SheetHeader>
+        <SheetHeader className="py-2">
           <SheetTitle>{mode === "create" ? "新規登録" : "編集"}</SheetTitle>
         </SheetHeader>
         <DynamicForm {...formProps} />

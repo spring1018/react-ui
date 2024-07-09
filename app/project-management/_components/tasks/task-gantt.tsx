@@ -78,6 +78,7 @@ export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({
 
 export default function TaskGantt({ tasks, onDateChange }) {
   const [view, setView] = useState(ViewMode.Month);
+
   let columnWidth = 65;
   if (view === ViewMode.Year) {
     columnWidth = 350;
@@ -86,6 +87,7 @@ export default function TaskGantt({ tasks, onDateChange }) {
   } else if (view === ViewMode.Week) {
     columnWidth = 200;
   }
+
   return (
     <div className="py-2 grid gap-y-2">
       <ViewSwitcher

@@ -83,7 +83,7 @@ export const TaskListTable: React.FC<{
             className={styles.taskListTableRow}
             style={{ height: rowHeight }}
             key={`${t.id}row`}
-            onClick={() => console.log(t.id)}
+            // onClick={() => console.log(t.id)}
           >
             <div
               className={styles.taskListCell}
@@ -105,8 +105,11 @@ export const TaskListTable: React.FC<{
                 >
                   {expanderSymbol}
                 </div>
+                <Form
+                  initialValues={t}
+                  handleSubmit={(data) => PUT(t.id, data)}
+                />
                 <div>{t.name}</div>
-                <Form />
               </div>
             </div>
             <div
