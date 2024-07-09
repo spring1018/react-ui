@@ -1,4 +1,11 @@
 "use client";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Combobox } from "@/components/ui/combobox";
 import {
   Chart as ChartJS,
@@ -12,6 +19,11 @@ import annotationPlugin from "chartjs-plugin-annotation";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { useEffect, useRef, useState } from "react";
 import { Bubble, getElementAtEvent } from "react-chartjs-2";
+import { TableDemo } from "./action-table";
+import { data as d } from "./data";
+import ICChart from "./ic";
+import LineChart from "./line-chart";
+import TooltipDemo from "./tooltip";
 
 ChartJS.register(
   LinearScale,
@@ -23,87 +35,17 @@ ChartJS.register(
   ChartDataLabels,
 );
 
-const data1 = [
-  {
-    x: 1,
-    y: 1,
-    label: "製品A",
-    date: "2024-01",
-    segment: "育成",
-    nextSegment: "注力",
-    r: 10,
-  },
-  {
-    x: 2,
-    y: 3,
-    label: "製品B",
-    date: "2024-01",
-    segment: "育成",
-    nextSegment: "注力",
-    r: 20,
-  },
-  {
-    x: 3,
-    y: -2,
-    label: "製品C",
-    date: "2024-01",
-    segment: "基盤",
-    nextSegment: "基盤",
-    r: 20,
-  },
-  {
-    x: 4,
-    y: 4,
-    label: "製品D",
-    date: "2024-01",
-    segment: "注力",
-    nextSegment: "基盤",
-    r: 1.5,
-  },
-];
-const data2 = [
-  {
-    x: 1,
-    y: 2,
-    label: "製品A",
-    date: "2024-07",
-    segment: "育成",
-    nextSegment: "注力",
-    r: 15,
-  },
-  {
-    x: 2,
-    y: 4,
-    label: "製品B",
-    date: "2024-07",
-    segment: "育成",
-    nextSegment: "注力",
-    r: 35,
-  },
-  {
-    x: 3,
-    y: -1,
-    label: "製品C",
-    date: "2024-07",
-    segment: "基盤",
-    nextSegment: "基盤",
-    r: 5,
-  },
-  {
-    x: 4,
-    y: 3,
-    label: "製品D",
-    date: "2024-07",
-    segment: "注力",
-    nextSegment: "基盤",
-    r: 10,
-  },
-];
-const data = [...data1, ...data2];
+const data = d;
 
 const options = {
   scales: {
     x: {
+      title: {
+        display: true,
+        text: "累積粗利(今年~5年後)",
+      },
+      min: 0,
+      max: 5,
       ticks: {
         display: true,
       },
@@ -112,6 +54,12 @@ const options = {
       },
     },
     y: {
+      title: {
+        display: true,
+        text: "粗利年平均成長率(5年間)",
+      },
+      min: -5,
+      max: 5,
       ticks: {
         display: true,
       },
@@ -133,8 +81,8 @@ const options = {
       annotations: {
         line1: {
           type: "line",
-          yMin: 1,
-          yMax: 1,
+          yMin: 0,
+          yMax: 0,
           borderColor: "red",
           borderWidth: 2,
         },
@@ -174,8 +122,8 @@ const chartData = (date1, date2) => {
 };
 
 export default function ChartPPMPage() {
-  const [month1, setMonth1] = useState("2024-01");
-  const [month2, setMonth2] = useState("2024-07");
+  const [month1, setMonth1] = useState("2023-04");
+  const [month2, setMonth2] = useState("2024-04");
   const [clickedIndex, setClickedIndex] = useState(null);
   const chartRef = useRef();
 
@@ -198,58 +146,123 @@ export default function ChartPPMPage() {
     if (element.length === 0) {
       return;
     }
-    setClickedIndex(element[0].index);
+    setClickedIndex(element[0].element.$context.raw.id);
   };
 
   return (
     <div className="space-y-4">
-      <h1 className="text-3xl">経営戦略ダッシュボード</h1>
-      <div className="flex justify-between gap-4">
-        <div className="flex-1 space-y-2">
-          <p className="text-2xl">プロダクトポートフォリオ</p>
-          <div className="grid">
-            <div>
-              比較対象:
-              <Combobox
-                options={[
-                  { value: "2024-01", label: "2024-01" },
-                  { value: "2024-07", label: "2024-07" },
-                ]}
-                initialValue={month1}
-                onChange={(value: string) => {
-                  setMonth1(value);
-                }}
+      <div className="grid grid-cols-2 gap-2 sticky">
+        <h1 className="text-3xl font-bold">経営戦略ダッシュボード</h1>
+        {clickedIndex === null ? (
+          <p className="text-3xl font-bold">製品を選択してください</p>
+        ) : (
+          <p className="text-3xl font-bold">
+            {data.find((d) => d.id === clickedIndex)?.label}
+          </p>
+        )}
+      </div>
+      <div className="grid grid-cols-2 gap-2 h-screen">
+        <div>
+          <Card>
+            <CardHeader>
+              <CardTitle>ポートフォリオ</CardTitle>
+              <CardDescription>特定の領域に偏っていないか？</CardDescription>
+              <CardDescription>
+                最適な投下資本配分ができているか？
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 items-center gap-1 w-1/3">
+                <div>比較対象月:</div>
+                <Combobox
+                  options={[
+                    { value: "2023-04", label: "2023" },
+                    { value: "2024-04", label: "2024" },
+                  ]}
+                  initialValue={month1}
+                  onChange={(value: string) => {
+                    setMonth1(value);
+                  }}
+                />
+                <div>表示月:</div>
+                <Combobox
+                  options={[
+                    { value: "2023-04", label: "2023" },
+                    { value: "2024-04", label: "2024" },
+                  ]}
+                  initialValue={month2}
+                  onChange={(value: string) => {
+                    setMonth2(value);
+                  }}
+                />
+                <div>半径の指標:</div>
+                <Combobox
+                  options={[
+                    { value: "ic", label: "IC" },
+                    { value: "nopat", label: "NOPAT" },
+                    { value: "roic", label: "ROIC" },
+                    { value: "mp", label: "MP" },
+                  ]}
+                  initialValue={"ic"}
+                />
+              </div>
+              <Bubble
+                ref={chartRef}
+                options={options}
+                data={chartData(month1, month2)}
+                onClick={onClick}
+                height={230}
               />
-            </div>
-            <div>
-              表示月:
-              <Combobox
-                options={[
-                  { value: "2024-01", label: "2024-01" },
-                  { value: "2024-04", label: "2024-04" },
-                  { value: "2024-07", label: "2024-07" },
-                ]}
-                initialValue={month2}
-                onChange={(value: string) => {
-                  setMonth2(value);
-                }}
-              />
-            </div>
-          </div>
-          <Bubble
-            ref={chartRef}
-            options={options}
-            data={chartData(month1, month2)}
-            onClick={onClick}
-          />
+            </CardContent>
+          </Card>
         </div>
-        <div className="flex-1">
-          <p className="text-2xl">
-            プロダクト詳細: {data[clickedIndex]?.label}
-          </p>
-          <p>
-            {data[clickedIndex]?.segment} → {data[clickedIndex]?.nextSegment}
-          </p>
+        <div className="grid gap-y-2 py-2 overflow-auto h-full">
+          {clickedIndex && (
+            <div className="grid gap-y-2 w-full">
+              <Card>
+                <CardHeader>
+                  <CardTitle>戦略</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p>{data.find((d) => d.id === clickedIndex)?.strategy}</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>アクション</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <TableDemo />
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center">
+                    <CardTitle>ROIC</CardTitle>
+                    <TooltipDemo text="NOPAT / IC" />
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <LineChart />
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center">
+                    <CardTitle>IC(内訳)</CardTitle>
+                    <TooltipDemo text="売上債権 + 在庫 + 有形固定資産 + 無形固定資産 - 仕入債務" />
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <ICChart />
+                </CardContent>
+              </Card>
+              <div className="flex items-center">
+                <h2 className="text-2xl pt-2">NOPAT(内訳)</h2>
+                <TooltipDemo text="売上高 - 売上原価 - 販売費及び一般管理費" />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
