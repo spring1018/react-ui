@@ -1,59 +1,208 @@
-import { OGPCard } from "@/components/molecules/OGPCard";
-
-const apps = [
-  {
-    title: "SQL Practice",
-    description: "SQL の練習ができるアプリ。Streamlit で作成。",
-    image: "/og-images/sql-plactice.png",
-    url: "/sheet-table",
-    tags: ["Python", "Streamlit"],
-  },
-  {
-    title: "Project Management",
-    description:
-      "プロジェクト管理アプリ。階層的なタスクのスケジュールをガントチャートで管理。",
-    image: "/og-images/project-management.png",
-    url: "/sheet-table",
-    tags: ["TypeScript", "React", "Next.js"],
-  },
-];
-
-const components = [
-  {
-    title: "Sheet Table",
-    description: "表形式のデータを表示。CRUD 操作が可能。",
-    image: "/og-images/sheet-table.png",
-    url: "/sample/sheet-table",
-  },
-  {
-    title: "Form",
-    description: "Zod schema に基づいたフォームを動的に生成する。",
-    image: "/og-images/form.png",
-    url: "/sample/form",
-  },
-];
+import CareerCompany from "./_components/Career";
+import CareerRole from "./_components/CareerRole";
 
 export default async function Page() {
   return (
     <div>
       <h1 className="text-3xl font-bold">Portfolio</h1>
-      <p className="text-gray-500">This is a portfolio page.</p>
-      <h2 className="text-2xl font-bold mt-8">Apps</h2>
-      <p className="text-gray-500">These are the apps I have created.</p>
-      <div className="flex flex-wrap">
-        {apps.map((item) => (
-          <div key={item.title}>
-            <OGPCard {...item} />
-          </div>
-        ))}
-      </div>
-      <h2 className="text-xl font-bold mt-8">Components</h2>
-      <div className="flex flex-wrap">
-        {components.map((item) => (
-          <div key={item.title}>
-            <OGPCard {...item} />
-          </div>
-        ))}
+      <h2 className="text-2xl font-bold mt-8">Strength</h2>
+      <p className="mt-4">
+        これまで、研究開発、データアナリスト、ソフトウェアエンジニア、経営戦略の仕事を経験してきました。
+      </p>
+      <p className="mt-4">
+        これらの経験を活かし、組織 (特に製造業)
+        におけるデータ活用を上流から下流、経営から現場まで一貫して一人で行うことができるのが私の強みです。
+      </p>
+      <p className="mt-4">
+        具体的には、経営層と議論しながら戦略策定や戦略推進のための重要指標の決定、重要指標を継続的にデータ取得・モニタリングするためのソフトウェア開発やデータ基盤の整備、指標を用いた定量的な意思決定を行うことができます。
+      </p>
+      <div className="space-y-2">
+        <h2 className="text-2xl font-bold mt-8">Career</h2>
+        <CareerCompany
+          company={"ナガセケムテックス株式会社"}
+          summary={
+            "Python と TypeScript を使ったMI (マテリアルズ・インフォマティクス) アプリを開発"
+          }
+          startDate={"2022年3月"}
+          roles={[
+            () => {
+              return (
+                <CareerRole
+                  title={"ソフトウェアエンジニア"}
+                  summary={
+                    "MIの推進を担当。MIは会社では初めての試みで、推進のための第一歩としてまず社内のデータをMIに利用しやすいように整備することを提案し、プロジェクトを開始。 フロントエンドにTypeScript(React)、バックエンドにPython(FastAPI)を使用した実験データ管理アプリケーションを開発。 データの形式が整うようになっただけでなく、データの閲覧性・検索性が大幅に向上。蓄積されたデータを利用し、統計モデリングや機械学習などを用いた高度な解析の準備中"
+                  }
+                  startDate={"2022年3月"}
+                />
+              );
+            },
+            () => {
+              return (
+                <CareerRole
+                  title={"経営戦略"}
+                  summary={
+                    "2024年4月より、情報システム課から経営戦略室への兼務に変更となり、経営戦略の立案、特にIT・DX戦略の立案に従事。 現在社内のIT課題を分析し、経営陣とともに中長期の経営戦略を策定中。 本DX戦略の要である全社データ基盤の導入に向け、データチーム発足に向けた提案や、初期メンバーの教育などを現在実施中。その他、データドリブンな経営意思決定が行えるようにするため、Next.js を使った経営戦略ダッシュボードを開発"
+                  }
+                  startDate={"2024年4月"}
+                />
+              );
+            },
+            () => {
+              return (
+                <CareerRole
+                  title={"情報システム"}
+                  summary={
+                    "全社のIT環境・スキルに課題を感じ、情報システム課の兼務を提案、2022年9月より兼務を開始。 初年度はシステム設計、データベース設計、ノーコードツール (PowerApps)、生成AIに関する全社教育を担当。2年目はノーコードツール開発チームのマネジメントや、基幹システムのリプレースに伴い、外注費用抑制を目的としたPythonを使ったシステムを開発"
+                  }
+                  startDate={"2022年9月"}
+                  endDate={"2024年3月"}
+                />
+              );
+            },
+          ]}
+        />
+        <CareerCompany
+          company={"Wantedly株式会社"}
+          summary={
+            "データサイエンティストとして、企業ユーザー画面に求職者を表示する機械学習アルゴリズムの設計・実装を行った。 2019年12月にBIチームを新設し、社内で最初のデータアナリストとして組織全体のデータ分析を担当。 データ基盤の整備やBIツール移行プロジェクト、経営方針策定のためのデータ分析などを行った。"
+          }
+          startDate={"2019年4月"}
+          endDate={"2022年2月"}
+          roles={[
+            () => {
+              return (
+                <CareerRole
+                  title={"データサイエンティスト"}
+                  summary={() => {
+                    return (
+                      <div className="space-y-2">
+                        <p className="font-bold">
+                          企業ユーザー画面における求職者の推薦アルゴリズムの改善
+                        </p>
+                        <p>
+                          これまでのアルゴリズムでは不十分であった求職者プロフィール情報
+                          に関する特徴量を改善し、企業ユーザーが求職者をスカウトする確率
+                          を20%向上した。
+                        </p>
+                        <p className="font-bold">
+                          推薦アルゴリズムのオンラインテストの自動化
+                        </p>
+                        <p>
+                          オンラインテストの度に計測用SQLを作成しなければならない問題が
+                          あった。BIツール (Looker)
+                          の特性を活かしてSQLを抽象化し、ダッシュボード
+                          上にテスト結果が自動で反映される仕組みを作ることで問題を解決した。
+                        </p>
+                      </div>
+                    );
+                  }}
+                  startDate={"2022年4月"}
+                  endDate={"2022年11月"}
+                />
+              );
+            },
+            () => {
+              return (
+                <CareerRole
+                  title={"データアナリスト"}
+                  summary={() => {
+                    return (
+                      <div className="space-y-2">
+                        <p className="font-bold">BIチームの設立</p>
+                        <p>
+                          これまではソフトウェア開発者がデータ分析を並行して行っていたが、
+                          サービス成長に伴うサービス利用者・機能の増加に伴い、機能・部門
+                          をまたいだ問題の優先度判断や意思決定が難しくなった。この問題を
+                          解決するため、社内全体のデータ分析を専門に行うBIチームを立ち上
+                          げた。
+                        </p>
+                        <p className="font-bold">BIツールの移行プロジェクト</p>
+                        <p>
+                          データガバナンスに責任を持つチームがなかったため、ダッシュボー
+                          ド上の指標の算出方法が間違っている・似た指標
+                          が重複して作成されるなどの問題が発生していた。これを解決するた
+                          め、データガバナンスに有効なBIツール、Lookerへの移行を提案し、
+                          移行プロジェクト推進を担当、大きな問題なく移行を完了した。
+                        </p>
+                        <p className="font-bold">重要指標の変更と目標値設定</p>
+                        <p>
+                          これまで社内で重要指標とされていた指標の問題点を提言し、現在の
+                          プロダクトが提供する価値がユーザーのニーズを満たしていることを正しく測る指標に変更した。
+                          また、施策によってこの指標が成長しているかを正確に捉えるため、prophet
+                          を使った時系列モデリングにより、
+                          指標への季節影響を排除し、正確に判断できるようにした。
+                        </p>
+                        <p className="font-bold">
+                          指標変動の要因調査を目的としたデータ分析
+                        </p>
+                        <p>
+                          指標に大きな変動があった場合に探索的データ分析から仮説を立て、
+                          仮説検証のための分析設計から分析作業・レポーティングまで一貫し
+                          て担当した。
+                        </p>
+                        <p className="font-bold">データ基盤の整備</p>
+                        <p>
+                          新規BIツール (Looker)
+                          を前提としたデータの加工プロセスを定義し、組織全体のデー
+                          タ分析の効率性・正確性を向上するデータ基盤の整備を行った。
+                        </p>
+                      </div>
+                    );
+                  }}
+                  startDate={"2022年4月"}
+                  endDate={"2022年11月"}
+                />
+              );
+            },
+          ]}
+        />
+        <CareerCompany
+          company={"住友電気工業株式会社"}
+          summary={
+            "2016年4月に大手非鉄金属メーカーの住友電気工業株式会社に入社。光ファイバ用紫外線硬化型被覆樹脂の研究開発グループに所属。高速硬化性と耐水性を両立する樹脂開発プロジェクトをメインで担当。 異分野で用いられる理論を参考にすることで、これまで解決できていなかった耐水性と性能の両立を実現し、新規樹脂の市場導入に成功。 入社3年で国際学会に論文を提出し、海外で口頭発表を行った。"
+          }
+          startDate={"2016年4月"}
+          endDate={"2019年3月"}
+          roles={[
+            () => {
+              return (
+                <CareerRole
+                  title={"研究開発本部"}
+                  summary={() => {
+                    return (
+                      <div className="space-y-2">
+                        <p className="font-bold">新規樹脂開発</p>
+                        <p>
+                          高速硬化性と耐水性を両立する樹脂開発プロジェクトをメインで担当。異分野で用いられる理論を参考にすることで、これまで解決できていなかった耐水性と性能の両立を実現し、新規樹脂の市場導入に成功。
+                        </p>
+                        <p className="font-bold">
+                          国際学会の論文提出・口頭発表
+                        </p>
+                        <p>
+                          光ファイバ被覆の細径化、低ヤング率化に伴い、将来的に被覆除去性の悪化
+                          が問題になることが予測されていた。これを見越した開発を行っていること
+                          を国外顧客にアピールするため、被覆物性と劣化条件ごとの被覆除去性の関
+                          係について発表した (IWCS2018)。
+                        </p>
+                        <p className="font-bold">
+                          UVレオメータの選定と導入後の立ち上げ
+                        </p>
+                        <p>
+                          社内要件を整理し、要件を満たすスペックの機器を選定、導入した。導入後
+                          は、最適な実験条件の洗い出しや現場移管に伴うオペレーションをまとめた。
+                          また、Python
+                          を用いて専用のデータ解析アプリケーションを作成し、データ解析の仕組みを整備した。
+                        </p>
+                      </div>
+                    );
+                  }}
+                  startDate={"2016年4月"}
+                  endDate={"2019年3月"}
+                />
+              );
+            },
+          ]}
+        />
       </div>
     </div>
   );

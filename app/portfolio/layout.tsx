@@ -14,9 +14,9 @@ export const metadata: Metadata = {
 };
 
 const items = [
-  { title: "Project", href: "/project" },
-  { title: "Task", href: "/task" },
-  { title: "Event", href: "/event" },
+  { title: "Data", href: "/portfolio/data" },
+  { title: "Frontend", href: "/portfolio/frontend" },
+  { title: "Backend", href: "/portfolio/backend" },
 ];
 
 type Props = PropsWithChildren<{
