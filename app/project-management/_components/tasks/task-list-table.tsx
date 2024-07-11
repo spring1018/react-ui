@@ -1,7 +1,6 @@
 // import { Task } from "../../types/public-types";
 import { Progress } from "@/components/ui/progress";
 import React, { useMemo } from "react";
-import { Form } from "./form";
 import styles from "./task-list-table.module.css";
 
 const PUT = (id, task) => {
@@ -56,6 +55,8 @@ export const TaskListTable: React.FC<{
   fontSize,
   locale,
   onExpanderClick,
+  setOpen,
+  setInitialValues,
 }) => {
   const toLocaleDateString = useMemo(
     () => toLocaleDateStringFactory(locale),
@@ -105,11 +106,15 @@ export const TaskListTable: React.FC<{
                 >
                   {expanderSymbol}
                 </div>
-                <Form
-                  initialValues={t}
-                  handleSubmit={(data) => PUT(t.id, data)}
-                />
-                <div>{t.name}</div>
+                <div
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setOpen(true);
+                    setInitialValues(t);
+                  }}
+                >
+                  {t.name}
+                </div>
               </div>
             </div>
             <div

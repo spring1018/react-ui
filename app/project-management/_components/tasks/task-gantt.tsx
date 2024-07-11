@@ -1,8 +1,16 @@
 "use client";
+import { DynamicForm } from "@/components/molecules/DynamicForm";
 import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { Gantt, ViewMode } from "gantt-task-react";
 import "gantt-task-react/dist/index.css";
 import { useState } from "react";
+import * as z from "zod";
 import { TaskListHeader } from "./task-list-header";
 import { TaskListTable } from "./task-list-table";
 
@@ -78,6 +86,16 @@ export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({
 
 export default function TaskGantt({ tasks, onDateChange }) {
   const [view, setView] = useState(ViewMode.Month);
+  const [open, setOpen] = useState(false);
+  const [initialValues, setInitialValues] = useState({});
+
+  const mode = "update";
+  const formSchema = z.object({
+    name: z
+      .string({ required_error: "タスク名は必須です" })
+      .describe({ type: "input" }),
+    progress: z.number().describe({ type: "input" }),
+  });
 
   let columnWidth = 65;
   if (view === ViewMode.Year) {
@@ -90,6 +108,23 @@ export default function TaskGantt({ tasks, onDateChange }) {
 
   return (
     <div className="py-2 grid gap-y-2">
+      <Sheet open={open}>
+        <SheetContent
+          onInteractOutside={() => setOpen(false)}
+          onCloseClick={() => setOpen(false)}
+        >
+          <SheetHeader className="py-2">
+            <SheetTitle>{mode === "create" ? "新規登録" : "編集"}</SheetTitle>
+          </SheetHeader>
+          <DynamicForm
+            mode={mode}
+            formSchema={formSchema}
+            initialValues={initialValues}
+            handleSubmit={() => {}}
+            handleDelete={() => {}}
+          />
+        </SheetContent>
+      </Sheet>
       <ViewSwitcher
         onViewModeChange={setView}
         onViewListChange={() => {}}
@@ -100,7 +135,9 @@ export default function TaskGantt({ tasks, onDateChange }) {
         viewDate={new Date(2024, 1, 1)}
         viewMode={view}
         TaskListHeader={TaskListHeader}
-        TaskListTable={TaskListTable}
+        TaskListTable={(props) =>
+          TaskListTable({ ...props, setOpen, setInitialValues })
+        }
         onDateChange={onDateChange}
         columnWidth={columnWidth}
       />
