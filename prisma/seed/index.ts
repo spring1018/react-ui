@@ -1,11 +1,12 @@
 import { PrismaClient } from "@prisma/client";
+import { task } from "./project-management";
 import { sampleTask } from "./sample-task";
 
 export const prisma = new PrismaClient();
 
 const main = async () => {
   console.log(`Start seeding ...`);
-  await prisma.$transaction([...sampleTask()]);
+  await prisma.$transaction([...sampleTask(), ...task()]);
   console.log(`Seeding finished.`);
 };
 

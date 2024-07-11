@@ -43,3 +43,15 @@ model SampleTask {
 
   @@map(name: "sample_tasks")
 }
+
+model Task {
+  id        String   @id @default(cuid())
+  title     String
+  type      String
+  start     String
+  end       String
+  progress  Int
+  projectId String
+
+  @@map(name: "tasks")
+}

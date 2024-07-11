@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "title": "全社戦略の策定",
+    "type": "task",
+    "start": "2024-04-01",
+    "end": "2024-09-02",
+    "progress": 45,
+    "projectId": "1"
+  },
+  {
+    "id": "2",
+    "title": "全社戦略の実行",
+    "type": "task",
+    "start": "2024-09-03",
+    "end": "2025-03-31",
+    "progress": 10,
+    "projectId": "1"
+  }
+]
