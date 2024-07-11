@@ -34,3 +34,12 @@ model Post {
 
   @@map(name: "posts")
 }
+
+model SampleTask {
+  id        String   @id @default(cuid())
+  title     String
+  status    String
+  priority  String
+
+  @@map(name: "sample_tasks")
+}
