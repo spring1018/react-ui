@@ -30,7 +30,7 @@ import { mutate } from "swr";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
-import { DELETE, POST, PUT } from "./utils/apis";
+// import { DELETE, POST, PUT } from "./utils/apis";
 
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
@@ -81,19 +81,42 @@ export function ShadcnuiTable<TData, TValue>({
         let newTableData: TData[] = [];
         switch (method) {
           case "POST": {
-            const res = await POST(newData, apiUrl);
+            // const res = await POST(newData, apiUrl);
+            const res = await fetch(apiUrl, {
+              method: "POST",
+              body: JSON.stringify(newData),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            })
+              .then((res) => res.json())
+              .then((data) => data.task);
             newTableData = data.concat(res);
             break;
           }
           case "PUT": {
-            PUT(newData, apiUrl);
+            // PUT(newData, apiUrl);
+            fetch(apiUrl, {
+              method: "PUT",
+              body: JSON.stringify(newData),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
             newTableData = data.map((row) => {
               return row.id === newData.id ? newData : row;
             });
             break;
           }
           case "DELETE": {
-            DELETE(newData.id, apiUrl);
+            // DELETE(newData.id, apiUrl);
+            fetch(apiUrl, {
+              method: "DELETE",
+              body: JSON.stringify(newData),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
             newTableData = data.filter((row) => row.id !== newData.id);
             break;
           }
