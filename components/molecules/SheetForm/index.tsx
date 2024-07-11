@@ -29,7 +29,10 @@ export default function SheetForm({
       handleSubmit(data);
       setOpen(false);
     },
-    handleDelete,
+    handleDelete: () => {
+      handleDelete();
+      setOpen(false);
+    },
   };
 
   return (

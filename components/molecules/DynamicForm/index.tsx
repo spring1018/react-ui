@@ -3,6 +3,16 @@
 import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
 import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
   Form,
   FormControl,
   FormField,
@@ -88,11 +98,33 @@ export function DynamicForm({
         })}
         <div className="grid gap-y-2">
           <Button type="submit">保存</Button>
-          {mode === "update" && (
-            <Button onClick={handleDelete} variant="outline">
-              削除
-            </Button>
-          )}
+          <Dialog>
+            <DialogTrigger asChild>
+              {mode === "update" && <Button variant="outline">削除</Button>}
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>削除確認</DialogTitle>
+              </DialogHeader>
+              <DialogDescription>本当に削除しますか？</DialogDescription>
+              <DialogFooter>
+                <div className="flex justify-end space-x-2">
+                  <DialogClose asChild>
+                    <Button
+                      onClick={handleDelete}
+                      variant={"destructive"}
+                      type="submit"
+                    >
+                      削除
+                    </Button>
+                  </DialogClose>
+                  <DialogClose asChild>
+                    <Button variant="outline">キャンセル</Button>
+                  </DialogClose>
+                </div>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       </form>
     </Form>
