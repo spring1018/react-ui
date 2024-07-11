@@ -57,38 +57,23 @@ export default function ProjectManagemetPage() {
 
   const [selectedTaskType, setSelectedTaskType] = useState("all");
 
-  const apiUrl = "http://localhost:3004/tasks";
+  const apiUrl = "/api/project-management/tasks";
 
   const fetcher = (url: string): Promise<[]> =>
-    fetch(url).then((res) => res.json());
-  const { data: tasks = [], error } = useSWR(apiUrl, fetcher);
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => data.tasks);
+  const { data: tasks = [], mutate, error } = useSWR(apiUrl, fetcher);
 
-  const handleTaskChange = (task) => {
-    const newTask = {
-      id: task.id,
-      name: task.name,
-      type: task.type,
-      status: task.status,
-      priority: task.priority,
-      progress: task.progress,
-      start: task.start.toISOString(),
-      end: task.end.toISOString(),
-      order: task.order,
-    };
-    // PUT リクエストを送る
-    try {
-      fetch(`${apiUrl}/${task.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newTask),
-      });
-    } catch (error) {
-      console.error("Error updating data:", error);
-    }
-
-    // setTasks(newTasks);
+  const handleTaskChange = async (body) => {
+    await fetch(apiUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+    mutate(tasks.map((t) => (t.id === body.id ? body : t)));
   };
 
   // const handleTaskTypeChange = (e) => {
@@ -145,7 +130,8 @@ export default function ProjectManagemetPage() {
               initialValue="all"
               // onChange={handleTaskTypeChange}
             />
-            <div className="overflow-x-auto">
+            {/* <div className="overflow-x-auto"> */}
+            <div>
               {tasks && tasks.length > 0 ? (
                 <TaskGantt
                   tasks={tasks.map((task: { start: string; end: string }) => ({

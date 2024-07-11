@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
+import { DatePicker } from "@/components/ui/date-picker";
 import {
   Dialog,
   DialogClose,
@@ -46,6 +47,8 @@ function renderField(type, field, options, placeholder, disabled = false) {
           options={options}
         />
       );
+    case "date":
+      return <DatePicker date={field.value} setDate={field.onChange} />;
     default:
       return null;
   }

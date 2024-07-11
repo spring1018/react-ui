@@ -37,6 +37,14 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
   day: "numeric",
 };
 
+const formatDate = (date) => {
+  return new Intl.DateTimeFormat("ja-JP", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(date);
+};
+
 export const TaskListTable: React.FC<{
   rowHeight: number;
   rowWidth: string;
@@ -125,10 +133,7 @@ export const TaskListTable: React.FC<{
                 maxWidth: rowWidth,
               }}
             >
-              {/* &nbsp;{toLocaleDateString(t.start, dateTimeOptions)}
-              {/* yyyy/mm/dd 表記にする */}
-              &nbsp;{t.start.getFullYear()}/{t.start.getMonth()}/
-              {t.start.getDate()}
+              {formatDate(t.start)}
             </div>
             <div
               className={styles.taskListCell}
@@ -138,9 +143,7 @@ export const TaskListTable: React.FC<{
                 maxWidth: rowWidth,
               }}
             >
-              {/* &nbsp;{toLocaleDateString(t.end, dateTimeOptions)} */}
-              {/* yyyy/mm/dd 表記にする */}
-              &nbsp;{t.end.getFullYear()}/{t.end.getMonth()}/{t.end.getDate()}
+              {formatDate(t.end)}
             </div>
             <div
               className={styles.taskListCell}
