@@ -2,6 +2,7 @@
 import { Progress } from "@/components/ui/progress";
 import clsx from "clsx";
 import React, { useMemo } from "react";
+import { RiAddCircleFill } from "react-icons/ri";
 import styles from "./task-list-table.module.css";
 
 const localeDateStringCache = {};
@@ -49,8 +50,10 @@ export const TaskListTable: React.FC<{
   fontSize,
   locale,
   onExpanderClick,
-  setOpen,
-  setInitialValues,
+  setUpdateFormOpen,
+  setCreateFormOpen,
+  setUpdateInitialValues,
+  setCreateInitialValues,
 }) => {
   const toLocaleDateString = useMemo(
     () => toLocaleDateStringFactory(locale),
@@ -89,8 +92,13 @@ export const TaskListTable: React.FC<{
               }}
               title={t.name}
             >
-              <div className={styles.taskListNameWrapper}>
-                <div
+              <div
+                className={clsx(
+                  styles.taskListNameWrapper,
+                  "flex justify-between items-center px-2",
+                )}
+              >
+                {/* <div
                   className={
                     expanderSymbol
                       ? styles.taskListExpander
@@ -99,16 +107,34 @@ export const TaskListTable: React.FC<{
                   onClick={() => onExpanderClick(t)}
                 >
                   {expanderSymbol}
-                </div>
+                </div> */}
                 <div
                   className={clsx("cursor-pointer", t.level === 2 && "pl-4")}
                   onClick={() => {
-                    setOpen(true);
-                    setInitialValues(t);
+                    setUpdateFormOpen(true);
+                    setUpdateInitialValues(t);
                   }}
                 >
                   {t.name}
                 </div>
+                {t.level === 1 && (
+                  <RiAddCircleFill
+                    size={20}
+                    className="cursor-pointer"
+                    onClick={() => {
+                      setCreateFormOpen(true);
+                      setCreateInitialValues({
+                        name: "",
+                        type: "task",
+                        level: 2,
+                        start: new Date(),
+                        end: new Date(),
+                        progress: 0,
+                        projectId: t.id,
+                      });
+                    }}
+                  />
+                )}
               </div>
             </div>
             <div

@@ -31,6 +31,7 @@ const taskTypeOptions = [
   { label: "マイルストーン", value: "milestone" },
 ];
 
+// project を連動して変更したい場合に使う
 // export function getStartEndDateForProject(tasks: Task[], projectId: string) {
 //   const projectTasks = tasks.filter((t) => t.project === projectId);
 //   let start = projectTasks[0].start;
@@ -75,7 +76,6 @@ export default function ProjectManagemetPage() {
     });
     mutate(tasks.map((t) => (t.id === body.id ? body : t)));
   };
-
   // const handleTaskTypeChange = (e) => {
   //   const type = e.value;
   //   setSelectedTaskType(type);

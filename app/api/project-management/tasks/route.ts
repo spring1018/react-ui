@@ -2,16 +2,36 @@ import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 
 export async function GET() {
-  const tasks = await prisma.task.findMany();
-  // title を name に変更
-  return Response.json({
-    tasks: tasks.map((t) => ({
-      ...t,
-      name: t.title,
-      start: new Date(t.start),
-      end: new Date(t.end),
-    })),
+  const tasks = await prisma.task.findMany({
+    include: {
+      parent: true,
+    },
   });
+  // tasks に対して以下の sortKey 列を作って並び替える
+  // 1. parent が存在しない場合、自身の start を sortKey にする
+  // 2. parent が存在する場合、parent の start と自身の start を結合した文字列を sortKey にする
+  const newTasks = tasks.map((t) => {
+    if (!t.parent) {
+      return {
+        ...t,
+        sortKey: t.start,
+      };
+    }
+    return {
+      ...t,
+      sortKey: `${t.parent.start}${t.start}`,
+    };
+  });
+
+  return Response.json({ newTasks });
+  // return Response.json({
+  //   tasks: tasks.map((t) => ({
+  //     ...t,
+  //     name: t.title,
+  //     start: new Date(t.start),
+  //     end: new Date(t.end),
+  //   })),
+  // });
 }
 
 export async function POST(req: NextRequest) {
@@ -21,6 +41,7 @@ export async function POST(req: NextRequest) {
       data: {
         title: body.name,
         type: body.type,
+        level: body.level,
         start: body.start,
         end: body.end,
         progress: body.progress,
@@ -43,6 +64,7 @@ export async function PUT(req: NextRequest) {
       data: {
         title: body.name,
         type: body.type,
+        level: body.level,
         start: body.start,
         end: body.end,
         progress: body.progress,

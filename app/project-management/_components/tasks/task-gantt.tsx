@@ -1,6 +1,5 @@
 "use client";
 import { DynamicForm } from "@/components/molecules/DynamicForm";
-import SheetForm from "@/components/molecules/SheetForm";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -88,11 +87,18 @@ export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({
 
 export default function TaskGantt({ tasks, onDateChange }) {
   const [view, setView] = useState(ViewMode.Month);
-  const [open, setOpen] = useState(false);
-  const [initialValues, setInitialValues] = useState({});
+  const [updateFormOpen, setUpdateFormOpen] = useState(false);
+  const [createFormOpen, setCreateFormOpen] = useState(false);
+  const [updateInitialValues, setUpdateInitialValues] = useState({});
+  const [createInitialValues, setCreateInitialValues] = useState({
+    type: "task",
+    level: 1,
+    start: new Date(),
+    end: new Date(),
+    progress: 0,
+    projectId: "1",
+  });
   const { mutate } = useSWRConfig();
-
-  const mode = "update";
 
   let columnWidth = 65;
   if (view === ViewMode.Year) {
@@ -120,7 +126,7 @@ export default function TaskGantt({ tasks, onDateChange }) {
       });
       return { tasks: newTasks };
     });
-    setOpen(false);
+    setUpdateFormOpen(false);
   };
 
   const handleCreate = (body) => {
@@ -134,7 +140,7 @@ export default function TaskGantt({ tasks, onDateChange }) {
     mutate("/api/project-management/tasks", async (data) => {
       return [...data, body];
     });
-    setOpen(false);
+    setUpdateFormOpen(false);
   };
 
   const handleDelete = (body) => {
@@ -144,26 +150,43 @@ export default function TaskGantt({ tasks, onDateChange }) {
     mutate("/api/project-management/tasks", async (data) => {
       return data.filter((t) => t.id !== body.id);
     });
-    setOpen(false);
+    setUpdateFormOpen(false);
   };
 
   return (
     <div className="py-2 grid gap-y-2">
       {/* Update */}
-      <Sheet open={open}>
+      <Sheet open={updateFormOpen}>
         <SheetContent
-          onInteractOutside={() => setOpen(false)}
-          onCloseClick={() => setOpen(false)}
+          onInteractOutside={() => setUpdateFormOpen(false)}
+          onCloseClick={() => setUpdateFormOpen(false)}
         >
           <SheetHeader className="py-2">
             <SheetTitle>編集</SheetTitle>
           </SheetHeader>
           <DynamicForm
-            mode={mode}
+            mode="update"
             formSchema={updateFormSchema}
-            initialValues={initialValues}
+            initialValues={updateInitialValues}
             handleSubmit={(body) => handleUpdate(body)}
             handleDelete={(body) => handleDelete(body)}
+          />
+        </SheetContent>
+      </Sheet>
+      {/* Create */}
+      <Sheet open={createFormOpen}>
+        <SheetContent
+          onInteractOutside={() => setCreateFormOpen(false)}
+          onCloseClick={() => setCreateFormOpen(false)}
+        >
+          <SheetHeader className="py-2">
+            <SheetTitle>新規作成</SheetTitle>
+          </SheetHeader>
+          <DynamicForm
+            mode="create"
+            formSchema={createFormSchema}
+            initialValues={createInitialValues}
+            handleSubmit={(body) => handleCreate(body)}
           />
         </SheetContent>
       </Sheet>
@@ -174,13 +197,14 @@ export default function TaskGantt({ tasks, onDateChange }) {
           isChecked={true}
         />
         {/* Create */}
-        <SheetForm
+        <Button onClick={() => setCreateFormOpen(true)}>新規作成</Button>
+        {/* <SheetForm
           mode="create"
           buttonVariant="default"
           formSchema={createFormSchema}
-          initialValues={{ progress: 0 }}
+          initialValues={createInitialValues}
           handleSubmit={(body) => handleCreate(body)}
-        />
+        /> */}
       </div>
       <div className="overflow-x-auto">
         <Gantt
@@ -189,7 +213,13 @@ export default function TaskGantt({ tasks, onDateChange }) {
           viewMode={view}
           TaskListHeader={TaskListHeader}
           TaskListTable={(props) =>
-            TaskListTable({ ...props, setOpen, setInitialValues })
+            TaskListTable({
+              ...props,
+              setUpdateFormOpen,
+              setCreateFormOpen,
+              setUpdateInitialValues,
+              setCreateInitialValues,
+            })
           }
           onDateChange={onDateChange}
           columnWidth={columnWidth}

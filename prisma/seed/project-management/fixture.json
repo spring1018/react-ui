@@ -4,10 +4,10 @@
     "title": "ダッシュボードの作成",
     "type": "task",
     "level": 1,
-    "start": "2024-04-01",
+    "start": "2024-07-01",
     "end": "2024-09-02",
     "progress": 45,
-    "projectId": "1"
+    "projectId": ""
   },
   {
     "id": "2",
@@ -15,7 +15,7 @@
     "type": "task",
     "level": 2,
     "start": "2024-07-03",
-    "end": "2024-10-31",
+    "end": "2024-08-31",
     "progress": 10,
     "projectId": "1"
   },
@@ -24,9 +24,9 @@
     "title": "ヒアリング",
     "type": "task",
     "level": 1,
-    "start": "2024-10-01",
-    "end": "2024-11-02",
+    "start": "2024-05-01",
+    "end": "2024-06-02",
     "progress": 0,
-    "projectId": "1"
+    "projectId": ""
   }
 ]

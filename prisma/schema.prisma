@@ -53,6 +53,8 @@ model Task {
   end       String
   progress  Int
   projectId String
+  parent    Task?    @relation("ParentTask", fields: [projectId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  parents   Task[]   @relation("ParentTask")
 
   @@map(name: "tasks")
 }
