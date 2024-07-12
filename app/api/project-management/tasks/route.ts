@@ -33,20 +33,6 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function DELETE(req: NextRequest) {
-  try {
-    const body = await req.json();
-    await prisma.task.delete({
-      where: {
-        id: body.id,
-      },
-    });
-    return Response.json({ message: "Deleted" });
-  } catch (err) {
-    return Response.json({ message: "Internal Server Error" }, { status: 500 });
-  }
-}
-
 export async function PUT(req: NextRequest) {
   try {
     const body = await req.json();

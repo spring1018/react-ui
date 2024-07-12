@@ -25,10 +25,10 @@ export const TaskListHeader: React.FC<{
           className={styles.ganttTable_HeaderItem}
           style={{
             // minWidth: rowWidth,
-            minWidth: "200px",
+            minWidth: "300px",
           }}
         >
-          &nbsp;Name
+          &nbsp;Title
         </div>
         <div
           className={styles.ganttTable_HeaderSeparator}
@@ -65,7 +65,8 @@ export const TaskListHeader: React.FC<{
         <div
           className={styles.ganttTable_HeaderItem}
           style={{
-            minWidth: rowWidth,
+            // minWidth: rowWidth,
+            minWidth: "100px",
           }}
         >
           &nbsp;Progress

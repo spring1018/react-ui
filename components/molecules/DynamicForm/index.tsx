@@ -114,7 +114,7 @@ export function DynamicForm({
                 <div className="flex justify-end space-x-2">
                   <DialogClose asChild>
                     <Button
-                      onClick={handleDelete}
+                      onClick={() => handleDelete(form.getValues())}
                       variant={"destructive"}
                       type="submit"
                     >

@@ -137,6 +137,16 @@ export default function TaskGantt({ tasks, onDateChange }) {
     setOpen(false);
   };
 
+  const handleDelete = (body) => {
+    fetch(`/api/project-management/tasks/${body.id}`, {
+      method: "DELETE",
+    });
+    mutate("/api/project-management/tasks", async (data) => {
+      return data.filter((t) => t.id !== body.id);
+    });
+    setOpen(false);
+  };
+
   return (
     <div className="py-2 grid gap-y-2">
       {/* Update */}
@@ -153,7 +163,7 @@ export default function TaskGantt({ tasks, onDateChange }) {
             formSchema={updateFormSchema}
             initialValues={initialValues}
             handleSubmit={(body) => handleUpdate(body)}
-            handleDelete={() => {}}
+            handleDelete={(body) => handleDelete(body)}
           />
         </SheetContent>
       </Sheet>
@@ -168,7 +178,7 @@ export default function TaskGantt({ tasks, onDateChange }) {
           mode="create"
           buttonVariant="default"
           formSchema={createFormSchema}
-          initialValues={{}}
+          initialValues={{ progress: 0 }}
           handleSubmit={(body) => handleCreate(body)}
         />
       </div>

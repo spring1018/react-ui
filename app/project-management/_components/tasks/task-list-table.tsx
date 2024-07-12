@@ -1,23 +1,9 @@
 // import { Task } from "../../types/public-types";
 import { Progress } from "@/components/ui/progress";
+import clsx from "clsx";
 import React, { useMemo } from "react";
 import styles from "./task-list-table.module.css";
 
-const PUT = (id, task) => {
-  // const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const apiUrl = "http://localhost:3004/tasks";
-  try {
-    fetch(`${apiUrl}/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(task),
-    });
-  } catch (error) {
-    console.error("Error updating data:", error);
-  }
-};
 const localeDateStringCache = {};
 const toLocaleDateStringFactory =
   (locale: string) =>
@@ -98,7 +84,7 @@ export const TaskListTable: React.FC<{
               className={styles.taskListCell}
               style={{
                 // minWidth: rowWidth,
-                minWidth: "200px",
+                minWidth: "300px",
                 maxWidth: rowWidth,
               }}
               title={t.name}
@@ -115,7 +101,7 @@ export const TaskListTable: React.FC<{
                   {expanderSymbol}
                 </div>
                 <div
-                  className="cursor-pointer"
+                  className={clsx("cursor-pointer", t.level === 2 && "pl-4")}
                   onClick={() => {
                     setOpen(true);
                     setInitialValues(t);
@@ -148,7 +134,8 @@ export const TaskListTable: React.FC<{
             <div
               className={styles.taskListCell}
               style={{
-                minWidth: rowWidth,
+                // minWidth: rowWidth,
+                minWidth: "100px",
                 maxWidth: rowWidth,
               }}
             >

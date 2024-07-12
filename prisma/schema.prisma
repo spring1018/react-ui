@@ -48,6 +48,7 @@ model Task {
   id        String   @id @default(cuid())
   title     String
   type      String
+  level     Int
   start     String
   end       String
   progress  Int
