@@ -6,6 +6,7 @@ export async function GET() {
         headers: {
           Authorization: `token ${process.env.GITHUB_TOKEN}`,
         },
+        cache: "no-cache",
       },
     ).then((res) => res.json());
   }

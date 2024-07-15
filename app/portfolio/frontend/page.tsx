@@ -1,5 +1,6 @@
 import { IssueList } from "@/app/api/portfolio/_components/issue-list";
 import { OGPCard } from "@/components/molecules/OGPCard";
+import { Badge } from "@/components/ui/badge";
 
 const apps = [
   {
@@ -56,28 +57,44 @@ const components = [
 
 const labels = [
   {
-    value: "react",
+    values: ["react"],
     label: "React",
   },
   {
-    value: "typescript",
+    values: ["next.js"],
+    label: "Next.js",
+  },
+  {
+    values: ["typescript"],
     label: "TypeScript",
   },
   {
-    value: "html",
-    label: "HTML",
+    values: ["web", "html"],
+    label: "Web",
   },
   {
-    value: "tailwind",
+    values: ["tailwind"],
     label: "CSS",
   },
   {
-    value: "component-design",
+    values: ["component-design"],
     label: "Component Design",
   },
   {
-    value: "shadcn-ui",
-    label: "UI Library",
+    values: ["shadcn-ui"],
+    label: "UI Libraries",
+  },
+  {
+    values: ["storybook", "env"],
+    label: "Tools",
+  },
+  {
+    values: ["editor", "chart", "prisma", "tool"],
+    label: "Libraries",
+  },
+  {
+    values: ["remix"],
+    label: "Other Frameworks",
   },
 ];
 
@@ -96,13 +113,23 @@ export default async function Page() {
       <h2 className="text-2xl font-bold mt-8">Issues</h2>
       <div className="grid grid-cols-5 gap-2">
         {labels.map((label) => (
-          <div key={label.value} className="space-y-2">
-            <h3 className="text-xl font-bold mt-4">{label.label}</h3>
+          <div key={label.label} className="space-y-2">
+            <div className="flex justify-start items-center mt-4 gap-2">
+              <h3 className="text-xl font-bold">{label.label}</h3>
+              <Badge key={label.label} variant={"secondary"}>
+                {
+                  issues.filter((issue) =>
+                    issue.labels.some((item) => label.values.includes(item)),
+                  ).length
+                }
+              </Badge>
+            </div>
             <IssueList
               items={issues.filter((issue) =>
-                issue.labels.includes(label.value),
+                issue.labels.some((item) => label.values.includes(item)),
               )}
-              ignoreLabels={labels.map((label) => label.value)}
+              // TODO: 無視するラベルは調整が必要
+              ignoreLabels={label.values}
             />
           </div>
         ))}
