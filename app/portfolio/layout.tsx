@@ -14,9 +14,11 @@ export const metadata: Metadata = {
 };
 
 const items = [
-  { title: "Data", href: "/portfolio/data" },
+  { title: "Portfolio", href: "/portfolio" },
+  { title: "Soft Skills (TBD)", href: "/portfolio/soft-skills" },
+  { title: "Data (TBD)", href: "/portfolio/data" },
   { title: "Frontend", href: "/portfolio/frontend" },
-  { title: "Backend", href: "/portfolio/backend" },
+  { title: "Backend (TBD)", href: "/portfolio/backend" },
 ];
 
 type Props = PropsWithChildren<{

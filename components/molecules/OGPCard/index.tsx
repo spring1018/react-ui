@@ -7,6 +7,7 @@ type CardProps = {
   description: string;
   image: string;
   url: string;
+  target?: string;
   tags?: string[];
 };
 
@@ -15,10 +16,11 @@ export const OGPCard = ({
   description,
   image,
   url,
+  target = "_self",
   tags = [],
 }: CardProps) => {
   return (
-    <Link href={url} passHref>
+    <Link href={url} target={target}>
       <div className="w-80 h-64 rounded overflow-hidden shadow-lg m-4 cursor-pointer">
         <div className="w-full h-32 relative">
           <Image
