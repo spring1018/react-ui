@@ -3,10 +3,7 @@ import { AuthProvider } from "@/app/_providers/AuthProviders";
 import AuthNavBar from "@/components/molecules/AuthNavBar";
 import type { Metadata } from "next";
 import { getServerSession } from "next-auth";
-import { Inter } from "next/font/google";
 import type { PropsWithChildren, ReactNode } from "react";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -22,27 +19,16 @@ const items = [
 ];
 
 type Props = PropsWithChildren<{
-  dialog: ReactNode;
+  children: ReactNode;
 }>;
 
-export default async function PortfolioLayout({ dialog, children }: Props) {
+export default async function SiteLayout({ children }: Props) {
   const session = await getServerSession(options);
   return (
-    <html lang="en">
-      <body
-        className={[
-          inter.className,
-          "h-screen flex flex-col",
-          // for dialog
-          "has-[dialog[open]]:overflow-hidden",
-        ].join(" ")}
-      >
-        <AuthProvider>
-          <AuthNavBar logo={"App"} items={items} session={session} />
-          <main className="py-4 px-8 flex-1 overflow-y-auto">{children}</main>
-        </AuthProvider>
-        {dialog}
-      </body>
-    </html>
+    <AuthProvider>
+      <AuthNavBar logo={"App"} items={items} session={session} />
+      <main className="py-4 px-8 flex-1 overflow-y-auto">{children}</main>
+    </AuthProvider>
+    // {dialog}
   );
 }
