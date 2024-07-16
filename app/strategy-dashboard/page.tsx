@@ -19,11 +19,11 @@ import annotationPlugin from "chartjs-plugin-annotation";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { useEffect, useRef, useState } from "react";
 import { Bubble, getElementAtEvent } from "react-chartjs-2";
-import { TableDemo } from "./action-table";
-import { data as d } from "./data";
-import ICChart from "./ic";
-import LineChart from "./line-chart";
-import TooltipDemo from "./tooltip";
+import { TableDemo } from "./_components/action-table";
+import ICChart from "./_components/ic";
+import LineChart from "./_components/line-chart";
+import TooltipDemo from "./_components/tooltip";
+import { data as d } from "./_data/data";
 
 ChartJS.register(
   LinearScale,
