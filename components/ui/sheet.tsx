@@ -58,7 +58,7 @@ interface SheetContentProps
 const SheetContent = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Content>,
   SheetContentProps
->(({ side = "right", className, children, ...props }, ref) => (
+>(({ side = "right", className, children, onCloseClick, ...props }, ref) => (
   <SheetPortal>
     <SheetOverlay />
     <SheetPrimitive.Content
@@ -72,7 +72,7 @@ const SheetContent = React.forwardRef<
         <X
           className="h-4 w-4"
           onClick={() => {
-            props.onCloseClick?.();
+            onCloseClick?.();
           }}
         />
         <span className="sr-only">Close</span>
