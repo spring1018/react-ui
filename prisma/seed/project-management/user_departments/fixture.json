@@ -1,0 +1,14 @@
+[
+  {
+    "userId": "admin",
+    "departmentId": "1"
+  },
+  {
+    "userId": "admin",
+    "departmentId": "2"
+  },
+  {
+    "userId": "NCX12090",
+    "departmentId": "3"
+  }
+]

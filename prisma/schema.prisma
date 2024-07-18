@@ -16,11 +16,35 @@ model User {
   email         String    @unique
   role          String
   name          String?
+  departments   UserDepartment[]
   // password      String
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @default(now()) @map(name: "updated_at")
 
   @@map(name: "users")
+}
+
+model Department {
+  id        String   @id
+  name      String
+  users     UserDepartment[]
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+
+  @@map(name: "departments")
+}
+
+model UserDepartment {
+  id            String    @id @default(cuid())
+  userId        String
+  departmentId  String
+  user          User      @relation(fields: [userId], references: [userId])
+  department    Department @relation(fields: [departmentId], references: [id])
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @default(now()) @map(name: "updated_at")
+
+  @@map(name: "user_departments")
+
 }
 
 model Post {

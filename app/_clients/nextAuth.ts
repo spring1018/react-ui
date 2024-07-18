@@ -1,9 +1,6 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-const fetcher = (url: string): Promise<any> =>
-  fetch(url).then((res) => res.json());
-
 export const options: NextAuthOptions = {
   debug: true,
   session: { strategy: "jwt" },
@@ -21,9 +18,15 @@ export const options: NextAuthOptions = {
       // メルアド認証処理
       // TODO: パスワードをハッシュ化する
       async authorize(credentials) {
-        const users = await fetcher(
+        const users = await fetch(
           `${process.env.NEXT_PUBLIC_APP_URL}/api/users`,
-        );
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            cache: "no-cache",
+          },
+        ).then((res) => res.json());
         // 一時的に password をつけて返す
         const temp = users.map((user) => {
           return {
@@ -41,6 +44,7 @@ export const options: NextAuthOptions = {
             userId: user.userId,
             email: user.email,
             role: user.role,
+            departments: user.departments.map((d) => d.department.name),
           };
         } else {
           return null;
@@ -67,6 +71,7 @@ export const options: NextAuthOptions = {
         user: {
           ...session.user,
           role: token.role,
+          departments: token.user.departments,
         },
       };
     },
