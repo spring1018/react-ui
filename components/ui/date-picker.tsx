@@ -2,7 +2,6 @@
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -10,7 +9,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import * as PopoverPrimitive from "@radix-ui/react-popover";
 import { forwardRef } from "react";
+
+// Calendar を選択すると Popover が閉じるようにする
+const PopoverClose = PopoverPrimitive.PopoverClose;
 
 export const DatePicker = forwardRef<
   HTMLDivElement,
@@ -34,12 +38,14 @@ export const DatePicker = forwardRef<
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" ref={ref}>
-        <Calendar
-          mode="single"
-          selected={date}
-          onSelect={setDate}
-          initialFocus
-        />
+        <PopoverClose>
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={setDate}
+            initialFocus
+          />
+        </PopoverClose>
       </PopoverContent>
     </Popover>
   );
