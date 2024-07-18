@@ -90,14 +90,7 @@ export default function TaskGantt({ tasks, onDateChange }) {
   const [updateFormOpen, setUpdateFormOpen] = useState(false);
   const [createFormOpen, setCreateFormOpen] = useState(false);
   const [updateInitialValues, setUpdateInitialValues] = useState({});
-  const [createInitialValues, setCreateInitialValues] = useState({
-    type: "task",
-    level: 1,
-    start: new Date(),
-    end: new Date(),
-    progress: 0,
-    projectId: "1",
-  });
+  const [createInitialValues, setCreateInitialValues] = useState({});
   const { mutate } = useSWRConfig();
 
   let columnWidth = 65;
@@ -197,7 +190,21 @@ export default function TaskGantt({ tasks, onDateChange }) {
           isChecked={true}
         />
         {/* Create */}
-        <Button onClick={() => setCreateFormOpen(true)}>新規作成</Button>
+        <Button
+          onClick={() => {
+            setCreateInitialValues({
+              type: "task",
+              level: 1,
+              start: new Date(),
+              end: new Date().setDate(new Date().getDate() + 1),
+              progress: 0,
+              projectId: "1",
+            });
+            setCreateFormOpen(true);
+          }}
+        >
+          新規作成
+        </Button>
         {/* <SheetForm
           mode="create"
           buttonVariant="default"

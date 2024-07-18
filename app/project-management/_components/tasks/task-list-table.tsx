@@ -128,7 +128,7 @@ export const TaskListTable: React.FC<{
                         type: "task",
                         level: 2,
                         start: new Date(),
-                        end: new Date(),
+                        end: new Date().setDate(new Date().getDate() + 1),
                         progress: 0,
                         projectId: t.id,
                       });
