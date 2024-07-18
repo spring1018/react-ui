@@ -134,11 +134,17 @@ export default function ProjectManagemetPage() {
             <div>
               {tasks && tasks.length > 0 ? (
                 <TaskGantt
-                  tasks={tasks.map((task: { start: string; end: string }) => ({
-                    ...(task as object),
-                    start: new Date(task.start),
-                    end: new Date(task.end),
-                  }))}
+                  tasks={tasks
+                    .sort((a, b) => {
+                      if (a.sortKey < b.sortKey) return -1;
+                      if (a.sortKey > b.sortKey) return 1;
+                      return 0;
+                    })
+                    .map((task: { start: string; end: string }) => ({
+                      ...(task as object),
+                      start: new Date(task.start),
+                      end: new Date(task.end),
+                    }))}
                   onDateChange={handleTaskChange}
                 />
               ) : (

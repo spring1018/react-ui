@@ -23,7 +23,14 @@ export async function GET() {
     };
   });
 
-  return Response.json({ newTasks });
+  return Response.json({
+    tasks: newTasks.map((t) => ({
+      ...t,
+      name: t.title,
+      start: new Date(t.start),
+      end: new Date(t.end),
+    })),
+  });
   // return Response.json({
   //   tasks: tasks.map((t) => ({
   //     ...t,
