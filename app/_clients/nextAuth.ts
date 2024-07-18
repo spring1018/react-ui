@@ -1,20 +1,13 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-// import GitHubProvider from "next-auth/providers/github";
-// import GoogleProvider from "next-auth/providers/google";
+
+const fetcher = (url: string): Promise<any> =>
+  fetch(url).then((res) => res.json());
 
 export const options: NextAuthOptions = {
   debug: true,
   session: { strategy: "jwt" },
   providers: [
-    // GitHubProvider({
-    //   clientId: process.env.GITHUB_ID!,
-    //   clientSecret: process.env.GITHUB_SECRET!,
-    // }),
-    // GoogleProvider({
-    //   clientId: process.env.GOOGLE_CLIENT_ID!,
-    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    // }),
     CredentialsProvider({
       name: "Sign in",
       credentials: {
@@ -26,20 +19,28 @@ export const options: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       // メルアド認証処理
+      // TODO: パスワードをハッシュ化する
       async authorize(credentials) {
-        const users = [
-          { id: "1", email: "user1@example.com", password: "password1" },
-          { id: "3", email: "abc@abc", password: "123" },
-        ];
-
-        const user = users.find((user) => user.email === credentials?.email);
+        const users = await fetcher(
+          `${process.env.NEXT_PUBLIC_APP_URL}/api/users`,
+        );
+        // 一時的に password をつけて返す
+        const temp = users.map((user) => {
+          return {
+            ...user,
+            password: "password",
+          };
+        });
+        const user = temp.find((user) => user.email === credentials?.email);
+        // const user = users.find((user) => user.email === credentials?.email);
 
         if (user && user?.password === credentials?.password) {
           return {
             id: user.id,
-            name: user.email,
+            name: user.name,
+            userId: user.userId,
             email: user.email,
-            role: "admin",
+            role: user.role,
           };
         } else {
           return null;
@@ -49,8 +50,6 @@ export const options: NextAuthOptions = {
   ],
   callbacks: {
     jwt: async ({ token, user, account, profile, isNewUser }) => {
-      // 注意: トークンをログ出力してはダメです。
-
       if (user) {
         token.user = user;
         const u = user as any;

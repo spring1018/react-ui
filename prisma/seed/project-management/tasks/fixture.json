@@ -6,8 +6,7 @@
     "level": 1,
     "start": "2024-07-01",
     "end": "2024-09-02",
-    "progress": 45,
-    "projectId": ""
+    "progress": 45
   },
   {
     "id": "2",
@@ -26,7 +25,6 @@
     "level": 1,
     "start": "2024-05-01",
     "end": "2024-06-02",
-    "progress": 0,
-    "projectId": ""
+    "progress": 0
   }
 ]

@@ -1,5 +1,5 @@
 import type { PrismaPromise, Task } from "@prisma/client";
-import { prisma } from "..";
+import { prisma } from "../..";
 import fixture from "./fixture.json";
 
 export const task = () => {

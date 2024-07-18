@@ -1,0 +1,14 @@
+[
+  {
+    "userId": "admin",
+    "role": "admin",
+    "name": "Admin",
+    "email": "admin@admin"
+  },
+  {
+    "userId": "NCX12090",
+    "role": "user",
+    "name": "test",
+    "email": "test@test"
+  }
+]

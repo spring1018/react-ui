@@ -12,11 +12,13 @@ datasource db {
 
 model User {
   id            String    @id @default(cuid())
+  userId        String    @unique
+  email         String    @unique
+  role          String
   name          String?
+  // password      String
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @default(now()) @map(name: "updated_at")
-
-  Post     Post[]
 
   @@map(name: "users")
 }
@@ -29,8 +31,6 @@ model Post {
   published Boolean  @default(false)
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @default(now()) @map(name: "updated_at")
-
-  author User @relation(fields: [authorId], references: [id])
 
   @@map(name: "posts")
 }
@@ -52,7 +52,7 @@ model Task {
   start     String
   end       String
   progress  Int
-  projectId String
+  projectId String?
   parent    Task?    @relation("ParentTask", fields: [projectId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   parents   Task[]   @relation("ParentTask")
 

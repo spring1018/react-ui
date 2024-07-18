@@ -25,7 +25,9 @@ export default async function SiteLayout({ children }: Props) {
   return (
     <AuthProvider>
       <AuthNavBar logo={"App"} items={items} session={session} />
-      <main className="py-4 px-8 flex-1 overflow-y-auto">{children}</main>
+      {(session?.user && (
+        <main className="py-4 px-8 flex-1 overflow-y-auto">{children}</main>
+      )) || <div className="p-4">no session</div>}
     </AuthProvider>
     // {dialog}
   );
