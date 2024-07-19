@@ -1,4 +1,3 @@
-"use client";
 import { Badge } from "@/components/ui/badge";
 import { Combobox } from "@/components/ui/combobox";
 import { Input } from "@/components/ui/input";
@@ -6,6 +5,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 import { Project } from "../../type";
+import { useProject } from "../../use-project";
 
 const yearOptions = [
   { label: "2024年度", value: "2024" },
@@ -19,9 +19,13 @@ const tagOptions = [
   { label: "その他", value: "tag2" },
 ];
 
-export default function ProjectList({ projects }: { projects: Project[] }) {
+interface ProjectListProps {
+  items: Project[];
+}
+
+export default function ProjectList({ items }: ProjectListProps) {
   const [searchProject, setSearchProject] = useState("");
-  const [selectedProject, setSelectedProject] = useState(projects[0]);
+  const [project, setProject] = useProject();
 
   return (
     <div className="flex flex-col gap-4">
@@ -36,17 +40,17 @@ export default function ProjectList({ projects }: { projects: Project[] }) {
         <Separator />
       </div>
       <ScrollArea className="h-full">
-        {projects
-          .filter((project) => project.title.includes(searchProject))
-          .map((project) => (
+        {items
+          .filter((item) => item.title.includes(searchProject))
+          .map((item) => (
             <button
-              key={project.title}
+              key={item.title}
               className={`flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm w-full transition-all hover:bg-accent ${
-                project.id === selectedProject.id ? "bg-blue-200" : ""
+                project.selected === item.id ? "bg-blue-200" : ""
               }`}
-              onClick={() => setSelectedProject(project)}
+              onClick={() => setProject({ ...project, selected: item.id })}
             >
-              <h3>{project.title}</h3>
+              <h3>{item.title}</h3>
               <div className="flex gap-2">
                 <Badge>Tag</Badge>
                 <Badge>X%</Badge>

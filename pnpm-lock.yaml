@@ -101,6 +101,9 @@ dependencies:
   gantt-task-react:
     specifier: ^0.3.9
     version: 0.3.9(react@18.2.0)
+  jotai:
+    specifier: ^2.9.0
+    version: 2.9.0(@types/react@18.2.45)(react@18.2.0)
   json-server:
     specifier: ^1.0.0-alpha.16
     version: 1.0.0-alpha.16
@@ -9676,6 +9679,22 @@ packages:
 
   /jose@4.15.4:
     resolution: {integrity: sha512-W+oqK4H+r5sITxfxpSU+MMdr/YSWGvgZMQDIsNoBDGGy4i7GBPTtvFKibQzW06n3U3TqHjhvBJsirShsEJ6eeQ==}
+    dev: false
+
+  /jotai@2.9.0(@types/react@18.2.45)(react@18.2.0):
+    resolution: {integrity: sha512-MioTpMvR78IGfJ+W8EwQj3kwTkb+u0reGnTyg3oJZMWK9rK9v8NBSC9Rhrg9jrrFYA6bGZtzJa96zsuAYF6W3w==}
+    engines: {node: '>=12.20.0'}
+    peerDependencies:
+      '@types/react': '>=17.0.0'
+      react: '>=17.0.0'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      react:
+        optional: true
+    dependencies:
+      '@types/react': 18.2.45
+      react: 18.2.0
     dev: false
 
   /js-tokens@4.0.0:

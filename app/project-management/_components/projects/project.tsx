@@ -1,0 +1,49 @@
+"use client";
+import { Separator } from "@/components/ui/separator";
+import { type Project as ProjectType, type Task } from "../../type";
+import { useProject } from "../../use-project";
+import TaskGantt from "../tasks/task-gantt";
+import ProjectDisplay from "./project-display";
+import ProjectList from "./project-list";
+
+interface ProjectProps {
+  projects: ProjectType[];
+  tasks: Task[];
+}
+
+export default function Project({ projects, tasks }: ProjectProps) {
+  const [project] = useProject();
+
+  return (
+    <div className="flex gap-4">
+      <div className="grid gap-y-2 min-w-[230px] w-[230px] fixed top-[65px] left-0 h-full bg-white shadow-lg p-4">
+        <ProjectList items={projects} />
+      </div>
+      <div className="flex-1 overflow-hidden ml-[200px] px-4">
+        <div>
+          <ProjectDisplay
+            item={projects.find((item) => item.id === project.selected)}
+          />
+          <Separator />
+          {tasks && tasks.length > 0 ? (
+            <TaskGantt
+              tasks={tasks
+                .sort((a, b) => {
+                  if (a.sortKey < b.sortKey) return -1;
+                  if (a.sortKey > b.sortKey) return 1;
+                  return 0;
+                })
+                .map((task: { start: string; end: string }) => ({
+                  ...(task as object),
+                  start: new Date(task.start),
+                  end: new Date(task.end),
+                }))}
+            />
+          ) : (
+            <p>loading...</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
