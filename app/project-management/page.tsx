@@ -1,29 +1,8 @@
-"use client";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
 import { Combobox } from "@/components/ui/combobox";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { useState } from "react";
-import useSWR from "swr";
 import ProjectList from "./_components/projects/project-list";
 import TaskGantt from "./_components/tasks/task-gantt";
 import { projects } from "./data/projects";
-
-const yearOptions = [
-  { label: "2024年度", value: "2024" },
-  { label: "2023年度", value: "2023" },
-  { label: "2022年度", value: "2022" },
-  { label: "2021年度", value: "2021" },
-];
-
-const tagOptions = [
-  { label: "行動計画", value: "tag1" },
-  { label: "その他", value: "tag2" },
-];
+import { Task } from "./type";
 
 const taskTypeOptions = [
   { label: "All", value: "all" },
@@ -49,110 +28,49 @@ const taskTypeOptions = [
 //   return [start, end];
 // }
 
-export default function ProjectManagemetPage() {
-  const [searchProject, setSearchProject] = useState("");
-  const [selectedProject, setSelectedProject] = useState(projects[0]);
-
-  const [isProjectOpen, setIsProjectOpen] = useState(true);
-  const [isTaskOpen, setIsTaskOpen] = useState(true);
-
-  const [selectedTaskType, setSelectedTaskType] = useState("all");
-
-  const apiUrl = "/api/project-management/tasks";
-
-  const fetcher = (url: string): Promise<[]> =>
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => data.tasks);
-  const { data: tasks = [], mutate, error } = useSWR(apiUrl, fetcher);
-
-  const handleTaskChange = async (body) => {
-    await fetch(apiUrl, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    });
-    mutate(tasks.map((t) => (t.id === body.id ? body : t)));
-  };
-  // const handleTaskTypeChange = (e) => {
-  //   const type = e.value;
-  //   setSelectedTaskType(type);
-  //   if (type === "all") {
-  //     setTasks(initTasks);
-  //     return;
-  //   }
-  //   setTasks(initTasks.filter((task) => task.type === type));
-  // };
+export default async function ProjectManagementPage() {
+  const apiUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/project-management/tasks`;
+  const tasks: Task[] = await fetch(apiUrl)
+    .then((res) => res.json())
+    .then((data) => data.tasks);
 
   return (
     <div className="flex gap-4">
       <div className="grid gap-y-2 min-w-[230px] w-[230px] fixed top-[65px] left-0 h-full bg-white shadow-lg p-4">
-        <div className="grid max-h-[200px] gap-y-2">
-          <h1>Projects</h1>
-          <Combobox options={yearOptions} initialValue="2024" />
-          <Combobox options={tagOptions} initialValue="tag1" />
-          <Input
-            value={searchProject}
-            onChange={(e) => setSearchProject(e.target.value)}
-            placeholder="Search project"
-          />
-          <Separator />
-        </div>
-        <ProjectList
-          projects={projects.filter((project) =>
-            project.title.includes(searchProject),
-          )}
-          selectedProject={selectedProject}
-          setSelectedProject={setSelectedProject}
-        />
+        <ProjectList projects={projects} />
       </div>
       <div className="flex-1 overflow-hidden ml-[200px] px-2">
-        <Collapsible open={isProjectOpen} onOpenChange={setIsProjectOpen}>
-          <CollapsibleTrigger asChild>
-            <button className="btn">詳細</button>
-          </CollapsibleTrigger>
-          <CollapsibleContent>
-            <div className="w-[500px]">
-              <p>{selectedProject?.title}</p>
-              <p>{selectedProject?.description}</p>
-            </div>
-          </CollapsibleContent>
-        </Collapsible>
-        <Collapsible open={isTaskOpen} onOpenChange={setIsTaskOpen}>
-          <CollapsibleTrigger asChild>
-            <button className="btn">Tasks</button>
-          </CollapsibleTrigger>
-          <CollapsibleContent>
-            <Combobox
-              options={taskTypeOptions}
-              initialValue="all"
-              // onChange={handleTaskTypeChange}
+        <div className="w-[500px]">
+          {/* <p>{selectedProject?.title}</p> */}
+          <p>{projects[0].title}</p>
+          {/* <p>{selectedProject?.description}</p> */}
+          <p>{projects[0].description}</p>
+        </div>
+        <Combobox
+          options={taskTypeOptions}
+          initialValue="all"
+          // onChange={handleTaskTypeChange}
+        />
+        {/* <div className="overflow-x-auto"> */}
+        <div>
+          {tasks && tasks.length > 0 ? (
+            <TaskGantt
+              tasks={tasks
+                .sort((a, b) => {
+                  if (a.sortKey < b.sortKey) return -1;
+                  if (a.sortKey > b.sortKey) return 1;
+                  return 0;
+                })
+                .map((task: { start: string; end: string }) => ({
+                  ...(task as object),
+                  start: new Date(task.start),
+                  end: new Date(task.end),
+                }))}
             />
-            {/* <div className="overflow-x-auto"> */}
-            <div>
-              {tasks && tasks.length > 0 ? (
-                <TaskGantt
-                  tasks={tasks
-                    .sort((a, b) => {
-                      if (a.sortKey < b.sortKey) return -1;
-                      if (a.sortKey > b.sortKey) return 1;
-                      return 0;
-                    })
-                    .map((task: { start: string; end: string }) => ({
-                      ...(task as object),
-                      start: new Date(task.start),
-                      end: new Date(task.end),
-                    }))}
-                  onDateChange={handleTaskChange}
-                />
-              ) : (
-                <p>loading...</p>
-              )}
-            </div>
-          </CollapsibleContent>
-        </Collapsible>
+          ) : (
+            <p>loading...</p>
+          )}
+        </div>
       </div>
     </div>
   );

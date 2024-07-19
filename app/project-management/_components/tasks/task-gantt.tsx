@@ -85,13 +85,24 @@ export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({
   );
 };
 
-export default function TaskGantt({ tasks, onDateChange }) {
+export default function TaskGantt({ tasks }) {
   const [view, setView] = useState(ViewMode.Month);
   const [updateFormOpen, setUpdateFormOpen] = useState(false);
   const [createFormOpen, setCreateFormOpen] = useState(false);
   const [updateInitialValues, setUpdateInitialValues] = useState({});
   const [createInitialValues, setCreateInitialValues] = useState({});
   const { mutate } = useSWRConfig();
+
+  const handleTaskChange = async (body) => {
+    await fetch(apiUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+    mutate(tasks.map((t) => (t.id === body.id ? body : t)));
+  };
 
   let columnWidth = 65;
   if (view === ViewMode.Year) {
@@ -228,7 +239,7 @@ export default function TaskGantt({ tasks, onDateChange }) {
               setCreateInitialValues,
             })
           }
-          onDateChange={onDateChange}
+          onDateChange={handleTaskChange}
           columnWidth={columnWidth}
         />
       </div>
