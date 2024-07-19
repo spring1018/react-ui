@@ -216,7 +216,7 @@ export default function ChartPPMPage() {
             </CardContent>
           </Card>
         </div>
-        <div className="grid gap-y-2 py-2 overflow-auto h-full">
+        <div className="grid gap-y-2 overflow-auto h-full">
           {clickedIndex && (
             <div className="grid gap-y-2 w-full">
               <Card>
