@@ -1,8 +1,7 @@
-import { options } from "@/app/_clients/nextAuth";
+import { getServerSession } from "@/app/_clients/nextAuth";
 import { AuthProvider } from "@/app/_providers/AuthProviders";
 import AuthNavBar from "@/components/molecules/AuthNavBar";
 import type { Metadata } from "next";
-import { getServerSession } from "next-auth";
 import type { PropsWithChildren, ReactNode } from "react";
 
 export const metadata: Metadata = {
@@ -23,7 +22,7 @@ type Props = PropsWithChildren<{
 }>;
 
 export default async function SiteLayout({ children }: Props) {
-  const session = await getServerSession(options);
+  const session = await getServerSession();
   return (
     <AuthProvider>
       <AuthNavBar logo={"App"} items={items} session={session} />

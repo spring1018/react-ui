@@ -1,5 +1,7 @@
 import type { NextAuthOptions } from "next-auth";
+import { getServerSession as originalGetServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { cache } from "react";
 
 export const options: NextAuthOptions = {
   debug: true,
@@ -77,3 +79,7 @@ export const options: NextAuthOptions = {
     },
   },
 };
+
+export const getServerSession = cache(async () => {
+  return originalGetServerSession(options);
+});
