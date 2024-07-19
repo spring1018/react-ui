@@ -1,10 +1,11 @@
+import { MultiSelect } from "@/components/molecules/MultiSelect";
 import { Badge } from "@/components/ui/badge";
 import { Combobox } from "@/components/ui/combobox";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
-import { Project } from "../../type";
+import { type Department, type Project } from "../../type";
 import { useProject } from "../../use-project";
 
 const yearOptions = [
@@ -21,24 +22,32 @@ const tagOptions = [
 
 interface ProjectListProps {
   items: Project[];
+  departments: Department[];
 }
 
-export default function ProjectList({ items }: ProjectListProps) {
+export default function ProjectList({ items, departments }: ProjectListProps) {
   const [searchProject, setSearchProject] = useState("");
+  const [department, setDepartment] = useState<string[]>([]);
   const [project, setProject] = useProject();
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="grid max-h-[200px] gap-y-2">
+      <div className="flex flex-col gap-y-2">
         <Combobox options={yearOptions} initialValue="2024" />
+        <MultiSelect
+          options={departments}
+          selected={department}
+          onChange={setDepartment}
+          placeholder="Select department"
+        />
         <Combobox options={tagOptions} initialValue="tag1" />
         <Input
           value={searchProject}
           onChange={(e) => setSearchProject(e.target.value)}
           placeholder="Search project"
         />
-        <Separator />
       </div>
+      <Separator />
       <ScrollArea className="h-full">
         {items
           .filter((item) => item.title.includes(searchProject))

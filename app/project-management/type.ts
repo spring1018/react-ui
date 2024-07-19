@@ -12,3 +12,8 @@ export type Task = {
   end: string;
   sortKey: string;
 };
+
+export type Department = {
+  value: string;
+  label: string;
+};

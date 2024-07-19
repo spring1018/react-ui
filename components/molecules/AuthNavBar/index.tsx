@@ -46,7 +46,7 @@ export default function AuthNavBar({
                 <div>
                   <div>閲覧可能な部署</div>
                   {session?.user.departments.map((department) => (
-                    <div key={department}>{department}</div>
+                    <div key={department.id}>{department.name}</div>
                   ))}
                 </div>
               </TooltipContent>

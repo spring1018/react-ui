@@ -46,7 +46,12 @@ export const options: NextAuthOptions = {
             userId: user.userId,
             email: user.email,
             role: user.role,
-            departments: user.departments.map((d) => d.department.name),
+            departments: user.departments.map((d) => {
+              return {
+                id: d.department.id,
+                name: d.department.name,
+              };
+            }),
           };
         } else {
           return null;

@@ -1,3 +1,4 @@
+import { getServerSession } from "../_clients/nextAuth";
 import Project from "./_components/projects/project";
 import { projects } from "./data/projects";
 import { Task } from "./type";
@@ -21,6 +22,14 @@ import { Task } from "./type";
 // }
 
 export default async function ProjectManagementPage() {
+  const session = await getServerSession();
+  const departments = session?.user.departments.map((department) => {
+    return {
+      value: department.id,
+      label: department.name,
+    };
+  });
+
   const apiUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/project-management/tasks`;
   const tasks: Task[] = await fetch(apiUrl)
     .then((res) => res.json())
@@ -28,7 +37,7 @@ export default async function ProjectManagementPage() {
 
   return (
     <div>
-      <Project projects={projects} tasks={tasks} />
+      <Project projects={projects} tasks={tasks} departments={departments} />
     </div>
   );
 }
