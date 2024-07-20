@@ -59,14 +59,6 @@ model Post {
   @@map(name: "posts")
 }
 
-model SampleTask {
-  id        String   @id @default(cuid())
-  title     String
-  status    String
-  priority  String
-
-  @@map(name: "sample_tasks")
-}
 
 model Task {
   id        String   @id @default(cuid())
@@ -81,4 +73,14 @@ model Task {
   parents   Task[]   @relation("ParentTask")
 
   @@map(name: "tasks")
+}
+
+// Samples
+model SampleTask {
+  id        String   @id @default(cuid())
+  title     String
+  status    String
+  priority  String
+
+  @@map(name: "sample_tasks")
 }

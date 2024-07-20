@@ -9,10 +9,11 @@ export const prisma = new PrismaClient();
 
 const main = async () => {
   console.log(`Start seeding ...`);
-  await prisma.user.deleteMany();
+  await prisma.sampleTask.deleteMany();
   await prisma.task.deleteMany();
-  await prisma.department.deleteMany();
   await prisma.userDepartment.deleteMany();
+  await prisma.department.deleteMany();
+  await prisma.user.deleteMany();
   console.log(`Existing tasks deleted.`);
   await prisma.$transaction([
     ...sampleTask(),
