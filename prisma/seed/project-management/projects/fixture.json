@@ -1,0 +1,47 @@
+[
+  {
+    "id": "1",
+    "title": "Project 1",
+    "description": "This is a project description",
+    "status": "in progress",
+    "start": "2024-07-01",
+    "end": "2024-09-02",
+    "progress": 45
+  },
+  {
+    "id": "2",
+    "title": "Project 2",
+    "description": "This is a project description",
+    "status": "in progress",
+    "start": "2024-07-01",
+    "end": "2024-09-02",
+    "progress": 45
+  },
+  {
+    "id": "3",
+    "title": "Project 3",
+    "description": "This is a project description",
+    "status": "in progress",
+    "start": "2024-07-01",
+    "end": "2024-09-02",
+    "progress": 45
+  },
+  {
+    "id": "4",
+    "title": "Project 4",
+    "description": "This is a project description",
+    "status": "in progress",
+    "start": "2024-07-01",
+    "end": "2024-09-02",
+    "progress": 45
+  },
+  {
+    "id": "5",
+    "title": "Project 5",
+    "description": "This is a project description",
+    "status": "in progress",
+    "start": "2024-07-01",
+    "end": "2024-09-02",
+    "progress": 45
+  }
+]

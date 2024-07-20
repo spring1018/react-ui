@@ -1,6 +1,5 @@
 import { getServerSession } from "../_clients/nextAuth";
 import Project from "./_components/projects/project";
-import { projects } from "./data/projects";
 import { Task } from "./type";
 
 // project を連動して変更したい場合に使う
@@ -23,6 +22,15 @@ import { Task } from "./type";
 
 export default async function ProjectManagementPage() {
   const session = await getServerSession();
+  const projects = await fetch(
+    `${process.env.NEXT_PUBLIC_APP_URL}/api/project-management/projects`,
+    {
+      cache: "no-cache",
+    },
+  )
+    .then((res) => res.json())
+    .then((data) => data.projects);
+
   const departments = session?.user.departments.map((department) => {
     return {
       value: department.id,
