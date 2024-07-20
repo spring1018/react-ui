@@ -26,6 +26,7 @@ interface MultiSelectProps {
   options: OptionType[];
   selected: string[];
   onChange: React.Dispatch<React.SetStateAction<string[]>>;
+  placeholder: string;
   className?: string;
 }
 
@@ -33,6 +34,7 @@ function MultiSelect({
   options,
   selected,
   onChange,
+  placeholder,
   className,
   ...props
 }: MultiSelectProps) {

@@ -1,17 +1,16 @@
-import { options } from "@/app/_clients/nextAuth";
+import { getServerSession } from "@/app/_clients/nextAuth";
 import { DashboardHeader } from "@/features/taxonomy/header";
 import { PostCreateButton } from "@/features/taxonomy/post-create-button";
 import { PostItem } from "@/features/taxonomy/post-item";
 import { DashboardShell } from "@/features/taxonomy/shell";
 import { db } from "@/lib/db";
-import { getServerSession } from "next-auth";
 
 export const metadata = {
   title: "Dashboard",
 };
 
 export default async function DashboardPage() {
-  const session = await getServerSession(options);
+  const session = await getServerSession();
 
   const posts = await db.post.findMany({
     // where: {
