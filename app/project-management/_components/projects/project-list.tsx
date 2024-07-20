@@ -44,7 +44,7 @@ export default function ProjectList({ items, departments }: ProjectListProps) {
         <Input
           value={searchProject}
           onChange={(e) => setSearchProject(e.target.value)}
-          placeholder="Search project"
+          placeholder="プロジェクトの検索"
         />
       </div>
       <Separator />
