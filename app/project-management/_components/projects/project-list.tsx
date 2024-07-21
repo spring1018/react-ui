@@ -6,7 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 import { type Department, type Project } from "../../type";
-import { useProject } from "../../use-project";
+import { useProject } from "../hooks/use-project";
 
 const yearOptions = [
   { label: "2024年度", value: "2024" },

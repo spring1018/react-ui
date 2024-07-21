@@ -5,8 +5,10 @@ import {
   type Project as ProjectType,
   type Task,
 } from "../../type";
-import { useProject } from "../../use-project";
+import { useProject } from "../hooks/use-project";
+import { useViewMode } from "../hooks/use-viewmode";
 import TaskGantt from "../tasks/task-gantt";
+import { ViewSwitcher } from "../tasks/view-switcher";
 import ProjectDisplay from "./project-display";
 import ProjectList from "./project-list";
 
@@ -22,6 +24,7 @@ export default function Project({
   departments,
 }: ProjectProps) {
   const [project] = useProject();
+  const [viewMode] = useViewMode();
 
   return (
     <div className="flex gap-4">
@@ -34,8 +37,10 @@ export default function Project({
             item={projects.find((item) => item.id === project.selected)}
           />
           <Separator />
+          <ViewSwitcher />
           {tasks && tasks.length > 0 ? (
             <TaskGantt
+              viewMode={viewMode}
               tasks={tasks
                 .sort((a, b) => {
                   if (a.sortKey < b.sortKey) return -1;
