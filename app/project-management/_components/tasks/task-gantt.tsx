@@ -29,7 +29,7 @@ export default function TaskGantt({ viewMode, tasks }: TaskGanttProps) {
   const { mutate } = useSWRConfig();
 
   const handleTaskChange = async (body) => {
-    await fetch(apiUrl, {
+    await fetch("/api/project-management/tasks", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
