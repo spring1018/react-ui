@@ -9,14 +9,14 @@ import { sampleTask } from "./sample-task";
 export const prisma = new PrismaClient();
 
 const main = async () => {
-  console.log(`Start seeding ...`);
+  console.log("Start seeding ...");
   await prisma.sampleTask.deleteMany();
   await prisma.task.deleteMany();
   await prisma.project.deleteMany();
   await prisma.userDepartment.deleteMany();
   await prisma.department.deleteMany();
   await prisma.user.deleteMany();
-  console.log(`Existing tasks deleted.`);
+  console.log("Existing tasks deleted.");
   await prisma.$transaction([
     ...sampleTask(),
     ...project(),
@@ -25,7 +25,7 @@ const main = async () => {
     ...department(),
     ...useDepartment(),
   ]);
-  console.log(`Seeding finished.`);
+  console.log("Seeding finished.");
 };
 
 main()

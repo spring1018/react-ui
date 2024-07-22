@@ -10,6 +10,8 @@ export type Task = {
   title: string;
   start: string;
   end: string;
+  projectId: string;
+  parentTaskId: string | null;
   sortKey: string;
 };
 

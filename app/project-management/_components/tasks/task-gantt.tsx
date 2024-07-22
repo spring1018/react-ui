@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/sheet";
 import { Gantt, ViewMode } from "gantt-task-react";
 import "gantt-task-react/dist/index.css";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useSWRConfig } from "swr";
 import type { Task } from "../../type";
@@ -27,6 +28,7 @@ export default function TaskGantt({ viewMode, tasks }: TaskGanttProps) {
   const [updateInitialValues, setUpdateInitialValues] = useState({});
   const [createInitialValues, setCreateInitialValues] = useState({});
   const { mutate } = useSWRConfig();
+  const router = useRouter();
 
   const handleTaskChange = async (body) => {
     await fetch("/api/project-management/tasks", {
@@ -59,15 +61,16 @@ export default function TaskGantt({ viewMode, tasks }: TaskGanttProps) {
       },
       body: JSON.stringify(body),
     });
-    mutate("/api/project-management/tasks", async (data) => {
-      const newTasks = data.map((t) => {
-        if (t.id === body.id) {
-          return body;
-        }
-        return t;
-      });
-      return { tasks: newTasks };
-    });
+    // mutate("/api/project-management/tasks", async (data) => {
+    //   const newTasks = data.map((t) => {
+    //     if (t.id === body.id) {
+    //       return body;
+    //     }
+    //     return t;
+    //   });
+    //   return { tasks: newTasks };
+    // });
+    router.refresh();
     setUpdateFormOpen(false);
   };
 
@@ -79,19 +82,23 @@ export default function TaskGantt({ viewMode, tasks }: TaskGanttProps) {
       },
       body: JSON.stringify(body),
     });
-    mutate("/api/project-management/tasks", async (data) => {
-      return [...data, body];
-    });
-    setUpdateFormOpen(false);
+    // mutate("/api/project-management/tasks", async (data) => {
+    //   return [...data, body];
+    // });
+    // setUpdateFormOpen(false);
+    router.refresh();
+    setCreateFormOpen(false);
   };
 
   const handleDelete = (body) => {
     fetch(`/api/project-management/tasks/${body.id}`, {
       method: "DELETE",
     });
-    mutate("/api/project-management/tasks", async (data) => {
-      return data.filter((t) => t.id !== body.id);
-    });
+    // mutate("/api/project-management/tasks", async (data) => {
+    //   return data.filter((t) => t.id !== body.id);
+    // });
+    // setUpdateFormOpen(false);
+    router.refresh();
     setUpdateFormOpen(false);
   };
 
@@ -132,7 +139,7 @@ export default function TaskGantt({ viewMode, tasks }: TaskGanttProps) {
           />
         </SheetContent>
       </Sheet>
-      <div className="flex justify-end">
+      <div className="flex justify-start">
         {/* Create */}
         <Button
           onClick={() => {
@@ -148,6 +155,9 @@ export default function TaskGantt({ viewMode, tasks }: TaskGanttProps) {
           }}
         >
           新規作成
+        </Button>
+        <Button onClick={() => router.refresh()} className="ml-2">
+          更新
         </Button>
       </div>
       <div className="overflow-x-auto">
