@@ -26,7 +26,7 @@ import { hasDraggableData } from "./utils";
 // export type ColumnId = (typeof defaultCols)[number]["id"];
 export type ColumnId = string;
 
-export function KanbanBoard({ defaultCols, items, onTitleClick }) {
+export function KanbanBoard({ defaultCols, items, onTitleClick, cardContent }) {
   const [columns, setColumns] = useState<Column[]>(defaultCols);
   const pickedUpTaskColumn = useRef<ColumnId | null>(null);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
@@ -169,6 +169,7 @@ export function KanbanBoard({ defaultCols, items, onTitleClick }) {
               column={col}
               tasks={tasks.filter((task) => task.columnId === col.id)}
               onTitleClick={onTitleClick}
+              cardContent={cardContent}
             />
           ))}
         </SortableContext>

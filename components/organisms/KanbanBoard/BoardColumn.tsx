@@ -25,6 +25,7 @@ interface BoardColumnProps {
   tasks: Task[];
   isOverlay?: boolean;
   onTitleClick?: () => void;
+  cardContent?: (task: Task) => React.ReactNode;
 }
 
 export function BoardColumn({
@@ -32,6 +33,7 @@ export function BoardColumn({
   tasks,
   isOverlay,
   onTitleClick,
+  cardContent,
 }: BoardColumnProps) {
   const tasksIds = useMemo(() => {
     return tasks.map((task) => task.id);
@@ -88,7 +90,12 @@ export function BoardColumn({
         <CardContent className="flex flex-grow flex-col gap-2 p-2">
           <SortableContext items={tasksIds}>
             {tasks.map((task) => (
-              <TaskCard key={task.id} task={task} onTitleClick={onTitleClick} />
+              <TaskCard
+                key={task.id}
+                task={task}
+                onTitleClick={onTitleClick}
+                cardContent={cardContent}
+              />
             ))}
           </SortableContext>
         </CardContent>

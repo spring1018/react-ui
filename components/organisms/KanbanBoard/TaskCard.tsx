@@ -16,6 +16,8 @@ export interface Task {
 interface TaskCardProps {
   task: Task;
   isOverlay?: boolean;
+  onTitleClick?: () => void;
+  cardContent?: (task: Task) => React.ReactNode;
 }
 
 export type TaskType = "Task";
@@ -25,7 +27,12 @@ export interface TaskDragData {
   task: Task;
 }
 
-export function TaskCard({ task, onTitleClick, isOverlay }: TaskCardProps) {
+export function TaskCard({
+  task,
+  isOverlay,
+  onTitleClick,
+  cardContent,
+}: TaskCardProps) {
   const {
     setNodeRef,
     attributes,
@@ -69,15 +76,21 @@ export function TaskCard({ task, onTitleClick, isOverlay }: TaskCardProps) {
       {...listeners}
       onClick={onTitleClick}
     >
-      <CardHeader className="px-3 py-3 space-between flex flex-row border-b-2 border-secondary relative">
-        {task.title}
-        <Badge variant={"outline"} className="ml-auto font-semibold">
-          Task
-        </Badge>
-      </CardHeader>
-      <CardContent className="px-3 pt-3 pb-6 text-left whitespace-pre-wrap">
-        {task.description}
-      </CardContent>
+      {cardContent ? (
+        cardContent(task)
+      ) : (
+        <>
+          <CardHeader className="px-3 py-3 space-between flex flex-row border-b-2 border-secondary relative">
+            {task.title}
+            <Badge variant={"outline"} className="ml-auto font-semibold">
+              Task
+            </Badge>
+          </CardHeader>
+          <CardContent className="px-3 pt-3 pb-6 text-left whitespace-pre-wrap">
+            {task.description}
+          </CardContent>
+        </>
+      )}
     </Card>
   );
 }

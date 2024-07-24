@@ -5,6 +5,7 @@ export async function GET() {
   const tasks = await prisma.task.findMany({
     include: {
       parent: true,
+      project: true,
     },
   });
   // tasks に対して以下の sortKey 列を作って並び替える
