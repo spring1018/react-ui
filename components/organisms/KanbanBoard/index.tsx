@@ -38,7 +38,7 @@ export function KanbanBoard({ defaultCols, items, onTitleClick }) {
   const [activeTask, setActiveTask] = useState<Task | null>(null);
 
   const sensors = useSensors(
-    useSensor(MouseSensor),
+    useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
     useSensor(TouchSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: coordinateGetter,
@@ -168,6 +168,7 @@ export function KanbanBoard({ defaultCols, items, onTitleClick }) {
               key={col.id}
               column={col}
               tasks={tasks.filter((task) => task.columnId === col.id)}
+              onTitleClick={onTitleClick}
             />
           ))}
         </SortableContext>
@@ -207,7 +208,6 @@ export function KanbanBoard({ defaultCols, items, onTitleClick }) {
   }
 
   function onDragEnd(event: DragEndEvent) {
-    console.log(event);
     setActiveColumn(null);
     setActiveTask(null);
 

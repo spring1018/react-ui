@@ -12,10 +12,10 @@ export default async function IndexPage() {
             Editable Table
           </Link>
           <Link
-            href="/sample/sheet-table"
+            href="/sample/sheet-table-with-db"
             className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
           >
-            Sheet Table
+            Sheet Table with DB
           </Link>
           <Link
             href="/sample/chart-clickable"
@@ -40,6 +40,12 @@ export default async function IndexPage() {
             className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
           >
             Sheet Form
+          </Link>
+          <Link
+            href="/sample/kanban"
+            className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
+          >
+            Kanban
           </Link>
         </div>
       </section>
