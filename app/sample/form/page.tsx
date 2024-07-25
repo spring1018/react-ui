@@ -17,6 +17,9 @@ const formSchema = z.object({
     type: "combobox",
     options: priorities,
   }),
+  hiddenField: z.string().describe({
+    type: "hidden",
+  }),
 });
 
 export default function FormPage() {
@@ -25,6 +28,7 @@ export default function FormPage() {
       <DynamicForm
         mode="update"
         formSchema={formSchema}
+        initialValues={{ id: "test", hiddenField: "hidden" }}
         handleSubmit={(e) => console.log(e)}
       />
     </div>

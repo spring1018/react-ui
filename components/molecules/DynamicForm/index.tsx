@@ -49,6 +49,8 @@ function renderField(type, field, options, placeholder, disabled = false) {
       );
     case "date":
       return <DatePicker date={field.value} setDate={field.onChange} />;
+    case "hidden":
+      return null;
     default:
       return null;
   }
@@ -87,9 +89,11 @@ export function DynamicForm({
               name={key}
               render={({ field }) => (
                 <FormItem className="grid">
-                  <FormLabel>
-                    {key.charAt(0).toUpperCase() + key.slice(1)}
-                  </FormLabel>
+                  {type !== "hidden" && (
+                    <FormLabel>
+                      {key.charAt(0).toUpperCase() + key.slice(1)}
+                    </FormLabel>
+                  )}
                   <FormControl>
                     {renderField(type, field, options, placeholder, disabled)}
                   </FormControl>
