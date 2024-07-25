@@ -1,4 +1,5 @@
 "use client";
+import { MultiSelect } from "@/components/molecules/MultiSelect";
 import {
   Card,
   CardContent,
@@ -23,6 +24,7 @@ import { TableDemo } from "./_components/action-table";
 import ICChart from "./_components/ic";
 import LineChart from "./_components/line-chart";
 import TooltipDemo from "./_components/tooltip";
+import { centers } from "./_data/portfolio/centers";
 import { data } from "./_data/portfolio/data";
 
 ChartJS.register(
@@ -40,10 +42,10 @@ const options = {
     x: {
       title: {
         display: true,
-        text: "累積粗利(今年~5年後)",
+        text: "売上総利益",
       },
-      min: 0,
-      max: 5,
+      // min: 0,
+      // max: 2500000000,
       ticks: {
         display: true,
       },
@@ -54,10 +56,10 @@ const options = {
     y: {
       title: {
         display: true,
-        text: "粗利年平均成長率(5年間)",
+        text: "売上高CAGR",
       },
-      min: -5,
-      max: 5,
+      // min: -0.2,
+      // max: 0.2,
       ticks: {
         display: true,
       },
@@ -81,16 +83,16 @@ const options = {
           type: "line",
           yMin: 0,
           yMax: 0,
-          borderColor: "red",
+          borderColor: "gray",
           borderWidth: 2,
         },
-        line2: {
-          type: "line",
-          xMin: 2.5,
-          xMax: 2.5,
-          borderColor: "red",
-          borderWidth: 2,
-        },
+        // line2: {
+        //   type: "line",
+        //   xMin: 2.5,
+        //   xMax: 2.5,
+        //   borderColor: "red",
+        //   borderWidth: 2,
+        // },
       },
     },
   },
@@ -120,9 +122,12 @@ const chartData = (date1, date2) => {
 };
 
 export default function ChartPPMPage() {
-  const [month1, setMonth1] = useState("2023-04");
-  const [month2, setMonth2] = useState("2024-04");
+  const [month1, setMonth1] = useState("AsIs");
+  const [month2, setMonth2] = useState("ToBe");
   const [clickedIndex, setClickedIndex] = useState(null);
+  const [selectedCenters, setSelectedCenters] = useState(
+    centers.map((center) => center.value),
+  );
   const chartRef = useRef();
 
   useEffect(() => {
@@ -160,60 +165,44 @@ export default function ChartPPMPage() {
         )}
       </div>
       <div className="grid grid-cols-2 gap-2 h-screen">
-        <div>
-          <Card>
-            <CardHeader>
-              <CardTitle>ポートフォリオ</CardTitle>
-              <CardDescription>特定の領域に偏っていないか？</CardDescription>
-              <CardDescription>
-                最適な投下資本配分ができているか？
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 items-center gap-1 w-1/3">
-                <div>比較対象月:</div>
-                <Combobox
-                  options={[
-                    { value: "2023-04", label: "2023" },
-                    { value: "2024-04", label: "2024" },
-                  ]}
-                  initialValue={month1}
-                  onChange={(value: string) => {
-                    setMonth1(value);
-                  }}
-                />
-                <div>表示月:</div>
-                <Combobox
-                  options={[
-                    { value: "2023-04", label: "2023" },
-                    { value: "2024-04", label: "2024" },
-                  ]}
-                  initialValue={month2}
-                  onChange={(value: string) => {
-                    setMonth2(value);
-                  }}
-                />
-                <div>半径の指標:</div>
-                <Combobox
-                  options={[
-                    { value: "ic", label: "IC" },
-                    { value: "nopat", label: "NOPAT" },
-                    { value: "roic", label: "ROIC" },
-                    { value: "mp", label: "MP" },
-                  ]}
-                  initialValue={"ic"}
+        <Card>
+          <CardHeader>
+            <CardTitle>ポートフォリオ</CardTitle>
+            <CardDescription>特定の領域に偏っていないか？</CardDescription>
+            <CardDescription>
+              最適な投下資本配分ができているか？
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-6 gap-1">
+              <div>対象:</div>
+              <div className="col-span-5">
+                <MultiSelect
+                  options={centers}
+                  selected={selectedCenters}
+                  onChange={setSelectedCenters}
                 />
               </div>
-              <Bubble
-                ref={chartRef}
-                options={options}
-                data={chartData(month1, month2)}
-                onClick={onClick}
-                height={230}
+              <div>半径の指標:</div>
+              <Combobox
+                options={[
+                  { value: "ic", label: "IC" },
+                  { value: "nopat", label: "NOPAT" },
+                  { value: "roic", label: "ROIC" },
+                  { value: "mp", label: "MP" },
+                ]}
+                initialValue={"ic"}
               />
-            </CardContent>
-          </Card>
-        </div>
+            </div>
+            <Bubble
+              ref={chartRef}
+              options={options}
+              data={chartData(month1, month2)}
+              onClick={onClick}
+              height={230}
+            />
+          </CardContent>
+        </Card>
         <div className="grid gap-y-2 overflow-auto h-full">
           {clickedIndex && (
             <div className="grid gap-y-2 w-full">
