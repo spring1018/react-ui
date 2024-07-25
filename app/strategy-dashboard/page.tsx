@@ -23,7 +23,7 @@ import { TableDemo } from "./_components/action-table";
 import ICChart from "./_components/ic";
 import LineChart from "./_components/line-chart";
 import TooltipDemo from "./_components/tooltip";
-import { data as d } from "./_data/data";
+import { data } from "./_data/portfolio/data";
 
 ChartJS.register(
   LinearScale,
@@ -34,8 +34,6 @@ ChartJS.register(
   annotationPlugin,
   ChartDataLabels,
 );
-
-const data = d;
 
 const options = {
   scales: {
