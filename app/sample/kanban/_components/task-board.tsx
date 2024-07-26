@@ -3,6 +3,7 @@ import SheetForm from "@/components/molecules/SheetForm";
 import { KanbanBoard } from "@/components/organisms/KanbanBoard";
 import { Badge } from "@/components/ui/badge";
 import { CardContent, CardHeader } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { updateFormSchema } from "./formSchema";
 
@@ -37,14 +38,56 @@ const Card = (task) => (
 
 export default function TaskBoard({ items }) {
   const [form, setForm] = useState(false);
+  const [initialValues, setInitialValues] = useState({});
+  const router = useRouter();
+
+  const handleTitleClick = (body) => {
+    setInitialValues(body);
+    setForm(true);
+  };
+
+  const handleItemMove = async (item) => {
+    const task = item.active.data.current.task;
+    await fetch(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/project-management/tasks`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...task,
+          status: task.columnId,
+        }),
+      },
+    );
+  };
+
+  const handleFormSubmit = async (values) => {
+    await fetch(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/project-management/tasks`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      },
+    );
+    router.refresh();
+  };
 
   return (
     <div>
       <SheetForm
         mode="update"
         formSchema={updateFormSchema}
-        initialValues={{}}
-        handleSubmit={() => {}}
+        initialValues={{
+          ...initialValues,
+          start: new Date(initialValues.start),
+          end: new Date(initialValues.end),
+        }}
+        handleSubmit={(e) => handleFormSubmit(e)}
         open={form}
         onOpenChange={(open) => setForm(open)}
         controlled={true}
@@ -52,7 +95,8 @@ export default function TaskBoard({ items }) {
       <KanbanBoard
         defaultCols={defaultCols}
         items={items}
-        onTitleClick={() => setForm(true)}
+        onItemMove={handleItemMove}
+        onTitleClick={handleTitleClick}
         cardContent={Card}
       />
     </div>

@@ -74,7 +74,7 @@ export function TaskCard({
       })}
       {...attributes}
       {...listeners}
-      onClick={onTitleClick}
+      onClick={() => onTitleClick?.(task)}
     >
       {cardContent ? (
         cardContent(task)
