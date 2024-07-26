@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 import {
@@ -26,7 +26,13 @@ import { hasDraggableData } from "./utils";
 // export type ColumnId = (typeof defaultCols)[number]["id"];
 export type ColumnId = string;
 
-export function KanbanBoard({ defaultCols, items, onTitleClick, cardContent }) {
+export function KanbanBoard({
+  defaultCols,
+  items,
+  onItemMove,
+  onTitleClick,
+  cardContent,
+}) {
   const [columns, setColumns] = useState<Column[]>(defaultCols);
   const pickedUpTaskColumn = useRef<ColumnId | null>(null);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
@@ -34,7 +40,6 @@ export function KanbanBoard({ defaultCols, items, onTitleClick, cardContent }) {
   const [tasks, setTasks] = useState<Task[]>(items);
 
   const [activeColumn, setActiveColumn] = useState<Column | null>(null);
-
   const [activeTask, setActiveTask] = useState<Task | null>(null);
 
   const sensors = useSensors(
@@ -44,6 +49,11 @@ export function KanbanBoard({ defaultCols, items, onTitleClick, cardContent }) {
       coordinateGetter: coordinateGetter,
     }),
   );
+
+  // itemsが更新されたときにtasksを更新する
+  useEffect(() => {
+    setTasks(items);
+  }, [items]);
 
   function getDraggingTaskData(taskId: UniqueIdentifier, columnId: ColumnId) {
     const tasksInColumn = tasks.filter((task) => task.columnId === columnId);
@@ -114,6 +124,7 @@ export function KanbanBoard({ defaultCols, items, onTitleClick, cardContent }) {
         pickedUpTaskColumn.current = null;
         return;
       }
+      onItemMove({ active });
       if (
         active.data.current?.type === "Column" &&
         over.data.current?.type === "Column"
