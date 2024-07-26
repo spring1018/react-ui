@@ -1,36 +1,16 @@
-"use client";
+import CodeDisplay from "@/components/atoms/CodeDisplay";
+import DefaultForm from "./form";
 
-import { DynamicForm } from "@/components/molecules/DynamicForm";
-import * as z from "zod";
-import { priorities, statuses } from "../sheet-table/options";
-
-const formSchema = z.object({
-  id: z.string().describe({ type: "input", disabled: true }),
-  title: z
-    .string({ required_error: "Please select an email to display." })
-    .describe({ type: "input", placeholder: "title" }),
-  status: z.string().describe({
-    type: "combobox",
-    options: statuses,
-  }),
-  priority: z.string().describe({
-    type: "combobox",
-    options: priorities,
-  }),
-  hiddenField: z.string().describe({
-    type: "hidden",
-  }),
-});
-
-export default function FormPage() {
+export default async function FormPage() {
+  const body = await fetch(
+    `${process.env.NEXT_PUBLIC_APP_URL}/api/sample/utils/get-file-body?filePath=app/sample/form/form-schema.ts`,
+  )
+    .then((res) => res.json())
+    .then((res) => res.body);
   return (
-    <div className="flex justify-center">
-      <DynamicForm
-        mode="update"
-        formSchema={formSchema}
-        initialValues={{ id: "test", hiddenField: "hidden" }}
-        handleSubmit={(e) => console.log(e)}
-      />
+    <div className="grid grid-cols-2 gap-2">
+      <DefaultForm />
+      <CodeDisplay body={body} lang="ts" />
     </div>
   );
 }
