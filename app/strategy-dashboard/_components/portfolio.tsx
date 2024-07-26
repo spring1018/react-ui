@@ -20,6 +20,7 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 import { useState } from "react";
 import { Bubble } from "react-chartjs-2";
 import { centers } from "../_data/portfolio/centers";
+import TooltipDemo from "./tooltip";
 
 ChartJS.register(
   LinearScale,
@@ -33,18 +34,19 @@ ChartJS.register(
 
 export default function Portfolio({ data, setClickedIndex }) {
   const [selectedCenters, setSelectedCenters] = useState(
-    centers.map((center) => center.value),
+    centers
+      .filter((center) => center.category === "既存")
+      .map((center) => center.value),
   );
+  const [xAxes, setXAxes] = useState("売上総利益");
 
   const options = {
     scales: {
       x: {
         title: {
           display: true,
-          text: "売上総利益",
+          text: `${xAxes} (百万円)`,
         },
-        // min: 0,
-        // max: 2500000000,
         ticks: {
           display: true,
         },
@@ -55,10 +57,8 @@ export default function Portfolio({ data, setClickedIndex }) {
       y: {
         title: {
           display: true,
-          text: "売上高CAGR",
+          text: "売上高CAGR (%)",
         },
-        // min: -0.2,
-        // max: 0.2,
         ticks: {
           display: true,
         },
@@ -95,6 +95,7 @@ export default function Portfolio({ data, setClickedIndex }) {
       },
     },
   };
+
   const chartData = (data, date1, date2) => {
     const filteredData1 = data.filter((d) => d.date === date1);
     const filteredData2 = data.filter((d) => d.date === date2);
@@ -117,15 +118,20 @@ export default function Portfolio({ data, setClickedIndex }) {
       ],
     };
   };
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>ポートフォリオ</CardTitle>
-        <CardDescription>特定の領域に偏っていないか？</CardDescription>
-        <CardDescription>最適な投下資本配分ができているか？</CardDescription>
+        <div className="flex items-center">
+          <CardTitle className="flex ">ポートフォリオ</CardTitle>
+          <TooltipDemo text="グレー(AsIs): 2018~2023売上高CAGR / 2023年度の<横軸の指標>、赤(ToBe): 2024~2028売上高CAGR / 2028年度の<横軸の指標> " />
+        </div>
+        <CardDescription>
+          特定の領域に偏っていないか？最適な投下資本配分ができているか？
+        </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-6 gap-1">
+        <div className="grid grid-cols-6 gap-2 items-center">
           <div>対象:</div>
           <div className="col-span-5">
             <MultiSelect
@@ -144,11 +150,23 @@ export default function Portfolio({ data, setClickedIndex }) {
             ]}
             initialValue={"ic"}
           />
+          <div>横軸の指標:</div>
+          <Combobox
+            options={[
+              { value: "売上総利益", label: "売上総利益" },
+              { value: "限界利益", label: "限界利益" },
+              { value: "営業利益", label: "営業利益" },
+            ]}
+            initialValue={"売上総利益"}
+            onChange={(e) => setXAxes(e.value)}
+          />
         </div>
         <Bubble
           options={options}
           data={chartData(
-            data.filter((d) => selectedCenters.includes(d.label)),
+            data
+              .filter((d) => d.indicator === xAxes)
+              .filter((d) => selectedCenters.includes(d.label)),
             "AsIs",
             "ToBe",
           )}
