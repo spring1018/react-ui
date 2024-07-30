@@ -109,7 +109,10 @@ export const TaskListTable: React.FC<{
                   {expanderSymbol}
                 </div> */}
                 <div
-                  className={clsx("cursor-pointer", t.level === 2 && "pl-4")}
+                  className={clsx(
+                    "cursor-pointer hover:underline",
+                    t.level === 2 && "pl-4",
+                  )}
                   onClick={() => {
                     setUpdateFormOpen(true);
                     setUpdateInitialValues(t);
@@ -127,12 +130,14 @@ export const TaskListTable: React.FC<{
                         name: "",
                         type: "task",
                         level: 2,
+                        status: "todo",
+                        progress: 0,
                         start: new Date(),
                         end: new Date(
                           new Date().getTime() + 24 * 60 * 60 * 1000,
                         ),
-                        progress: 0,
-                        projectId: t.id,
+                        parentTaskId: t.id,
+                        projectId: t.projectId,
                       });
                     }}
                   />
