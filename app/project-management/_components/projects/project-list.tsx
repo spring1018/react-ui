@@ -38,7 +38,7 @@ export default function ProjectList({ items, departments }: ProjectListProps) {
           options={departments}
           selected={department}
           onChange={setDepartment}
-          placeholder="Select department"
+          placeholder="部署の選択"
         />
         <Combobox options={tagOptions} initialValue="tag1" />
         <Input

@@ -66,6 +66,9 @@ function MultiSelect({
           onClick={() => setOpen(!open)}
         >
           <div className="flex gap-1 flex-wrap">
+            {selected.length === 0 && (
+              <span className="text-muted-foreground">{placeholder}</span>
+            )}
             {selected.map((item) => (
               <Badge
                 variant="secondary"
