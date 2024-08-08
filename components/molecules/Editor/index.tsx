@@ -11,7 +11,12 @@ async function saveToStorage(jsonBlocks: Block[]) {
   console.log("Saving content:", jsonBlocks);
 }
 
-export default function Editor({ initialContent }: { initialContent: string }) {
+interface EditorProps {
+  initialContent: string;
+  mode?: "view" | "edit";
+}
+
+export default function Editor({ initialContent, mode = "view" }: EditorProps) {
   const parsedContent: PartialBlock[] | undefined = useMemo(() => {
     return initialContent ? JSON.parse(initialContent) : undefined;
   }, [initialContent]);
@@ -34,8 +39,10 @@ export default function Editor({ initialContent }: { initialContent: string }) {
 
   return (
     <div className="space-y-2">
-      <BlockNoteView className={"border"} editor={editor} />
-      <Button onClick={() => saveToStorage(editor.document)}>Save</Button>
+      <BlockNoteView className={"hover:border"} editor={editor} />
+      {mode === "edit" ? (
+        <Button onClick={() => saveToStorage(editor.document)}>Save</Button>
+      ) : null}
     </div>
   );
 }
