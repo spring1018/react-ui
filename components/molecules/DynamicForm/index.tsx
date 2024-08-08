@@ -77,10 +77,14 @@ export function DynamicForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         {Object.keys(schemaDescriptions).map((key) => {
           const { type, options, placeholder, disabled } =
             schemaDescriptions[key].description;
+
+          if (type === "hidden") {
+            return null;
+          }
 
           return (
             <FormField
