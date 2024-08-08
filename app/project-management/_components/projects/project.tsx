@@ -1,5 +1,6 @@
 "use client";
-import { Separator } from "@/components/ui/separator";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
 import {
   type Department,
   type Project as ProjectType,
@@ -22,40 +23,59 @@ export default function Project({
   projects,
   tasks,
   departments,
+  projectOptions,
 }: ProjectProps) {
   const [project] = useProject();
   const [viewMode] = useViewMode();
+  const [showProjectDisplay, setShowProjectDisplay] = useState(true);
+
+  const filteredTasks = tasks
+    .filter((task) => task.projectId === project.selected)
+    .sort((a, b) => {
+      if (a.sortKey < b.sortKey) return -1;
+      if (a.sortKey > b.sortKey) return 1;
+      return 0;
+    })
+    .map((task: { start: string; end: string }) => ({
+      ...(task as object),
+      start: new Date(task.start),
+      end: new Date(task.end),
+    }));
 
   return (
     <div className="flex gap-4">
       <div className="grid gap-y-2 min-w-[250px] w-[230px] fixed top-[65px] left-0 h-full bg-white shadow-lg p-4">
         <ProjectList items={projects} departments={departments} />
       </div>
-      <div className="flex-1 overflow-hidden ml-[220px] px-4">
-        <div>
-          <ProjectDisplay
-            item={projects.find((item) => item.id === project.selected)}
-          />
-          <Separator />
-          <ViewSwitcher />
-          {tasks && tasks.length > 0 ? (
-            <TaskGantt
-              viewMode={viewMode}
-              tasks={tasks
-                .sort((a, b) => {
-                  if (a.sortKey < b.sortKey) return -1;
-                  if (a.sortKey > b.sortKey) return 1;
-                  return 0;
-                })
-                .map((task: { start: string; end: string }) => ({
-                  ...(task as object),
-                  start: new Date(task.start),
-                  end: new Date(task.end),
-                }))}
-            />
+      <div className="flex overflow-hidden ml-[220px] px-4 gap-4">
+        <div className={`${showProjectDisplay ? "w-1/4" : ""}`}>
+          {showProjectDisplay ? (
+            <div className="w-[1200px]">
+              <ChevronLeft
+                className="cursor-pointer"
+                onClick={() => setShowProjectDisplay(false)}
+              />
+              <ProjectDisplay
+                item={projects.find((item) => item.id === project.selected)}
+              />
+            </div>
           ) : (
-            <p>loading...</p>
+            <div>
+              <ChevronRight
+                className="cursor-pointer"
+                onClick={() => setShowProjectDisplay(true)}
+              />
+            </div>
           )}
+        </div>
+        <div className={`${showProjectDisplay ? "w-3/4" : "w-full"} `}>
+          <ViewSwitcher />
+          <TaskGantt
+            viewMode={viewMode}
+            projects={projects}
+            tasks={filteredTasks}
+            projectOptions={projectOptions}
+          />
         </div>
       </div>
     </div>
