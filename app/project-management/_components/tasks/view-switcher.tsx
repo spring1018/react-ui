@@ -5,8 +5,8 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
 
 type ViewSwitcherProps = {
-  isChecked: boolean;
-  onViewListChange: (isChecked: boolean) => void;
+  isChecked?: boolean;
+  onViewListChange?: (isChecked: boolean) => void;
 };
 
 // Other options: ViewMode.Hour, ViewMode.QuarterDay, ViewMode.HalfDay
@@ -18,8 +18,8 @@ const viewOptions: { [key: string]: ViewMode } = {
 };
 
 export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({
-  onViewListChange,
-  isChecked,
+  onViewListChange = () => {},
+  isChecked = false,
 }) => {
   const [viewMode, setViewMode] = useViewMode();
   const [tab, setTab] = useState("Month");
