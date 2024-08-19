@@ -1,6 +1,7 @@
 import { getServerSession } from "@/app/_clients/nextAuth";
 import { AuthProvider } from "@/app/_providers/AuthProviders";
 import AuthNavBar from "@/components/molecules/AuthNavBar";
+import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
 import type { PropsWithChildren, ReactNode } from "react";
 
@@ -25,6 +26,7 @@ export default async function SiteLayout({ children }: Props) {
     <AuthProvider>
       <AuthNavBar logo={"App"} items={items} session={session} />
       <main className="py-4 px-4 flex-1 overflow-y-auto">{children}</main>
+      <Toaster />
     </AuthProvider>
     // {dialog}
   );
