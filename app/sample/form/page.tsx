@@ -1,16 +1,20 @@
-import CodeDisplay from "@/components/atoms/CodeDisplay";
-import DefaultForm from "./form";
+import { Separator } from "@/components/ui/separator";
+import CustomForm from "./custom-form";
+import ProfileForm from "./profile-form";
 
-export default async function FormPage() {
-  const body = await fetch(
-    `${process.env.NEXT_PUBLIC_APP_URL}/api/sample/utils/get-file-body?filePath=app/sample/form/form-schema.ts`,
-  )
-    .then((res) => res.json())
-    .then((res) => res.body);
+export default async function ProfilePage() {
   return (
-    <div className="grid grid-cols-2 gap-2">
-      <DefaultForm />
-      <CodeDisplay body={body} lang="ts" />
+    <div className="flex space-x-4 h-[900px]">
+      <ProfileForm />
+      <Separator orientation="vertical" />
+      <CustomForm
+        defaultValues={{
+          username: "John Doe",
+          email: "m@example.com",
+          bio: "Hello, I'm John Doe",
+          startDate: new Date(),
+        }}
+      />
     </div>
   );
 }
