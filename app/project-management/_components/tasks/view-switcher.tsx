@@ -1,10 +1,20 @@
-import { Button } from "@/components/ui/button";
 import { ViewMode } from "gantt-task-react";
 import { useViewMode } from "../hooks/use-viewmode";
+
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useState } from "react";
 
 type ViewSwitcherProps = {
   isChecked: boolean;
   onViewListChange: (isChecked: boolean) => void;
+};
+
+// Other options: ViewMode.Hour, ViewMode.QuarterDay, ViewMode.HalfDay
+const viewOptions: { [key: string]: ViewMode } = {
+  Day: ViewMode.Day,
+  Week: ViewMode.Week,
+  Month: ViewMode.Month,
+  Year: ViewMode.Year,
 };
 
 export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({
@@ -12,51 +22,23 @@ export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({
   isChecked,
 }) => {
   const [viewMode, setViewMode] = useViewMode();
+  const [tab, setTab] = useState("Month");
+
+  const handleValueChange = (value: string) => {
+    setViewMode({ selected: viewOptions[value] });
+    setTab(value);
+  };
 
   return (
     <div className="flex gap-2">
-      {/* <Button
-        className="Button"
-        onClick={() => setViewMode(ViewMode.Hour)}
-      >
-        Hour
-      </Button>
-      <Button
-        className="Button"
-        onClick={() => setViewMode(ViewMode.QuarterDay)}
-      >
-        Quarter of Day
-      </Button>
-      <Button
-        className="Button"
-        onClick={() => setViewMode(ViewMode.HalfDay)}
-      >
-        Half of Day
-      </Button> */}
-      <Button
-        variant={"outline"}
-        onClick={() => setViewMode({ selected: ViewMode.Day })}
-      >
-        Day
-      </Button>
-      <Button
-        variant={"outline"}
-        onClick={() => setViewMode({ selected: ViewMode.Week })}
-      >
-        Week
-      </Button>
-      <Button
-        variant={"outline"}
-        onClick={() => setViewMode({ selected: ViewMode.Month })}
-      >
-        Month
-      </Button>
-      <Button
-        variant={"outline"}
-        onClick={() => setViewMode({ selected: ViewMode.Year })}
-      >
-        Year
-      </Button>
+      <Tabs value={tab} onValueChange={handleValueChange}>
+        <TabsList>
+          <TabsTrigger value="Day">Day</TabsTrigger>
+          <TabsTrigger value="Week">Week</TabsTrigger>
+          <TabsTrigger value="Month">Month</TabsTrigger>
+          <TabsTrigger value="Year">Year</TabsTrigger>
+        </TabsList>
+      </Tabs>
       <div className="Switch">
         <label className="Switch_Toggle">
           <input
