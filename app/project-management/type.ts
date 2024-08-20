@@ -15,6 +15,15 @@ export type Task = {
   sortKey: string;
 };
 
+export type ProjectActivity = {
+  id: string;
+  projectId: string;
+  userId: string;
+  tag: string;
+  content: string;
+  createdAt: string;
+};
+
 export type Department = {
   value: string;
   label: string;

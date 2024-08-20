@@ -24,7 +24,7 @@ export default function Timeline({
       </div>
       <ShowMore maxHeight="120px">
         <div className="flex pl-4 gap-4">
-          <div className="mt-2 border-l-4 border-gray-400"></div>
+          <div className="mt-2 border-l-4 border-gray-400" />
           <Editor initialContent={content} />
         </div>
       </ShowMore>

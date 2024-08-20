@@ -31,6 +31,15 @@ export default async function ProjectManagementPage() {
     .then((res) => res.json())
     .then((data) => data.projects);
 
+  const activities = await fetch(
+    `${process.env.NEXT_PUBLIC_APP_URL}/api/project-management/project-activities`,
+    {
+      cache: "no-cache",
+    },
+  )
+    .then((res) => res.json())
+    .then((data) => data.projectActivities);
+
   const departments = session?.user.departments.map((department) => {
     return {
       value: department.id,
@@ -54,6 +63,7 @@ export default async function ProjectManagementPage() {
     <Project
       projects={projects}
       tasks={tasks}
+      activities={activities}
       departments={departments}
       projectOptions={projectOptions}
     />

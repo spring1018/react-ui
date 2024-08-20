@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { department } from "./project-management/departments";
+import { projectActivity } from "./project-management/project_activities";
 import { project } from "./project-management/projects";
 import { task } from "./project-management/tasks";
 import { useDepartment } from "./project-management/user_departments";
@@ -12,6 +13,7 @@ const main = async () => {
   console.log("Start seeding ...");
   await prisma.sampleTask.deleteMany();
   await prisma.task.deleteMany();
+  await prisma.projectActivity.deleteMany();
   await prisma.project.deleteMany();
   await prisma.userDepartment.deleteMany();
   await prisma.department.deleteMany();
@@ -21,6 +23,7 @@ const main = async () => {
     ...sampleTask(),
     ...project(),
     ...task(),
+    ...projectActivity(),
     ...user(),
     ...department(),
     ...useDepartment(),

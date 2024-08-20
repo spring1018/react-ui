@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/resizable";
 import {
   type Department,
+  type ProjectActivity,
   type Project as ProjectType,
   type Task,
 } from "../../type";
@@ -19,12 +20,14 @@ import ProjectList from "./project-list";
 interface ProjectProps {
   projects: ProjectType[];
   tasks: Task[];
+  activities: ProjectActivity[];
   departments: Department[];
 }
 
 export default function Project({
   projects,
   tasks,
+  activities,
   departments,
   projectOptions,
 }: ProjectProps) {
@@ -44,6 +47,14 @@ export default function Project({
       end: new Date(task.end),
     }));
 
+  const filteredActivities = activities
+    .filter((activity) => activity.projectId === project.selected)
+    .sort((a, b) => {
+      if (a.createdAt < b.createdAt) return -1;
+      if (a.createdAt > b.createdAt) return 1;
+      return 0;
+    });
+
   return (
     <ResizablePanelGroup direction="horizontal">
       <ResizablePanel
@@ -57,6 +68,7 @@ export default function Project({
       <ResizablePanel defaultSize={25} className="p-2">
         <ProjectDisplay
           item={projects.find((item) => item.id === project.selected)}
+          activities={filteredActivities}
         />
       </ResizablePanel>
       <ResizableHandle />
