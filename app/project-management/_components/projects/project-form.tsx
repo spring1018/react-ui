@@ -29,8 +29,8 @@ const projectFormSchema = z.object({
   title: z.string(),
   description: z.string(),
   status: z.string(),
-  start: z.string(),
-  end: z.string(),
+  start: z.date(),
+  end: z.date(),
   progress: z.number(),
 });
 
@@ -47,8 +47,8 @@ export default function ProjectForm({
       title: "",
       description: "",
       status: "todo",
-      start: new Date().toISOString(),
-      end: new Date().toISOString(),
+      start: new Date(),
+      end: new Date(),
       progress: 0,
       ...defaultValues,
     },
@@ -56,6 +56,7 @@ export default function ProjectForm({
   });
 
   const onSubmit = async (data: ProjectFormValues) => {
+    console.log(data);
     if (data.id === "") {
       await fetch("/api/project-management/projects", {
         method: "POST",
@@ -87,28 +88,82 @@ export default function ProjectForm({
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="status"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Status</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+        <div className="grid grid-cols-2 gap-2">
+          <FormField
+            control={form.control}
+            name="status"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Status</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a verified email to display" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="todo">ToDo</SelectItem>
+                    <SelectItem value="in progress">In Progress</SelectItem>
+                    <SelectItem value="done">Done</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="progress"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Progress</FormLabel>
                 <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a verified email to display" />
-                  </SelectTrigger>
+                  <Input placeholder="shadcn" {...field} />
                 </FormControl>
-                <SelectContent>
-                  <SelectItem value="todo">ToDo</SelectItem>
-                  <SelectItem value="in progress">In Progress</SelectItem>
-                  <SelectItem value="done">Done</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          <FormField
+            control={form.control}
+            name="start"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Start Date</FormLabel>
+                <FormControl>
+                  <DatePicker
+                    {...field}
+                    date={new Date(field.value)}
+                    setDate={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="end"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>End Date</FormLabel>
+                <FormControl>
+                  <DatePicker
+                    {...field}
+                    date={new Date(field.value)}
+                    setDate={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <FormField
           control={form.control}
           name="description"
@@ -126,54 +181,6 @@ export default function ProjectForm({
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="start"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Start Date</FormLabel>
-              <FormControl>
-                <DatePicker
-                  {...field}
-                  date={new Date(field.value)}
-                  setDate={field.onChange}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="end"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>End Date</FormLabel>
-              <FormControl>
-                <DatePicker
-                  {...field}
-                  date={new Date(field.value)}
-                  setDate={field.onChange}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="progress"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Progress</FormLabel>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
         <Button type="submit">Update project</Button>
       </form>
     </Form>

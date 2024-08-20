@@ -60,7 +60,8 @@ export default function Project({
         />
       </ResizablePanel>
       <ResizableHandle />
-      <ResizablePanel defaultSize={65} className="p-2">
+      <ResizablePanel defaultSize={65} className="p-2 space-y-2">
+        <h2>タスク</h2>
         <ViewSwitcher />
         <TaskGantt
           viewMode={viewMode}

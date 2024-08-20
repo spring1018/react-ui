@@ -8,7 +8,8 @@ interface ProjectDisplayProps {
 
 export default function ProjectDisplay({ item }: ProjectDisplayProps) {
   return (
-    <div>
+    <div className="space-y-2">
+      <h2>プロジェクト詳細</h2>
       <Tabs defaultValue="overview">
         <TabsList>
           <TabsTrigger value="overview">概要</TabsTrigger>
