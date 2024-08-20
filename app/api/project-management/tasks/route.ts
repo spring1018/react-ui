@@ -52,7 +52,10 @@ export async function POST(req: NextRequest) {
         level: body.level,
         start: body.start,
         end: body.end,
+        status: body.status,
+        description: body.description,
         progress: body.progress,
+        parentTaskId: body.parentTaskId,
         projectId: body.projectId,
       },
     });
@@ -75,7 +78,10 @@ export async function PUT(req: NextRequest) {
         level: body.level,
         start: body.start,
         end: body.end,
+        status: body.status,
+        description: body.description,
         progress: body.progress,
+        parentTaskId: body.parentTaskId,
         projectId: body.projectId,
       },
     });
