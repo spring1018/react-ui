@@ -13,6 +13,7 @@ export default async function ProfilePage() {
           email: "m@example.com",
           bio: "Hello, I'm John Doe",
           startDate: new Date(),
+          endDate: new Date(),
         }}
       />
     </div>

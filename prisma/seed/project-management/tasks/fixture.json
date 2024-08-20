@@ -6,6 +6,8 @@
     "level": 1,
     "start": "2024-07-01",
     "end": "2024-09-02",
+    "status": "in-progress",
+    "description": "Create a dashboard for the project management system",
     "progress": 45,
     "projectId": "1"
   },
@@ -16,6 +18,8 @@
     "level": 2,
     "start": "2024-07-03",
     "end": "2024-08-31",
+    "status": "todo",
+    "description": "Fix the axises of the dashboard",
     "progress": 10,
     "projectId": "1",
     "parentTaskId": "1"
@@ -25,9 +29,48 @@
     "title": "Hearing",
     "type": "task",
     "level": 1,
+    "status": "done",
+    "description": "Hearing for the project management system",
     "start": "2024-05-01",
     "end": "2024-06-02",
     "progress": 0,
     "projectId": "1"
+  },
+  {
+    "id": "4",
+    "title": "Meeting1",
+    "type": "task",
+    "level": 1,
+    "status": "in-progress",
+    "description": "Meeting for the project management system",
+    "start": "2024-05-03",
+    "end": "2024-06-01",
+    "progress": 0,
+    "projectId": "2"
+  },
+  {
+    "id": "5",
+    "title": "Meeting2",
+    "type": "task",
+    "level": 2,
+    "status": "todo",
+    "description": "Meeting for the project management system",
+    "start": "2024-05-03",
+    "end": "2024-06-01",
+    "progress": 0,
+    "projectId": "2",
+    "parentTaskId": "4"
+  },
+  {
+    "id": "6",
+    "title": "Meeting3",
+    "type": "task",
+    "level": 1,
+    "status": "done",
+    "description": "Meeting for the project management system",
+    "start": "2024-05-03",
+    "end": "2024-06-01",
+    "progress": 0,
+    "projectId": "2"
   }
 ]

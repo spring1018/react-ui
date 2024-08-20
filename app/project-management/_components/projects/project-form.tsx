@@ -11,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import Editor from "@/components/molecules/Editor";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -21,7 +22,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
 
 const projectFormSchema = z.object({
@@ -164,23 +164,13 @@ export default function ProjectForm({
             )}
           />
         </div>
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Tell us a little bit about yourself"
-                  className="resize-none"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div>
+          <FormLabel>Description</FormLabel>
+          <Editor
+            initialContent={defaultValues.description}
+            handleChange={(content) => form.setValue("description", content)}
+          />
+        </div>
         <Button type="submit">Update project</Button>
       </form>
     </Form>

@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import Editor from "@/components/molecules/Editor";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -50,6 +51,7 @@ const profileFormSchema = z
     startDate: z.date(),
     endDate: z.date(),
     project: z.string(),
+    text: z.string(),
   })
   .transform((data) => {
     return {
@@ -199,6 +201,10 @@ export default function CustomForm({
             )}
           />
         </div>
+        <Editor
+          initialContent={defaultValues.text}
+          handleChange={(content) => form.setValue("text", content)}
+        />
         <Button type="submit">Update profile</Button>
       </form>
     </Form>
