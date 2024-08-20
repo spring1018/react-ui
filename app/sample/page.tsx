@@ -1,64 +1,33 @@
 import Link from "next/link";
 
+const links = [
+  { href: "/sample/chart-clickable", label: "Chart Clickable" },
+  { href: "/sample/chart-ppm", label: "Chart PPM" },
+  { href: "/sample/editable-table", label: "Editable Table" },
+  { href: "/sample/editor", label: "Editor" },
+  { href: "/sample/form", label: "Form" },
+  { href: "/sample/kanban", label: "Kanban" },
+  { href: "/sample/resizable-layout", label: "Resizable Layout" },
+  { href: "/sample/sidebar-layout", label: "Sidebar Layout" },
+  { href: "/sample/sheet-form", label: "Sheet Form" },
+  { href: "/sample/sheet-table-with-db", label: "Sheet Table with DB" },
+  { href: "/sample/tabs", label: "Tabs" },
+  { href: "/sample/timeline", label: "Timeline" },
+];
+
 export default async function IndexPage() {
   return (
     <>
       <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
         <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
-          <Link
-            href="/sample/editable-table"
-            className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
-          >
-            Editable Table
-          </Link>
-          <Link
-            href="/sample/sheet-table-with-db"
-            className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
-          >
-            Sheet Table with DB
-          </Link>
-          <Link
-            href="/sample/chart-clickable"
-            className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
-          >
-            Chart Clickable
-          </Link>
-          <Link
-            href="/sample/chart-ppm"
-            className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
-          >
-            Chart PPM
-          </Link>
-          <Link
-            href="/sample/editor"
-            className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
-          >
-            Editor
-          </Link>
-          <Link
-            href="/sample/form"
-            className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
-          >
-            Form
-          </Link>
-          <Link
-            href="/sample/sheet-form"
-            className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
-          >
-            Sheet Form
-          </Link>
-          <Link
-            href="/sample/kanban"
-            className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
-          >
-            Kanban
-          </Link>
-          <Link
-            href="/sample/timeline"
-            className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
-          >
-            Timeline
-          </Link>
+          {links.map((link) => (
+            <Link
+              href={link.href}
+              className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
+            >
+              {link.label}
+            </Link>
+          ))}
         </div>
       </section>
     </>

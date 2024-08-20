@@ -1,4 +1,5 @@
 "use client";
+import { Separator } from "@/components/ui/separator";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import {
@@ -43,14 +44,14 @@ export default function Project({
     }));
 
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-4 h-full">
       <div className="grid gap-y-2 min-w-[250px] w-[230px] fixed top-[65px] left-0 h-full bg-white shadow-lg p-4">
         <ProjectList items={projects} departments={departments} />
       </div>
-      <div className="flex overflow-hidden ml-[220px] px-4 gap-4">
+      <div className="flex overflow-hidden ml-[220px] px-4 gap-4 h-[1000px]">
         <div className={`${showProjectDisplay ? "w-1/4" : ""}`}>
           {showProjectDisplay ? (
-            <div className="w-[1200px]">
+            <div className="w-[1200px] space-y-2">
               <ChevronLeft
                 className="cursor-pointer"
                 onClick={() => setShowProjectDisplay(false)}
@@ -68,6 +69,7 @@ export default function Project({
             </div>
           )}
         </div>
+        <Separator orientation="vertical" />
         <div className={`${showProjectDisplay ? "w-3/4" : "w-full"} `}>
           <ViewSwitcher />
           <TaskGantt
