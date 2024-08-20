@@ -35,7 +35,11 @@ export default function ProjectList({ items, departments }: ProjectListProps) {
     <div className="flex flex-col gap-4 h-full">
       <div className="flex justify-between items-center">
         <h2>プロジェクト</h2>
-        <RiAddCircleFill size={20} className="cursor-pointer" />
+        <RiAddCircleFill
+          size={20}
+          className="cursor-pointer"
+          onClick={() => setProject({ selected: "" })}
+        />
       </div>
       <div className="flex flex-col gap-y-2">
         <Combobox options={yearOptions} initialValue="2024" />

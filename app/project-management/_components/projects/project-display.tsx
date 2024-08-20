@@ -15,7 +15,7 @@ export default function ProjectDisplay({ item }: ProjectDisplayProps) {
           <TabsTrigger value="activity">活動</TabsTrigger>
         </TabsList>
         <TabsContent value="overview">
-          <ProjectForm defaultValues={item} key={item.id} />
+          <ProjectForm defaultValues={item} key={item?.id || ""} />
         </TabsContent>
         <TabsContent value="activity">
           <div>

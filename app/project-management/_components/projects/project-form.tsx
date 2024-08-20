@@ -42,7 +42,16 @@ export default function ProjectForm({
   const router = useRouter();
   const form = useForm<ProjectFormValues>({
     resolver: zodResolver(projectFormSchema),
-    defaultValues,
+    defaultValues: {
+      id: "",
+      title: "",
+      description: "",
+      status: "todo",
+      start: new Date().toISOString(),
+      end: new Date().toISOString(),
+      progress: 0,
+      ...defaultValues,
+    },
     mode: "onChange",
   });
 
@@ -91,9 +100,9 @@ export default function ProjectForm({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="todo">m@example.com</SelectItem>
-                  <SelectItem value="in progress">m@google.com</SelectItem>
-                  <SelectItem value="m@support.com">m@support.com</SelectItem>
+                  <SelectItem value="todo">ToDo</SelectItem>
+                  <SelectItem value="in progress">In Progress</SelectItem>
+                  <SelectItem value="done">Done</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
