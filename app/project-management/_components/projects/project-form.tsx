@@ -22,6 +22,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 
 const projectFormSchema = z.object({
@@ -40,6 +41,7 @@ export default function ProjectForm({
   defaultValues = {},
 }: { defaultValues?: Partial<ProjectFormValues> }) {
   const router = useRouter();
+  const { toast } = useToast();
   const form = useForm<ProjectFormValues>({
     resolver: zodResolver(projectFormSchema),
     defaultValues: {
@@ -56,18 +58,30 @@ export default function ProjectForm({
   });
 
   const onSubmit = async (data: ProjectFormValues) => {
-    console.log(data);
-    if (data.id === "") {
-      await fetch("/api/project-management/projects", {
-        method: "POST",
-        body: JSON.stringify(data),
-      });
-    } else {
-      await fetch(`/api/project-management/projects/${data.id}`, {
-        method: "PUT",
-        body: JSON.stringify(data),
-      });
+    try {
+      if (data.id === "") {
+        await fetch("/api/project-management/projects", {
+          method: "POST",
+          body: JSON.stringify(data),
+        });
+        toast({ description: "Project created successfully" });
+      } else {
+        await fetch(`/api/project-management/projects/${data.id}`, {
+          method: "PUT",
+          body: JSON.stringify(data),
+        });
+        toast({ description: "Project created successfully" });
+      }
+    } catch (error) {
+      toast({ description: "An error occurred" });
     }
+    router.refresh();
+  };
+
+  const onDelete = async (data: ProjectFormValues) => {
+    await fetch(`/api/project-management/projects/${data.id}`, {
+      method: "DELETE",
+    });
     router.refresh();
   };
 
@@ -171,7 +185,9 @@ export default function ProjectForm({
             handleChange={(content) => form.setValue("description", content)}
           />
         </div>
-        <Button type="submit">Update project</Button>
+        <div className="flex justify-start">
+          <Button type="submit">Submit</Button>
+        </div>
       </form>
     </Form>
   );
