@@ -1,7 +1,9 @@
 "use client";
-import { Separator } from "@/components/ui/separator";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
 import {
   type Department,
   type Project as ProjectType,
@@ -28,7 +30,6 @@ export default function Project({
 }: ProjectProps) {
   const [project] = useProject();
   const [viewMode] = useViewMode();
-  const [showProjectDisplay, setShowProjectDisplay] = useState(true);
 
   const filteredTasks = tasks
     .filter((task) => task.projectId === project.selected)
@@ -44,42 +45,30 @@ export default function Project({
     }));
 
   return (
-    <div className="flex gap-4 h-full">
-      <div className="grid gap-y-2 min-w-[250px] w-[230px] fixed top-[65px] left-0 h-full bg-white shadow-lg p-4">
+    <ResizablePanelGroup direction="horizontal">
+      <ResizablePanel
+        defaultSize={10}
+        minSize={10}
+        className="bg-slate-100 p-2"
+      >
         <ProjectList items={projects} departments={departments} />
-      </div>
-      <div className="flex overflow-hidden ml-[220px] px-4 gap-4 h-[1000px]">
-        <div className={`${showProjectDisplay ? "w-1/4" : ""}`}>
-          {showProjectDisplay ? (
-            <div className="w-[1200px] space-y-2">
-              <ChevronLeft
-                className="cursor-pointer"
-                onClick={() => setShowProjectDisplay(false)}
-              />
-              <ProjectDisplay
-                item={projects.find((item) => item.id === project.selected)}
-              />
-            </div>
-          ) : (
-            <div>
-              <ChevronRight
-                className="cursor-pointer"
-                onClick={() => setShowProjectDisplay(true)}
-              />
-            </div>
-          )}
-        </div>
-        <Separator orientation="vertical" />
-        <div className={`${showProjectDisplay ? "w-3/4" : "w-full"} `}>
-          <ViewSwitcher />
-          <TaskGantt
-            viewMode={viewMode}
-            projects={projects}
-            tasks={filteredTasks}
-            projectOptions={projectOptions}
-          />
-        </div>
-      </div>
-    </div>
+      </ResizablePanel>
+      <ResizableHandle />
+      <ResizablePanel defaultSize={25} className="p-2">
+        <ProjectDisplay
+          item={projects.find((item) => item.id === project.selected)}
+        />
+      </ResizablePanel>
+      <ResizableHandle />
+      <ResizablePanel defaultSize={65} className="p-2">
+        <ViewSwitcher />
+        <TaskGantt
+          viewMode={viewMode}
+          projects={projects}
+          tasks={filteredTasks}
+          projectOptions={projectOptions}
+        />
+      </ResizablePanel>
+    </ResizablePanelGroup>
   );
 }

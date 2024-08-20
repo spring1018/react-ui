@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 const items = [
-  { title: "Project", href: "/project" },
+  { title: "Project", href: "/project-management/projects" },
   { title: "Task", href: "/task" },
   { title: "Event", href: "/event" },
 ];
@@ -23,10 +23,12 @@ export default async function SiteLayout({ children }: Props) {
   const session = await getServerSession();
   return (
     <AuthProvider>
-      <AuthNavBar logo={"App"} items={items} session={session} />
-      {(session?.user && (
-        <main className="py-4 px-8 flex-1 overflow-y-auto">{children}</main>
-      )) || <div className="p-4">no session</div>}
+      <div className="flex flex-col h-screen">
+        <AuthNavBar logo={"App"} items={items} session={session} />
+        {(session?.user && (
+          <main className="pr-4 flex-1 overflow-y-auto">{children}</main>
+        )) || <div className="p-4">no session</div>}
+      </div>
     </AuthProvider>
     // {dialog}
   );

@@ -38,14 +38,24 @@ export default async function ProjectManagementPage() {
     };
   });
 
+  const projectOptions = projects.map((project) => {
+    return {
+      value: project.id,
+      label: project.title,
+    };
+  });
+
   const apiUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/project-management/tasks`;
   const tasks: Task[] = await fetch(apiUrl, { cache: "no-cache" })
     .then((res) => res.json())
     .then((data) => data.tasks);
 
   return (
-    <div>
-      <Project projects={projects} tasks={tasks} departments={departments} />
-    </div>
+    <Project
+      projects={projects}
+      tasks={tasks}
+      departments={departments}
+      projectOptions={projectOptions}
+    />
   );
 }

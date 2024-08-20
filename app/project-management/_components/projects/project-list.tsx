@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
+import { RiAddCircleFill } from "react-icons/ri";
 import { type Department, type Project } from "../../type";
 import { useProject } from "../hooks/use-project";
 
@@ -31,7 +32,11 @@ export default function ProjectList({ items, departments }: ProjectListProps) {
   const [project, setProject] = useProject();
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 h-full">
+      <div className="flex justify-between items-center">
+        <h2>プロジェクト</h2>
+        <RiAddCircleFill size={20} className="cursor-pointer" />
+      </div>
       <div className="flex flex-col gap-y-2">
         <Combobox options={yearOptions} initialValue="2024" />
         <MultiSelect
@@ -48,13 +53,13 @@ export default function ProjectList({ items, departments }: ProjectListProps) {
         />
       </div>
       <Separator />
-      <ScrollArea className="h-full">
+      <ScrollArea className="h-[90vh]">
         {items
           .filter((item) => item.title.includes(searchProject))
           .map((item) => (
             <button
               key={item.title}
-              className={`flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm w-full transition-all hover:bg-accent ${
+              className={`flex flex-col items-start gap-4 rounded-lg border p-3 text-left text-sm w-full transition-all hover:bg-accent ${
                 project.selected === item.id ? "bg-blue-200" : ""
               }`}
               onClick={() => setProject({ ...project, selected: item.id })}
