@@ -5,6 +5,7 @@ import "@blocknote/core/fonts/inter.css";
 import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
 import { useMemo } from "react";
+import "./styles.css";
 
 async function saveToStorage(jsonBlocks: Block[]) {
   console.log("Saving content:", JSON.stringify(jsonBlocks));
@@ -32,7 +33,7 @@ export default function Editor({
 
       domAttributes: {
         editor: {
-          style: "font-size: 16px;padding-inline: 40px",
+          style: "font-size: 14px;padding-inline: 40px",
         },
       },
     });
@@ -47,6 +48,7 @@ export default function Editor({
       <BlockNoteView
         className={"hover:border"}
         editor={editor}
+        data-theming-css-variables-demo // ref: https://www.blocknotejs.org/docs/styling-theming/adding-dom-attributes
         onChange={() => handleChange(JSON.stringify(editor.document))}
       />
       {mode === "edit" ? (
