@@ -43,13 +43,13 @@ export default function ProjectList({ items, departments }: ProjectListProps) {
       </div>
       <div className="flex flex-col gap-y-2">
         <Combobox options={yearOptions} initialValue="2024" />
+        <Combobox options={tagOptions} initialValue="tag1" />
         <MultiSelect
           options={departments}
           selected={department}
           onChange={setDepartment}
           placeholder="部署の選択"
         />
-        <Combobox options={tagOptions} initialValue="tag1" />
         <Input
           value={searchProject}
           onChange={(e) => setSearchProject(e.target.value)}
