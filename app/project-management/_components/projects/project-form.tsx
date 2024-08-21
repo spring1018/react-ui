@@ -94,9 +94,9 @@ export default function ProjectForm({
           name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Title</FormLabel>
+              <FormLabel>タイトル</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="タイトルの入力" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -108,14 +108,14 @@ export default function ProjectForm({
             name="status"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Status</FormLabel>
+                <FormLabel>ステータス</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a verified email to display" />
+                      <SelectValue placeholder="ステータスの選択" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -133,9 +133,9 @@ export default function ProjectForm({
             name="progress"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Progress</FormLabel>
+                <FormLabel>進捗 (%)</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input placeholder="進捗の入力" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -148,7 +148,7 @@ export default function ProjectForm({
             name="start"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Start Date</FormLabel>
+                <FormLabel>開始日</FormLabel>
                 <FormControl>
                   <DatePicker
                     {...field}
@@ -165,7 +165,7 @@ export default function ProjectForm({
             name="end"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>End Date</FormLabel>
+                <FormLabel>終了日</FormLabel>
                 <FormControl>
                   <DatePicker
                     {...field}
@@ -179,7 +179,7 @@ export default function ProjectForm({
           />
         </div>
         <div>
-          <FormLabel>Description</FormLabel>
+          <FormLabel>詳細</FormLabel>
           <Editor
             initialContent={defaultValues.description}
             handleChange={(content) => form.setValue("description", content)}
