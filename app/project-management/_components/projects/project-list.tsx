@@ -34,7 +34,7 @@ export default function ProjectList({ items, departments }: ProjectListProps) {
 
   return (
     <div className="flex flex-col gap-2 h-full">
-      <div className="flex justify-between items-center px-2">
+      <div className="flex justify-between items-center pl-6 pr-2">
         <h2>プロジェクト一覧</h2>
         <RiAddCircleFill
           size={20}

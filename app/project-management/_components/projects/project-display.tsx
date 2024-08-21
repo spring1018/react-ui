@@ -15,10 +15,10 @@ export default function ProjectDisplay({
 }: ProjectDisplayProps) {
   return (
     <div className="space-y-2 overflow-y-auto">
-      <h2>プロジェクト詳細</h2>
+      <h2 className="mx-2">プロジェクト詳細</h2>
       <ScrollArea className="h-[85vh]">
         <Tabs defaultValue="overview">
-          <TabsList>
+          <TabsList className="mx-2">
             <TabsTrigger value="overview">概要</TabsTrigger>
             <TabsTrigger value="activity">活動</TabsTrigger>
           </TabsList>

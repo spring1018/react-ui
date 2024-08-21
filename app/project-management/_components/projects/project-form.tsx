@@ -87,7 +87,7 @@ export default function ProjectForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 mx-2">
         <input type="hidden" {...form.register("id")} />
         <FormField
           control={form.control}
@@ -152,7 +152,7 @@ export default function ProjectForm({
                 <FormControl>
                   <DatePicker
                     {...field}
-                    date={new Date(field.value)}
+                    date={field.value}
                     setDate={field.onChange}
                   />
                 </FormControl>

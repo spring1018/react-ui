@@ -58,8 +58,8 @@ export default function Project({
   return (
     <ResizablePanelGroup direction="horizontal">
       <ResizablePanel
-        defaultSize={10}
-        minSize={10}
+        defaultSize={13}
+        minSize={13}
         className="bg-slate-800 text-white py-2"
       >
         <ProjectList items={projects} departments={departments} />
@@ -72,7 +72,7 @@ export default function Project({
         />
       </ResizablePanel>
       <ResizableHandle />
-      <ResizablePanel defaultSize={65} className="p-2 space-y-2">
+      <ResizablePanel defaultSize={62} className="p-2 space-y-2">
         <h2>タスク</h2>
         <ViewSwitcher />
         <TaskGantt
