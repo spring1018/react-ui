@@ -18,6 +18,7 @@ type NavItem = {
 
 interface AuthNavBarProps {
   bgColor?: string;
+  textColor?: string;
   logoIcon?: React.ReactNode;
   logoText?: string;
   items: NavItem[];
@@ -26,22 +27,28 @@ interface AuthNavBarProps {
 
 export default function AuthNavBar({
   bgColor = "bg-white",
+  textColor = "text-black",
   logoText,
   logoIcon,
   items,
   session,
 }: AuthNavBarProps) {
   return (
-    <header className={cn(bgColor, "sticky top-0 px-6 z-40")}>
-      <div className="flex h-16 items-center justify-between py-6">
-        <NavBar logoIcon={logoIcon} logoText={logoText} items={items} />
+    <header className={cn(bgColor, "sticky top-0 z-40")}>
+      <div className="flex h-16 items-center justify-between p-6">
+        <NavBar
+          textColor={textColor}
+          logoIcon={logoIcon}
+          logoText={logoText}
+          items={items}
+        />
         <div className="flex items-center gap-4 ">
           <TooltipProvider delayDuration={10}>
             <Tooltip>
               <TooltipTrigger asChild>
-                <div className="text-sm">
-                  <p>{session?.user.name}</p>
-                  <p>{session?.user.role}</p>
+                <div className={cn(textColor)}>
+                  <p className="text-sm">{session?.user.name}</p>
+                  <p className="text-xs">{session?.user.role}</p>
                 </div>
               </TooltipTrigger>
               <TooltipContent>
@@ -54,7 +61,11 @@ export default function AuthNavBar({
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          {session?.user ? <LogoutButton /> : <LoginButton />}
+          {session?.user ? (
+            <LogoutButton variant={"secondary"} />
+          ) : (
+            <LoginButton variant={"secondary"} />
+          )}
         </div>
       </div>
       <Separator />

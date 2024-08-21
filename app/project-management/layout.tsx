@@ -27,6 +27,8 @@ export default async function SiteLayout({ children }: Props) {
     <AuthProvider>
       <div className="flex flex-col h-screen">
         <AuthNavBar
+          bgColor="bg-slate-800"
+          textColor="text-white"
           logoIcon={<FaProjectDiagram />}
           logoText={"プロジェクト管理"}
           items={items}
