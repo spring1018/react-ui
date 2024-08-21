@@ -29,7 +29,15 @@ export default async function ProjectManagementPage() {
     },
   )
     .then((res) => res.json())
-    .then((data) => data.projects);
+    .then((data) =>
+      data.projects.map((project) => {
+        return {
+          ...project,
+          start: new Date(project.start),
+          end: new Date(project.end),
+        };
+      }),
+    );
 
   const activities = await fetch(
     `${process.env.NEXT_PUBLIC_APP_URL}/api/project-management/project-activities`,
