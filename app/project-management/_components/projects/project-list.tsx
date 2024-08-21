@@ -4,6 +4,7 @@ import { Combobox } from "@/components/ui/combobox";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
 import { useState } from "react";
 import { RiAddCircleFill } from "react-icons/ri";
 import { type Department, type Project } from "../../type";
@@ -61,19 +62,23 @@ export default function ProjectList({ items, departments }: ProjectListProps) {
         {items
           .filter((item) => item.title.includes(searchProject))
           .map((item) => (
-            <button
-              key={item.title}
+            <Link
+              key={item.id}
+              href={{
+                pathname: "/project-management",
+                query: { projectId: item.id },
+              }}
               className={`flex flex-col items-start gap-4 rounded-lg border p-3 text-left text-sm w-full transition-all hover:bg-accent ${
                 project.selected === item.id ? "bg-blue-200" : ""
               }`}
               onClick={() => setProject({ ...project, selected: item.id })}
             >
-              <h3>{item.title}</h3>
+              {item.title}
               <div className="flex gap-2">
                 <Badge>Tag</Badge>
                 <Badge>X%</Badge>
               </div>
-            </button>
+            </Link>
           ))}
       </ScrollArea>
     </div>
