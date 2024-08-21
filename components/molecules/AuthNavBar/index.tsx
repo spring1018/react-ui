@@ -21,6 +21,7 @@ interface AuthNavBarProps {
   textColor?: string;
   logoIcon?: React.ReactNode;
   logoText?: string;
+  logoLink?: string;
   items: NavItem[];
   session: any;
 }
@@ -30,6 +31,7 @@ export default function AuthNavBar({
   textColor = "text-black",
   logoText,
   logoIcon,
+  logoLink = "/",
   items,
   session,
 }: AuthNavBarProps) {
@@ -40,6 +42,7 @@ export default function AuthNavBar({
           textColor={textColor}
           logoIcon={logoIcon}
           logoText={logoText}
+          logoLink={logoLink}
           items={items}
         />
         <div className="flex items-center gap-4 ">

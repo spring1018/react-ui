@@ -31,6 +31,7 @@ export default async function SiteLayout({ children }: Props) {
           textColor="text-white"
           logoIcon={<FaProjectDiagram />}
           logoText={"プロジェクト管理"}
+          logoLink="/project-management"
           items={items}
           session={session}
         />

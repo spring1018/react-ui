@@ -17,6 +17,7 @@ interface NavBarProps {
   textColor?: string;
   logoIcon?: React.ReactNode;
   logoText?: string;
+  logoLink?: string;
   items?: NavItem[];
   children?: React.ReactNode;
 }
@@ -25,6 +26,7 @@ export function NavBar({
   textColor,
   logoIcon,
   logoText,
+  logoLink = "/",
   items,
   children,
 }: NavBarProps) {
@@ -34,7 +36,7 @@ export function NavBar({
   return (
     <div className="flex gap-6 md:gap-10">
       <Link
-        href="/"
+        href={logoLink || "/"}
         className={cn(textColor, "hidden items-center space-x-2 md:flex")}
       >
         {logoIcon || null}
