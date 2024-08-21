@@ -60,7 +60,7 @@ export default function Project({
       <ResizablePanel
         defaultSize={10}
         minSize={10}
-        className="bg-slate-100 p-2"
+        className="bg-slate-800 text-white py-2"
       >
         <ProjectList items={projects} departments={departments} />
       </ResizablePanel>

@@ -34,7 +34,7 @@ export default function ProjectList({ items, departments }: ProjectListProps) {
 
   return (
     <div className="flex flex-col gap-2 h-full">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center px-2">
         <h2>プロジェクト一覧</h2>
         <RiAddCircleFill
           size={20}
@@ -42,9 +42,17 @@ export default function ProjectList({ items, departments }: ProjectListProps) {
           onClick={() => setProject({ selected: "" })}
         />
       </div>
-      <div className="flex flex-col gap-y-2">
-        <Combobox options={yearOptions} initialValue="2024" />
-        <Combobox options={tagOptions} initialValue="tag1" />
+      <div className="flex flex-col gap-y-2 px-2">
+        <Combobox
+          className="text-black"
+          options={yearOptions}
+          initialValue="2024"
+        />
+        <Combobox
+          className="text-black"
+          options={tagOptions}
+          initialValue="tag1"
+        />
         <MultiSelect
           options={departments}
           selected={department}
@@ -52,34 +60,37 @@ export default function ProjectList({ items, departments }: ProjectListProps) {
           placeholder="部署の選択"
         />
         <Input
+          className="text-black"
           value={searchProject}
           onChange={(e) => setSearchProject(e.target.value)}
           placeholder="プロジェクトの検索"
         />
       </div>
       <Separator />
-      <ScrollArea className="h-[90vh]">
-        {items
-          .filter((item) => item.title.includes(searchProject))
-          .map((item) => (
-            <Link
-              key={item.id}
-              href={{
-                pathname: "/project-management",
-                query: { projectId: item.id },
-              }}
-              className={`flex flex-col items-start gap-4 rounded-lg border p-3 text-left text-sm w-full transition-all hover:bg-accent ${
-                project.selected === item.id ? "bg-blue-200" : ""
-              }`}
-              onClick={() => setProject({ ...project, selected: item.id })}
-            >
-              {item.title}
-              <div className="flex gap-2">
-                <Badge>Tag</Badge>
-                <Badge>X%</Badge>
-              </div>
-            </Link>
-          ))}
+      <ScrollArea className="h-[90vh] px-2">
+        <div className="flex flex-col gap-2">
+          {items
+            .filter((item) => item.title.includes(searchProject))
+            .map((item) => (
+              <Link
+                key={item.id}
+                href={{
+                  pathname: "/project-management",
+                  query: { projectId: item.id },
+                }}
+                className={`flex flex-col items-start gap-4 rounded-lg border p-3 text-left text-sm w-full transition-all hover:bg-slate-500 ${
+                  project.selected === item.id ? "bg-slate-300 text-black" : ""
+                }`}
+                onClick={() => setProject({ ...project, selected: item.id })}
+              >
+                {item.title}
+                <div className="flex gap-2">
+                  <Badge className="bg-slate-600">Tag</Badge>
+                  <Badge className="bg-slate-600">X%</Badge>
+                </div>
+              </Link>
+            ))}
+        </div>
       </ScrollArea>
     </div>
   );
