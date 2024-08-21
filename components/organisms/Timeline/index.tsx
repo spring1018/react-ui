@@ -2,6 +2,15 @@ import ShowMore from "@/components/atoms/ShowMore";
 import Editor from "@/components/molecules/Editor";
 import { Badge } from "@/components/ui/badge";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
 interface TimelineProps {
   userName: string;
   date: string;
@@ -18,7 +27,17 @@ export default function Timeline({
   return (
     <div>
       <div className="flex gap-4 items-center">
-        <Badge>{tag}</Badge>
+        <Dialog>
+          <DialogTrigger>
+            <Badge className="hover:cursor-pointer">{tag}</Badge>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>編集</DialogTitle>
+            </DialogHeader>
+            <DialogDescription>{content}</DialogDescription>
+          </DialogContent>
+        </Dialog>
         <h2 className="text-sm font-bold">{userName}</h2>
         <p className="text-sm text-gray-500">{date}</p>
       </div>
