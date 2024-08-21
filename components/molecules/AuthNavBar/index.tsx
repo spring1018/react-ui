@@ -18,21 +18,23 @@ type NavItem = {
 
 interface AuthNavBarProps {
   bgColor?: string;
-  logo?: string;
+  logoIcon?: React.ReactNode;
+  logoText?: string;
   items: NavItem[];
   session: any;
 }
 
 export default function AuthNavBar({
   bgColor = "bg-white",
-  logo,
+  logoText,
+  logoIcon,
   items,
   session,
 }: AuthNavBarProps) {
   return (
     <header className={cn(bgColor, "sticky top-0 px-6 z-40")}>
       <div className="flex h-16 items-center justify-between py-6">
-        <NavBar logo={logo} items={items} />
+        <NavBar logoIcon={logoIcon} logoText={logoText} items={items} />
         <div className="flex items-center gap-4 ">
           <TooltipProvider delayDuration={10}>
             <Tooltip>

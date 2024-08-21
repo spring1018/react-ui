@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 import * as React from "react";
 
-// import { Icons } from "@/components/icons"
 // import { MobileNav } from "@/components/mobile-nav";
 import { cn } from "@/lib/utils";
 
@@ -15,21 +14,22 @@ type NavItem = {
 };
 
 interface NavBarProps {
-  logo?: string;
+  logoIcon?: React.ReactNode;
+  logoText?: string;
   items?: NavItem[];
   children?: React.ReactNode;
 }
 
-export function NavBar({ logo, items, children }: NavBarProps) {
+export function NavBar({ logoIcon, logoText, items, children }: NavBarProps) {
   const segment = useSelectedLayoutSegment(); // ERROR: storybook でエラーが発生する
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
 
   return (
     <div className="flex gap-6 md:gap-10">
       <Link href="/" className="hidden items-center space-x-2 md:flex">
-        {/* <Icons.logo /> */}
+        {logoIcon || null}
         <span className="hidden font-bold sm:inline-block">
-          {logo || "Logo"}
+          {logoText || "Logo"}
         </span>
       </Link>
       {items?.length ? (

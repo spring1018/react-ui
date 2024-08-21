@@ -25,7 +25,7 @@ export default async function SiteLayout({ children }: Props) {
   const session = await getServerSession();
   return (
     <AuthProvider>
-      <AuthNavBar logo={"App"} items={items} session={session} />
+      <AuthNavBar logoText={"App"} items={items} session={session} />
       <main className="py-4 px-8 flex-1 overflow-y-auto">{children}</main>
     </AuthProvider>
     // {dialog}

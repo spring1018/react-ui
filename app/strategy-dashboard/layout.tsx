@@ -25,7 +25,7 @@ export default async function SiteLayout({ children }: Props) {
     <AuthProvider>
       <AuthNavBar
         bgColor="bg-slate-50"
-        logo={"App"}
+        logoText={"App"}
         items={items}
         session={session}
       />

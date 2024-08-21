@@ -4,6 +4,7 @@ import AuthNavBar from "@/components/molecules/AuthNavBar";
 import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
 import type { PropsWithChildren, ReactNode } from "react";
+import { FaProjectDiagram } from "react-icons/fa";
 
 export const metadata: Metadata = {
   title: "Project Management",
@@ -25,7 +26,12 @@ export default async function SiteLayout({ children }: Props) {
   return (
     <AuthProvider>
       <div className="flex flex-col h-screen">
-        <AuthNavBar logo={"App"} items={items} session={session} />
+        <AuthNavBar
+          logoIcon={<FaProjectDiagram />}
+          logoText={"プロジェクト管理"}
+          items={items}
+          session={session}
+        />
         {(session?.user && (
           <main className="pr-4 flex-1 overflow-y-auto">{children}</main>
         )) || <div className="p-4">no session</div>}

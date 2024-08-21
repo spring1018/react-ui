@@ -21,7 +21,7 @@ export default async function SiteLayout({ children }: Props) {
   return (
     <AuthProvider>
       <div className="flex flex-col h-screen">
-        <AuthNavBar logo={"App"} items={items} session={session} />
+        <AuthNavBar logoText={"App"} items={items} session={session} />
         <main className="flex-1 px-4">{children}</main>
       </div>
       <Toaster />
