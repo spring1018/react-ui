@@ -78,12 +78,12 @@ export default function ProjectList({ items, departments }: ProjectListProps) {
                   pathname: "/project-management",
                   query: { projectId: item.id },
                 }}
-                className={`flex flex-col items-start gap-4 rounded-lg border p-3 text-left text-sm w-full transition-all hover:bg-slate-500 ${
+                className={`flex flex-col items-start gap-2 rounded-lg border p-2 text-left text-sm w-full transition-all hover:bg-slate-500 ${
                   project.selected === item.id ? "bg-slate-300 text-black" : ""
                 }`}
                 onClick={() => setProject({ ...project, selected: item.id })}
               >
-                {item.title}
+                <div className="line-clamp-2">{item.title}</div>
                 <div className="flex gap-2">
                   <Badge className="bg-slate-600">Tag</Badge>
                   <Badge className="bg-slate-600">X%</Badge>
