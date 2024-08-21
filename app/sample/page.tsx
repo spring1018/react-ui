@@ -11,6 +11,7 @@ const links = [
   { href: "/sample/sidebar-layout", label: "Sidebar Layout" },
   { href: "/sample/sheet-form", label: "Sheet Form" },
   { href: "/sample/sheet-table-with-db", label: "Sheet Table with DB" },
+  { href: "/sample/table", label: "Table" },
   { href: "/sample/tabs", label: "Tabs" },
   { href: "/sample/timeline", label: "Timeline" },
 ];
