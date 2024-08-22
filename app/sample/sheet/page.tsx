@@ -1,25 +1,16 @@
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+"use client";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { ControlledSheet, NormalSheet } from "./sheet";
 
 export default function SheetPage() {
+  const [open, setOpen] = useState(false);
+
   return (
-    <Sheet>
-      <SheetTrigger>Open</SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>Are you absolutely sure?</SheetTitle>
-          <SheetDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </SheetDescription>
-        </SheetHeader>
-      </SheetContent>
-    </Sheet>
+    <div>
+      <NormalSheet />
+      <Button onClick={() => setOpen(!open)}>{open ? "Close" : "Open"}</Button>
+      <ControlledSheet open={open} handleOpenChange={setOpen} />
+    </div>
   );
 }
