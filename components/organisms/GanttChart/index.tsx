@@ -2,8 +2,8 @@
 import { Gantt, Task, ViewMode } from "gantt-task-react";
 import "gantt-task-react/dist/index.css";
 import React from "react";
-import { ViewSwitcher } from "./_components/view-switcher";
 import { getStartEndDateForProject } from "./helper";
+import { ViewSwitcher } from "./view-switcher";
 
 interface GanttChartProps {
   initTasks: Task[];
@@ -25,7 +25,7 @@ export const GanttChart = ({
 }: GanttChartProps) => {
   const [view, setView] = React.useState<ViewMode>(viewModes[viewMode]);
   const [tasks, setTasks] = React.useState<Task[]>(initTasks);
-  const [isChecked, setIsChecked] = React.useState(false);
+  const [isChecked, setIsChecked] = React.useState(true);
 
   let columnWidth = 65;
   if (view === ViewMode.Year) {

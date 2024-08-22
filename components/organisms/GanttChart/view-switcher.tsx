@@ -60,7 +60,7 @@ export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({
           htmlFor="terms"
           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
-          列を非表示
+          列を表示
         </label>
       </div>
     </div>

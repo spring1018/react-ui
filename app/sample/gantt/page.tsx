@@ -1,5 +1,5 @@
-import { GanttChart } from "./gantt";
-import { initTasks } from "./helper";
+import { GanttChart } from "@/components/organisms/GanttChart";
+import { initTasks } from "./initTasks";
 
 export default async function GanttPage() {
   return (
