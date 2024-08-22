@@ -1,3 +1,4 @@
+import { Checkbox } from "@/components/ui/checkbox";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ViewMode } from "gantt-task-react";
 import "gantt-task-react/dist/index.css";
@@ -30,7 +31,7 @@ export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({
   };
 
   return (
-    <div className="ViewContainer">
+    <div className="flex items-center gap-4">
       <Tabs value={tab} onValueChange={handleTabChange}>
         <TabsList>
           <TabsTrigger className="w-12" value="Day">
@@ -47,16 +48,18 @@ export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({
           </TabsTrigger>
         </TabsList>
       </Tabs>
-      <div className="Switch">
-        <label className="Switch_Toggle">
-          <input
-            type="checkbox"
-            defaultChecked={isChecked}
-            onClick={() => onViewListChange(!isChecked)}
-          />
-          <span className="Slider" />
+      <div className="flex items-center space-x-2">
+        <Checkbox
+          id="terms"
+          defaultChecked={isChecked}
+          onClick={() => onViewListChange(!isChecked)}
+        />
+        <label
+          htmlFor="terms"
+          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >
+          日付列を非表示
         </label>
-        Show Task List
       </div>
     </div>
   );

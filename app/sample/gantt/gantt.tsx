@@ -73,7 +73,7 @@ export const GanttChart = ({ initTasks }: GanttChartProps) => {
   };
 
   return (
-    <div>
+    <div className="space-y-2">
       <ViewSwitcher
         onViewModeChange={(viewMode) => setView(viewMode)}
         onViewListChange={setIsChecked}
