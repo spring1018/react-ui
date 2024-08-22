@@ -3,12 +3,16 @@ import { Gantt, Task, ViewMode } from "gantt-task-react";
 import "gantt-task-react/dist/index.css";
 import React from "react";
 import { getStartEndDateForProject } from "./helper";
+import { TaskListHeaderDefault } from "./task-list/task-list-header";
+import { TaskListTableDefault } from "./task-list/task-list-table";
 import { ViewSwitcher } from "./view-switcher";
 
 interface GanttChartProps {
   initTasks: Task[];
   viewDate?: Date;
   viewMode?: "Day" | "Week" | "Month" | "Year";
+  TaskListTable?: React.FC;
+  TaskListHeader?: React.FC;
 }
 
 const viewModes: { [key: string]: ViewMode } = {
@@ -22,6 +26,8 @@ export const GanttChart = ({
   initTasks,
   viewDate = new Date(),
   viewMode = "Month",
+  TaskListTable = TaskListTableDefault as React.FC,
+  TaskListHeader = TaskListHeaderDefault as React.FC,
 }: GanttChartProps) => {
   const [view, setView] = React.useState<ViewMode>(viewModes[viewMode]);
   const [tasks, setTasks] = React.useState<Task[]>(initTasks);
@@ -107,6 +113,8 @@ export const GanttChart = ({
         onExpanderClick={handleExpanderClick}
         listCellWidth={isChecked ? "155px" : ""}
         columnWidth={columnWidth}
+        TaskListTable={TaskListTable}
+        TaskListHeader={TaskListHeader}
       />
     </div>
   );
