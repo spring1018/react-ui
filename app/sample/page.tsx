@@ -6,6 +6,7 @@ const links = [
   { href: "/sample/editable-table", label: "Editable Table" },
   { href: "/sample/editor", label: "Editor" },
   { href: "/sample/form", label: "Form" },
+  { href: "/sample/gantt", label: "Gantt" },
   { href: "/sample/kanban", label: "Kanban" },
   { href: "/sample/resizable-layout", label: "Resizable Layout" },
   { href: "/sample/sidebar-layout", label: "Sidebar Layout" },
