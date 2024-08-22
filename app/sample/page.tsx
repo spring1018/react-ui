@@ -10,6 +10,7 @@ const links = [
   { href: "/sample/kanban", label: "Kanban" },
   { href: "/sample/resizable-layout", label: "Resizable Layout" },
   { href: "/sample/sidebar-layout", label: "Sidebar Layout" },
+  { href: "/sample/sheet", label: "Sheet" },
   { href: "/sample/sheet-form", label: "Sheet Form" },
   { href: "/sample/sheet-table-with-db", label: "Sheet Table with DB" },
   { href: "/sample/table", label: "Table" },
