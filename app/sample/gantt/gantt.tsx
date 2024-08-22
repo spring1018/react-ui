@@ -7,12 +7,26 @@ import { getStartEndDateForProject } from "./helper";
 
 interface GanttChartProps {
   initTasks: Task[];
+  viewDate?: Date;
+  viewMode?: string;
 }
 
-export const GanttChart = ({ initTasks }: GanttChartProps) => {
-  const [view, setView] = React.useState<ViewMode>(ViewMode.Day);
+const viewModes: { [key: string]: ViewMode } = {
+  Day: ViewMode.Day,
+  Week: ViewMode.Week,
+  Month: ViewMode.Month,
+  Year: ViewMode.Year,
+};
+
+export const GanttChart = ({
+  initTasks,
+  viewDate = new Date(),
+  viewMode = "Month",
+}: GanttChartProps) => {
+  const [view, setView] = React.useState<ViewMode>(viewModes[viewMode]);
   const [tasks, setTasks] = React.useState<Task[]>(initTasks);
   const [isChecked, setIsChecked] = React.useState(true);
+
   let columnWidth = 65;
   if (view === ViewMode.Year) {
     columnWidth = 350;
@@ -82,6 +96,7 @@ export const GanttChart = ({ initTasks }: GanttChartProps) => {
       <Gantt
         tasks={tasks}
         viewMode={view}
+        viewDate={viewDate}
         onDateChange={handleTaskChange}
         onDelete={handleTaskDelete}
         onProgressChange={handleProgressChange}
