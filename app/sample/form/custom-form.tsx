@@ -1,12 +1,9 @@
 "use client";
 
-import { DatePicker } from "@/components/ui/date-picker";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
 import Editor from "@/components/molecules/Editor";
+import { FormCombobox } from "@/components/molecules/FormCombobox";
 import { Button } from "@/components/ui/button";
+import { DatePicker } from "@/components/ui/date-picker";
 import {
   Form,
   FormControl,
@@ -25,6 +22,9 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const projects = [
   { id: 1, name: "Project 1" },
@@ -32,7 +32,14 @@ const projects = [
   { id: 3, name: "Project 3" },
 ];
 
-const profileFormSchema = z
+const languages = [
+  { label: "JavaScript", value: "javascript" },
+  { label: "TypeScript", value: "typescript" },
+  { label: "Python", value: "python" },
+  { label: "Go", value: "go" },
+];
+
+const formSchema = z
   .object({
     username: z
       .string()
@@ -51,6 +58,7 @@ const profileFormSchema = z
     startDate: z.date(),
     endDate: z.date(),
     project: z.string(),
+    language: z.string(),
     text: z.string(),
   })
   .transform((data) => {
@@ -60,19 +68,19 @@ const profileFormSchema = z
     };
   });
 
-type ProfileFormValues = z.infer<typeof profileFormSchema>;
+type FormValues = z.infer<typeof formSchema>;
 
 export default function CustomForm({
   defaultValues = {},
-}: { defaultValues?: Partial<ProfileFormValues> }) {
+}: { defaultValues?: Partial<FormValues> }) {
   const { toast } = useToast();
-  const form = useForm<ProfileFormValues>({
-    resolver: zodResolver(profileFormSchema),
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
     defaultValues,
     mode: "onChange",
   });
 
-  function onSubmit(data: ProfileFormValues) {
+  function onSubmit(data: FormValues) {
     toast({
       title: "You submitted the following values:",
       description: (
@@ -93,7 +101,7 @@ export default function CustomForm({
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder={field.name} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -173,34 +181,43 @@ export default function CustomForm({
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="project"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="project" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {projects.map((project) => (
-                      <SelectItem key={project.id} value={project.name}>
-                        {project.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
         </div>
+        <FormField
+          control={form.control}
+          name="project"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="project" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {projects.map((project) => (
+                    <SelectItem key={project.id} value={project.name}>
+                      {project.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="language"
+          render={({ field }) => (
+            <FormCombobox
+              form={form}
+              field={field}
+              formLabel="Language"
+              options={languages}
+            />
+          )}
+        />
         <Editor
           initialContent={defaultValues.text}
           handleChange={(content) => form.setValue("text", content)}

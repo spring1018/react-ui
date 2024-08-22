@@ -10,7 +10,7 @@ export default async function ProfilePage() {
       <CustomForm
         defaultValues={{
           username: "John Doe",
-          email: "m@example.com",
+          email: "m@google.com",
           bio: "Hello, I'm John Doe",
           startDate: new Date(),
           endDate: new Date(),
