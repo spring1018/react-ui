@@ -5,6 +5,7 @@ import "gantt-task-react/dist/index.css";
 import React, { useState } from "react";
 
 type ViewSwitcherProps = {
+  viewMode: string;
   isChecked: boolean;
   onViewListChange: (isChecked: boolean) => void;
   onViewModeChange: (viewMode: ViewMode) => void;
@@ -19,11 +20,12 @@ const viewOptions: { [key: string]: ViewMode } = {
 };
 
 export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({
+  viewMode,
   onViewModeChange,
   onViewListChange,
   isChecked,
 }) => {
-  const [tab, setTab] = useState("Month");
+  const [tab, setTab] = useState(viewMode);
 
   const handleTabChange = (value: string) => {
     setTab(value);
@@ -58,7 +60,7 @@ export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({
           htmlFor="terms"
           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
-          日付列を非表示
+          列を非表示
         </label>
       </div>
     </div>
