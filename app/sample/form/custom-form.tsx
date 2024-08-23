@@ -1,7 +1,7 @@
 "use client";
 
 import Editor from "@/components/molecules/Editor";
-import { FormCombobox } from "@/components/molecules/FormCombobox";
+import { FormFieldCombobox } from "@/components/molecules/FormFieldCombobox";
 import { Button } from "@/components/ui/button";
 import { DatePicker } from "@/components/ui/date-picker";
 import {
@@ -206,17 +206,11 @@ export default function CustomForm({
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="language"
-          render={({ field }) => (
-            <FormCombobox
-              form={form}
-              field={field}
-              formLabel="Language"
-              options={languages}
-            />
-          )}
+        <FormFieldCombobox
+          form={form}
+          formFieldName="language"
+          formFieldLabel="Language"
+          options={languages}
         />
         <Editor
           initialContent={defaultValues.text}
