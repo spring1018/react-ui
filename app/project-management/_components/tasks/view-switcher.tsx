@@ -33,10 +33,18 @@ export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({
     <div className="flex gap-2">
       <Tabs value={tab} onValueChange={handleValueChange}>
         <TabsList>
-          <TabsTrigger value="Day">Day</TabsTrigger>
-          <TabsTrigger value="Week">Week</TabsTrigger>
-          <TabsTrigger value="Month">Month</TabsTrigger>
-          <TabsTrigger value="Year">Year</TabsTrigger>
+          <TabsTrigger className="w-12" value="Day">
+            日
+          </TabsTrigger>
+          <TabsTrigger className="w-12" value="Week">
+            週
+          </TabsTrigger>
+          <TabsTrigger className="w-12" value="Month">
+            月
+          </TabsTrigger>
+          <TabsTrigger className="w-12" value="Year">
+            年
+          </TabsTrigger>
         </TabsList>
       </Tabs>
       <div className="Switch">

@@ -152,12 +152,15 @@ export default function TaskGantt({
         <div className="overflow-x-auto">
           <Gantt
             tasks={tasks}
-            viewDate={new Date(2024, 1, 1)}
+            viewDate={new Date()}
             viewMode={viewMode.selected}
-            TaskListHeader={TaskListHeader}
+            TaskListHeader={(props) =>
+              TaskListHeader({ ...props, hideColumns: true })
+            }
             TaskListTable={(props) =>
               TaskListTable({
                 ...props,
+                hideColumns: true,
                 setUpdateFormOpen,
                 setCreateFormOpen,
                 setUpdateInitialValues,

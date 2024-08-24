@@ -2,11 +2,12 @@ import React from "react";
 import styles from "./task-list-header.module.css";
 
 export const TaskListHeader: React.FC<{
+  hideColumns: boolean;
   headerHeight: number;
   rowWidth: string;
   fontFamily: string;
   fontSize: string;
-}> = ({ headerHeight, fontFamily, fontSize, rowWidth }) => {
+}> = ({ hideColumns, headerHeight, fontFamily, fontSize, rowWidth }) => {
   return (
     <div
       className={styles.ganttTable}
@@ -37,31 +38,35 @@ export const TaskListHeader: React.FC<{
             marginTop: headerHeight * 0.2,
           }}
         />
-        <div
-          className={styles.ganttTable_HeaderItem}
-          style={{
-            // minWidth: rowWidth,
-            minWidth: "100px",
-          }}
-        >
-          &nbsp;From
-        </div>
-        <div
-          className={styles.ganttTable_HeaderSeparator}
-          style={{
-            height: headerHeight * 0.5,
-            marginTop: headerHeight * 0.25,
-          }}
-        />
-        <div
-          className={styles.ganttTable_HeaderItem}
-          style={{
-            // minWidth: rowWidth,
-            minWidth: "100px",
-          }}
-        >
-          &nbsp;To
-        </div>
+        {!hideColumns && (
+          <>
+            <div
+              className={styles.ganttTable_HeaderItem}
+              style={{
+                // minWidth: rowWidth,
+                minWidth: "100px",
+              }}
+            >
+              &nbsp;From
+            </div>
+            <div
+              className={styles.ganttTable_HeaderSeparator}
+              style={{
+                height: headerHeight * 0.5,
+                marginTop: headerHeight * 0.25,
+              }}
+            />
+            <div
+              className={styles.ganttTable_HeaderItem}
+              style={{
+                // minWidth: rowWidth,
+                minWidth: "100px",
+              }}
+            >
+              &nbsp;To
+            </div>
+          </>
+        )}
         <div
           className={styles.ganttTable_HeaderItem}
           style={{

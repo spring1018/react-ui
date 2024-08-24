@@ -42,6 +42,7 @@ export const TaskListTable: React.FC<{
   selectedTaskId: string;
   setSelectedTask: (taskId: string) => void;
   onExpanderClick: (task: any) => void;
+  hideColumns: boolean;
 }> = ({
   rowHeight,
   rowWidth,
@@ -54,6 +55,7 @@ export const TaskListTable: React.FC<{
   setCreateFormOpen,
   setUpdateInitialValues,
   setCreateInitialValues,
+  hideColumns,
 }) => {
   const toLocaleDateString = useMemo(
     () => toLocaleDateStringFactory(locale),
@@ -144,26 +146,30 @@ export const TaskListTable: React.FC<{
                 )}
               </div>
             </div>
-            <div
-              className={styles.taskListCell}
-              style={{
-                // minWidth: rowWidth,
-                minWidth: "100px",
-                maxWidth: rowWidth,
-              }}
-            >
-              {formatDate(t.start)}
-            </div>
-            <div
-              className={styles.taskListCell}
-              style={{
-                // minWidth: rowWidth,
-                minWidth: "100px",
-                maxWidth: rowWidth,
-              }}
-            >
-              {formatDate(t.end)}
-            </div>
+            {!hideColumns && (
+              <>
+                <div
+                  className={styles.taskListCell}
+                  style={{
+                    // minWidth: rowWidth,
+                    minWidth: "100px",
+                    maxWidth: rowWidth,
+                  }}
+                >
+                  {formatDate(t.start)}
+                </div>
+                <div
+                  className={styles.taskListCell}
+                  style={{
+                    // minWidth: rowWidth,
+                    minWidth: "100px",
+                    maxWidth: rowWidth,
+                  }}
+                >
+                  {formatDate(t.end)}
+                </div>
+              </>
+            )}
             <div
               className={styles.taskListCell}
               style={{
