@@ -9,11 +9,17 @@ export default async function GanttPage() {
   )
     .then((res) => res.json())
     .then((data) =>
-      data.tasks.map((task) => ({
-        ...task,
-        start: new Date(task.start),
-        end: new Date(task.end),
-      })),
+      data.tasks
+        .map((task) => ({
+          ...task,
+          start: new Date(task.start),
+          end: new Date(task.end),
+        }))
+        .sort((a, b) => {
+          if (a.sortKey < b.sortKey) return -1;
+          if (a.sortKey > b.sortKey) return 1;
+          return 0;
+        }),
     );
 
   return (

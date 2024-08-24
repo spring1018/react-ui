@@ -73,12 +73,17 @@ export const TaskListTable: React.FC<{
                 >
                   {t.name}
                 </div>
-                {t.level === 1 && (
+                {!t.parentTaskId && (
                   <RiAddCircleFill
                     size={20}
                     className="cursor-pointer"
                     onClick={() => {
-                      setTask({ ...t, parentTaskId: t.id, selected: t.id });
+                      setTask({
+                        ...t,
+                        name: "",
+                        parentTaskId: t.id,
+                        selected: t.id,
+                      });
                       setOpen(true);
                     }}
                   />

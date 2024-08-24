@@ -200,7 +200,7 @@ export default function CustomForm({
           handleChange={(content) => form.setValue("text", content)}
         /> */}
         <div className="flex justify-between">
-          <Button type="submit">Update profile</Button>
+          <Button type="submit">保存</Button>
           <DeleteDialogButton onDelete={() => onDelete(form.getValues())} />
         </div>
       </form>

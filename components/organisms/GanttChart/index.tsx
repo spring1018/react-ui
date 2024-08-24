@@ -1,7 +1,7 @@
 "use client";
 import { Gantt, Task, ViewMode } from "gantt-task-react";
 import "gantt-task-react/dist/index.css";
-import React from "react";
+import React, { useEffect } from "react";
 import { TaskListHeaderDefault } from "./task-list/task-list-header";
 import { TaskListTableDefault } from "./task-list/task-list-table";
 import { ViewSwitcher } from "./view-switcher";
@@ -33,6 +33,10 @@ export const GanttChart = ({
   const [view, setView] = React.useState<ViewMode>(viewModes[viewMode]);
   const [tasks, setTasks] = React.useState<Task[]>(initTasks);
   const [isChecked, setIsChecked] = React.useState(true);
+
+  useEffect(() => {
+    setTasks(initTasks);
+  }, [initTasks]);
 
   let columnWidth = 65;
   if (view === ViewMode.Year) {
