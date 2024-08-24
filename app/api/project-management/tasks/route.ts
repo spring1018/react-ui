@@ -49,7 +49,6 @@ export async function POST(req: NextRequest) {
       data: {
         title: body.name,
         type: body.type,
-        level: body.level,
         start: body.start,
         end: body.end,
         status: body.status,
@@ -60,32 +59,6 @@ export async function POST(req: NextRequest) {
       },
     });
     return Response.json({ task }, { status: 201 });
-  } catch (err) {
-    return Response.json({ message: "Internal Server Error" }, { status: 500 });
-  }
-}
-
-export async function PUT(req: NextRequest) {
-  try {
-    const body = await req.json();
-    const task = await prisma.task.update({
-      where: {
-        id: body.id,
-      },
-      data: {
-        title: body.name,
-        type: body.type,
-        level: body.level,
-        start: body.start,
-        end: body.end,
-        status: body.status,
-        description: body.description,
-        progress: body.progress,
-        parentTaskId: body.parentTaskId,
-        projectId: body.projectId,
-      },
-    });
-    return Response.json({ task });
   } catch (err) {
     return Response.json({ message: "Internal Server Error" }, { status: 500 });
   }
