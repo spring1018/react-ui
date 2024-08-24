@@ -29,17 +29,21 @@ export function Gantt({ tasks }: GanttProps) {
   };
 
   const handleDateChange = async (body) => {
-    await fetch(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/project-management/tasks/${body.id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
+    try {
+      await fetch(
+        `${process.env.NEXT_PUBLIC_APP_URL}/api/project-management/tasks/${body.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
         },
-        body: JSON.stringify(body),
-      },
-    );
-    router.refresh();
+      );
+    } catch (error) {
+      console.error("Failed to update task:", error);
+      router.refresh();
+    }
   };
 
   return (

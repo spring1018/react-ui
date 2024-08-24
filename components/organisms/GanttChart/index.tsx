@@ -1,8 +1,7 @@
 "use client";
 import { Gantt, Task, ViewMode } from "gantt-task-react";
 import "gantt-task-react/dist/index.css";
-import React, { useEffect } from "react";
-import { getStartEndDateForProject } from "./helper";
+import React from "react";
 import { TaskListHeaderDefault } from "./task-list/task-list-header";
 import { TaskListTableDefault } from "./task-list/task-list-table";
 import { ViewSwitcher } from "./view-switcher";
@@ -35,11 +34,6 @@ export const GanttChart = ({
   const [tasks, setTasks] = React.useState<Task[]>(initTasks);
   const [isChecked, setIsChecked] = React.useState(true);
 
-  // initTasksが更新されたときにtasksを更新する
-  useEffect(() => {
-    setTasks(initTasks);
-  }, [initTasks]);
-
   let columnWidth = 65;
   if (view === ViewMode.Year) {
     columnWidth = 350;
@@ -50,23 +44,9 @@ export const GanttChart = ({
   }
 
   const handleTaskChange = (task: Task) => {
-    let newTasks = tasks.map((t) => (t.id === task.id ? task : t));
-    handleDateChange(task);
-    if (task.project) {
-      const [start, end] = getStartEndDateForProject(newTasks, task.project);
-      const project =
-        newTasks[newTasks.findIndex((t) => t.id === task.project)];
-      if (
-        project.start.getTime() !== start.getTime() ||
-        project.end.getTime() !== end.getTime()
-      ) {
-        const changedProject = { ...project, start, end };
-        newTasks = newTasks.map((t) =>
-          t.id === task.project ? changedProject : t,
-        );
-      }
-    }
+    const newTasks = tasks.map((t) => (t.id === task.id ? task : t));
     setTasks(newTasks);
+    handleDateChange(task);
   };
 
   const handleProgressChange = async (task: Task) => {
