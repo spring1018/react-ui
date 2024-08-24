@@ -1,7 +1,7 @@
 "use client";
 import { Gantt, Task, ViewMode } from "gantt-task-react";
 import "gantt-task-react/dist/index.css";
-import React from "react";
+import React, { useEffect } from "react";
 import { getStartEndDateForProject } from "./helper";
 import { TaskListHeaderDefault } from "./task-list/task-list-header";
 import { TaskListTableDefault } from "./task-list/task-list-table";
@@ -11,6 +11,7 @@ interface GanttChartProps {
   initTasks: Task[];
   viewDate?: Date;
   viewMode?: "Day" | "Week" | "Month" | "Year";
+  handleDateChange?: (body: any) => void;
   TaskListTable?: React.FC;
   TaskListHeader?: React.FC;
 }
@@ -26,12 +27,18 @@ export const GanttChart = ({
   initTasks,
   viewDate = new Date(),
   viewMode = "Month",
+  handleDateChange = () => {},
   TaskListTable = TaskListTableDefault as React.FC,
   TaskListHeader = TaskListHeaderDefault as React.FC,
 }: GanttChartProps) => {
   const [view, setView] = React.useState<ViewMode>(viewModes[viewMode]);
   const [tasks, setTasks] = React.useState<Task[]>(initTasks);
   const [isChecked, setIsChecked] = React.useState(true);
+
+  // initTasksが更新されたときにtasksを更新する
+  useEffect(() => {
+    setTasks(initTasks);
+  }, [initTasks]);
 
   let columnWidth = 65;
   if (view === ViewMode.Year) {
@@ -43,8 +50,8 @@ export const GanttChart = ({
   }
 
   const handleTaskChange = (task: Task) => {
-    console.log("On date change Id:" + task.id);
     let newTasks = tasks.map((t) => (t.id === task.id ? task : t));
+    handleDateChange(task);
     if (task.project) {
       const [start, end] = getStartEndDateForProject(newTasks, task.project);
       const project =
@@ -62,34 +69,8 @@ export const GanttChart = ({
     setTasks(newTasks);
   };
 
-  const handleTaskDelete = (task: Task) => {
-    const conf = window.confirm("Are you sure about " + task.name + " ?");
-    if (conf) {
-      setTasks(tasks.filter((t) => t.id !== task.id));
-    }
-    return conf;
-  };
-
   const handleProgressChange = async (task: Task) => {
     setTasks(tasks.map((t) => (t.id === task.id ? task : t)));
-    console.log("On progress change Id:" + task.id);
-  };
-
-  const handleDblClick = (task: Task) => {
-    alert("On Double Click event Id:" + task.id);
-  };
-
-  const handleClick = (task: Task) => {
-    console.log("On Click event Id:" + task.id);
-  };
-
-  const handleSelect = (task: Task, isSelected: boolean) => {
-    console.log(task.name + " has " + (isSelected ? "selected" : "unselected"));
-  };
-
-  const handleExpanderClick = (task: Task) => {
-    setTasks(tasks.map((t) => (t.id === task.id ? task : t)));
-    console.log("On expander click Id:" + task.id);
   };
 
   return (
@@ -105,12 +86,7 @@ export const GanttChart = ({
         viewMode={view}
         viewDate={viewDate}
         onDateChange={handleTaskChange}
-        onDelete={handleTaskDelete}
         onProgressChange={handleProgressChange}
-        onDoubleClick={handleDblClick}
-        onClick={handleClick}
-        onSelect={handleSelect}
-        onExpanderClick={handleExpanderClick}
         listCellWidth={isChecked ? "155px" : ""}
         columnWidth={columnWidth}
         TaskListTable={TaskListTable}
