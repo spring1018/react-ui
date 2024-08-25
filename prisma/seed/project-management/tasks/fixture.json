@@ -5,7 +5,7 @@
     "type": "task",
     "start": "2024-07-01",
     "end": "2024-09-02",
-    "status": "in-progress",
+    "status": "in progress",
     "description": "Create a dashboard for the project management system",
     "progress": 45,
     "projectId": "1"
@@ -37,7 +37,7 @@
     "id": "4",
     "title": "Meeting1",
     "type": "task",
-    "status": "in-progress",
+    "status": "in progress",
     "description": "Meeting for the project management system",
     "start": "2024-05-03",
     "end": "2024-06-01",

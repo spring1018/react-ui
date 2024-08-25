@@ -10,6 +10,7 @@ interface GanttChartProps {
   initTasks: Task[];
   viewDate?: Date;
   viewMode?: "Day" | "Week" | "Month" | "Year";
+  ganttHeight?: number;
   handleDateChange?: (body: any) => void;
   TaskListTable?: React.FC;
   TaskListHeader?: React.FC;
@@ -26,6 +27,7 @@ export const GanttChart = ({
   initTasks,
   viewDate = new Date(),
   viewMode = "Month",
+  ganttHeight = 500,
   handleDateChange = () => {},
   TaskListTable = TaskListTableDefault as React.FC,
   TaskListHeader = TaskListHeaderDefault as React.FC,
@@ -73,6 +75,7 @@ export const GanttChart = ({
         onProgressChange={handleProgressChange}
         listCellWidth={isChecked ? "155px" : ""}
         columnWidth={columnWidth}
+        ganttHeight={ganttHeight}
         TaskListTable={TaskListTable}
         TaskListHeader={TaskListHeader}
       />

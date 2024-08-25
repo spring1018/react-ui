@@ -48,11 +48,15 @@ export function Gantt({ tasks }: GanttProps) {
 
   return (
     <div className="p-2 space-y-2">
-      <Button onClick={handleClick}>新規登録</Button>
+      <div className="flex gap-2">
+        <Button onClick={handleClick}>親タスクの登録</Button>
+        <Button onClick={() => router.refresh()}>表示順序の更新</Button>
+      </div>
       <GanttChart
         initTasks={tasks}
         viewDate={new Date("2024-07-01")}
         viewMode="Week"
+        ganttHeight={750}
         handleDateChange={handleDateChange}
         // @ts-ignore
         TaskListTable={(props) => TaskListTable({ ...props, setOpen })}
