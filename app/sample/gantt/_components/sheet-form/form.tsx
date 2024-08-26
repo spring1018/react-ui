@@ -128,13 +128,13 @@ export default function CustomForm({
         <FormFieldInput
           form={form}
           formFieldName="name"
-          formFieldLabel="Name"
+          formFieldLabel="タイトル"
         />
         <div className="grid grid-cols-2 gap-4">
           <FormFieldSelect
             form={form}
             formFieldName="status"
-            formFieldLabel="Status"
+            formFieldLabel="ステータス"
             options={statuses}
             defaultValue={defaultValues.status}
           />
@@ -156,7 +156,7 @@ export default function CustomForm({
           <FormFieldSelect
             form={form}
             formFieldName="type"
-            formFieldLabel="Type"
+            formFieldLabel="タスクタイプ"
             options={[
               { label: "Task", value: "task" },
               { label: "Milestone", value: "milestone" },
@@ -169,18 +169,18 @@ export default function CustomForm({
           <FormFieldDatePicker
             form={form}
             formFieldName="start"
-            formFieldLabel="Start Date"
+            formFieldLabel="開始日"
           />
           <FormFieldDatePicker
             form={form}
             formFieldName="end"
-            formFieldLabel="End Date"
+            formFieldLabel="終了日"
           />
         </div>
         <FormFieldCombobox
           form={form}
           formFieldName="parentTaskId"
-          formFieldLabel="Parent Task"
+          formFieldLabel="親タスク"
           options={tasks
             .filter((task) => !task.parentTaskId)
             .map((task) => ({
@@ -191,7 +191,7 @@ export default function CustomForm({
         <FormFieldTextArea
           form={form}
           formFieldName="description"
-          formFieldLabel="Description"
+          formFieldLabel="詳細"
         />
         {/* <FormField
           control={form.control}
@@ -211,7 +211,9 @@ export default function CustomForm({
           handleChange={(content) => form.setValue("text", content)}
         /> */}
         <div className="flex justify-between">
-          <Button type="submit">保存</Button>
+          <Button type="submit" className="w-32">
+            保存
+          </Button>
           <DeleteDialogButton onDelete={() => onDelete(form.getValues())} />
         </div>
       </form>

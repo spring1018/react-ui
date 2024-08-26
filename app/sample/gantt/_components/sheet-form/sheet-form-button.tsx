@@ -31,7 +31,7 @@ export function SheetForm({
         <SheetTrigger>Open</SheetTrigger>
         <SheetContent className="min-w-[500px]">
           <SheetHeader>
-            <SheetTitle>Form</SheetTitle>
+            <SheetTitle>フォーム</SheetTitle>
             <SheetDescription />
           </SheetHeader>
           <CustomForm

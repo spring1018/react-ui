@@ -27,7 +27,11 @@ export const FormFieldTextArea = ({
         <FormItem>
           <FormLabel>{formFieldLabel}</FormLabel>
           <FormControl>
-            <Textarea placeholder="" className="resize-none" {...field} />
+            <Textarea
+              placeholder=""
+              className="resize-none min-h-[300px]"
+              {...field}
+            />
           </FormControl>
           <FormMessage />
         </FormItem>

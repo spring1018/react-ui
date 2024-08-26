@@ -60,6 +60,7 @@ export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({
               { label: "進行中", value: "in progress" },
               { label: "未着手", value: "todo" },
             ]}
+            placeholder="ステータスを選択"
             selected={filterStatuses}
             onChange={(value) => setFilterStatuses(value)}
           />
