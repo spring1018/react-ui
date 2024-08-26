@@ -25,14 +25,14 @@ import { z } from "zod";
 const taskFormSchema = z.object({
   id: z.string(),
   name: z.string(),
+  status: z.string(),
+  progress: z.number(),
   type: z.string(),
   start: z.date(),
   end: z.date(),
-  status: z.string(),
-  description: z.string().optional(),
-  progress: z.number().optional(),
-  projectId: z.string(),
   parentTaskId: z.string().nullish(),
+  description: z.string().optional(),
+  projectId: z.string(),
 });
 
 type TaskFormValues = z.infer<typeof taskFormSchema>;
@@ -66,7 +66,7 @@ export default function CustomForm({
       progress: 0,
       status: "todo",
       description: "",
-      // projectId: "1",
+      projectId: "1", // necessary to set a default value in sample
       ...defaultValues,
     },
     mode: "onChange",
