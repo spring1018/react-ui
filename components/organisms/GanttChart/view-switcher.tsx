@@ -46,14 +46,14 @@ export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({
 
   return (
     <div className="flex justify-between items-center gap-4">
-      <div className="flex basis-2/3 items-center space-x-4">
+      <div className="flex basis-3/4 items-center space-x-4">
         <Input
           type="text"
           placeholder="タイトルを検索"
-          className="w-[300px] h-11"
+          className="w-[250px] h-11"
           onChange={(e) => setSearchText(e.target.value)}
         />
-        <div className="w-[300px]">
+        <div className="w-[320px]">
           <MultiSelect
             options={[
               { label: "完了", value: "done" },

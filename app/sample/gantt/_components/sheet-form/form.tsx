@@ -136,7 +136,6 @@ export default function CustomForm({
             formFieldName="status"
             formFieldLabel="ステータス"
             options={statuses}
-            defaultValue={defaultValues.status}
           />
           <FormField
             control={form.control}
@@ -161,7 +160,6 @@ export default function CustomForm({
               { label: "Task", value: "task" },
               { label: "Milestone", value: "milestone" },
             ]}
-            defaultValue={defaultValues.type}
           />
           <div>担当者</div>
         </div>

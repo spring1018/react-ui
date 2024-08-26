@@ -24,7 +24,6 @@ interface FormFieldSelectProps<T extends FieldValues> {
   formFieldName: string;
   formFieldLabel: string;
   options: option[];
-  defaultValue?: string;
 }
 
 export const FormFieldSelect = ({
@@ -32,7 +31,6 @@ export const FormFieldSelect = ({
   formFieldName,
   formFieldLabel,
   options,
-  defaultValue,
 }: FormFieldSelectProps<FieldValues>) => {
   return (
     <FormField
@@ -41,10 +39,10 @@ export const FormFieldSelect = ({
       render={({ field }) => (
         <FormItem>
           <FormLabel>{formFieldLabel}</FormLabel>
-          <Select onValueChange={field.onChange} defaultValue={defaultValue}>
+          <Select onValueChange={field.onChange} defaultValue={field.value}>
             <FormControl>
               <SelectTrigger>
-                <SelectValue placeholder="Select a verified email to display" />
+                <SelectValue placeholder="ステータスを選択" />
               </SelectTrigger>
             </FormControl>
             <SelectContent>
