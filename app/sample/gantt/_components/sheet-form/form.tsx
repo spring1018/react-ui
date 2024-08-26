@@ -5,6 +5,7 @@ import { FormFieldCombobox } from "@/components/molecules/FormFieldCombobox";
 import { FormFieldDatePicker } from "@/components/molecules/FormFieldDatePicker";
 import { FormFieldInput } from "@/components/molecules/FormFieldInput";
 import { FormFieldSelect } from "@/components/molecules/FormFieldSelect";
+import { FormFieldTextArea } from "@/components/molecules/FormFieldTextArea";
 // import Editor from "@/components/molecules/Editor";
 import { Button } from "@/components/ui/button";
 import {
@@ -65,7 +66,7 @@ export default function CustomForm({
       progress: 0,
       status: "todo",
       description: "",
-      projectId: "1",
+      // projectId: "1",
       ...defaultValues,
     },
     mode: "onChange",
@@ -81,7 +82,11 @@ export default function CustomForm({
             body: JSON.stringify(data),
           },
         );
-        toast({ description: "Task updated successfully" });
+        // toast({ description: "Task updated successfully" });
+        toast({
+          title: "Success",
+          description: <pre>{JSON.stringify(data, null, 2)}</pre>,
+        });
       } else {
         await fetch(
           `${process.env.NEXT_PUBLIC_APP_URL}/api/project-management/tasks`,
@@ -90,7 +95,11 @@ export default function CustomForm({
             body: JSON.stringify(data),
           },
         );
-        toast({ description: "Task created successfully" });
+        // toast({ description: "Task created successfully" });
+        toast({
+          title: "Success",
+          description: <pre>{JSON.stringify(data, null, 2)}</pre>,
+        });
       }
     } catch (error) {
       toast({ description: "An error occurred" });
@@ -122,18 +131,39 @@ export default function CustomForm({
           formFieldLabel="Name"
         />
         <div className="grid grid-cols-2 gap-4">
-          <FormFieldInput
-            form={form}
-            formFieldName="type"
-            formFieldLabel="Type"
-          />
           <FormFieldSelect
             form={form}
             formFieldName="status"
             formFieldLabel="Status"
             options={statuses}
-            defaultValue="todo"
+            defaultValue={defaultValues.status}
           />
+          <FormField
+            control={form.control}
+            name="progress"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>進捗 (%)</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <FormFieldSelect
+            form={form}
+            formFieldName="type"
+            formFieldLabel="Type"
+            options={[
+              { label: "Task", value: "task" },
+              { label: "Milestone", value: "milestone" },
+            ]}
+            defaultValue={defaultValues.type}
+          />
+          <div>担当者</div>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <FormFieldDatePicker
@@ -151,38 +181,19 @@ export default function CustomForm({
           form={form}
           formFieldName="parentTaskId"
           formFieldLabel="Parent Task"
-          options={tasks.map((task) => ({
-            label: task.name,
-            value: task.id,
-          }))}
+          options={tasks
+            .filter((task) => !task.parentTaskId)
+            .map((task) => ({
+              label: task.name,
+              value: task.id,
+            }))}
         />
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>詳細</FormLabel>
-              <FormControl>
-                <Input placeholder="詳細の入力" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+        <FormFieldTextArea
+          form={form}
+          formFieldName="description"
+          formFieldLabel="Description"
         />
-        <FormField
-          control={form.control}
-          name="progress"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>進捗 (%)</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
+        {/* <FormField
           control={form.control}
           name="projectId"
           render={({ field }) => (
@@ -194,7 +205,7 @@ export default function CustomForm({
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
         {/* <Editor
           initialContent={defaultValues.text}
           handleChange={(content) => form.setValue("text", content)}

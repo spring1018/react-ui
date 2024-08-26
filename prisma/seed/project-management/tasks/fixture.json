@@ -36,7 +36,7 @@
   {
     "id": "4",
     "title": "Meeting1",
-    "type": "task",
+    "type": "milestone",
     "status": "in progress",
     "description": "Meeting for the project management system",
     "start": "2024-05-03",

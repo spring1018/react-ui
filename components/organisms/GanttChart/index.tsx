@@ -1,7 +1,7 @@
 "use client";
 import { Gantt, Task, ViewMode } from "gantt-task-react";
 import "gantt-task-react/dist/index.css";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { TaskListHeaderDefault } from "./task-list/task-list-header";
 import { TaskListTableDefault } from "./task-list/task-list-table";
 import { ViewSwitcher } from "./view-switcher";
@@ -32,13 +32,27 @@ export const GanttChart = ({
   TaskListTable = TaskListTableDefault as React.FC,
   TaskListHeader = TaskListHeaderDefault as React.FC,
 }: GanttChartProps) => {
-  const [view, setView] = React.useState<ViewMode>(viewModes[viewMode]);
-  const [tasks, setTasks] = React.useState<Task[]>(initTasks);
-  const [isChecked, setIsChecked] = React.useState(true);
+  const [view, setView] = useState<ViewMode>(viewModes[viewMode]);
+  const [tasks, setTasks] = useState<Task[]>(initTasks);
+  const [searchText, setSearchText] = useState("");
+  const [filterStatuses, setFilterStatuses] = useState<string[]>([
+    "todo",
+    "in progress",
+    "done",
+  ]);
+  const [isChecked, setIsChecked] = useState(true);
+  const [onlyParentTasks, setOnlyParentTasks] = useState(false);
 
   useEffect(() => {
     setTasks(initTasks);
   }, [initTasks]);
+
+  const filteredTasks = tasks
+    .filter((task) => (onlyParentTasks ? !task.parentTaskId : true))
+    .filter((task) => (searchText ? task.name.includes(searchText) : true))
+    .filter((task) =>
+      filterStatuses.length > 0 ? filterStatuses.includes(task.status) : true,
+    );
 
   let columnWidth = 65;
   if (view === ViewMode.Year) {
@@ -65,20 +79,29 @@ export const GanttChart = ({
         viewMode={viewMode}
         onViewModeChange={(viewMode) => setView(viewMode)}
         onViewListChange={setIsChecked}
+        setSearchText={setSearchText}
+        filterStatuses={filterStatuses}
+        setFilterStatuses={setFilterStatuses}
         isChecked={isChecked}
+        onlyParentTasks={onlyParentTasks}
+        setOnlyParentTasks={setOnlyParentTasks}
       />
-      <Gantt
-        tasks={tasks}
-        viewMode={view}
-        viewDate={viewDate}
-        onDateChange={handleTaskChange}
-        onProgressChange={handleProgressChange}
-        listCellWidth={isChecked ? "155px" : ""}
-        columnWidth={columnWidth}
-        ganttHeight={ganttHeight}
-        TaskListTable={TaskListTable}
-        TaskListHeader={TaskListHeader}
-      />
+      {filteredTasks.length > 0 ? (
+        <Gantt
+          tasks={filteredTasks}
+          viewMode={view}
+          viewDate={viewDate}
+          onDateChange={handleTaskChange}
+          onProgressChange={handleProgressChange}
+          listCellWidth={isChecked ? "155px" : ""}
+          columnWidth={columnWidth}
+          ganttHeight={filteredTasks.length < 12 ? 0 : ganttHeight}
+          TaskListTable={TaskListTable}
+          TaskListHeader={TaskListHeader}
+        />
+      ) : (
+        <div className="p-4 text-gray-500">No items found</div>
+      )}
     </div>
   );
 };
