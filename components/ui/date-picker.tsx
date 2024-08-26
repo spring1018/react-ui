@@ -10,12 +10,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import * as PopoverPrimitive from "@radix-ui/react-popover";
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
 
-// Calendar を選択すると Popover が閉じるようにする
-const PopoverClose = PopoverPrimitive.PopoverClose;
-
+// デフォルトの実装では日付を選択しても Popover が閉じない
+// 以下の対応を行うことで、日付を選択すると Popover が閉じるようになる
+// ref: https://github.com/shadcn-ui/ui/issues/901#issuecomment-1703947695
 export const DatePicker = forwardRef<
   HTMLDivElement,
   {
@@ -23,8 +22,9 @@ export const DatePicker = forwardRef<
     setDate: (date?: Date) => void;
   }
 >(function DatePickerCmp({ date, setDate }, ref) {
+  const [open, setOpen] = useState(false);
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant={"outline"}
@@ -38,14 +38,16 @@ export const DatePicker = forwardRef<
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" ref={ref}>
-        <PopoverClose>
-          <Calendar
-            mode="single"
-            selected={date}
-            onSelect={setDate}
-            initialFocus
-          />
-        </PopoverClose>
+        <Calendar
+          mode="single"
+          selected={date}
+          defaultMonth={date || new Date()} // デフォルトでは今日の日付をもとに表示されるため
+          onSelect={(date) => {
+            setDate(date);
+            setOpen(false);
+          }}
+          initialFocus
+        />
       </PopoverContent>
     </Popover>
   );
