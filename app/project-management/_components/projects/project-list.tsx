@@ -84,9 +84,9 @@ export default function ProjectList({ items, departments }: ProjectListProps) {
                 onClick={() => setProject({ ...project, selected: item.id })}
               >
                 <div className="line-clamp-2">{item.title}</div>
-                <div className="flex gap-2">
+                <div className="flex w-full items-center gap-2">
                   <Badge className="bg-slate-600">Tag</Badge>
-                  <Badge className="bg-slate-600">X%</Badge>
+                  <Badge className="bg-slate-600">{item.progress}%</Badge>
                 </div>
               </Link>
             ))}
