@@ -129,6 +129,7 @@ export default function ProjectForm({
         <div>
           <FormLabel>詳細</FormLabel>
           <Editor
+            mode="edit"
             initialContent={defaultValues.description}
             handleChange={(content) => form.setValue("description", content)}
           />

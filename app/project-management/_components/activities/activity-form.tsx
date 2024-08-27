@@ -116,6 +116,7 @@ export default function ActivityForm({
         <div>
           <FormLabel>詳細</FormLabel>
           <Editor
+            mode="edit"
             initialContent={defaultValues.content}
             handleChange={(content) => form.setValue("content", content)}
           />

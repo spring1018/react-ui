@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { Block, BlockNoteEditor, PartialBlock } from "@blocknote/core";
 import "@blocknote/core/fonts/inter.css";
 import { BlockNoteView } from "@blocknote/mantine";
@@ -13,15 +12,15 @@ async function saveToStorage(jsonBlocks: Block[]) {
 }
 
 interface EditorProps {
-  initialContent: string;
   mode?: "view" | "edit";
-  handleChange?: () => void;
+  initialContent?: string;
+  handleChange?: (content: string) => void;
 }
 
 export default function Editor({
-  initialContent,
   mode = "view",
-  handleChange,
+  initialContent = "",
+  handleChange = () => {},
 }: EditorProps) {
   const parsedContent: PartialBlock[] | undefined = useMemo(() => {
     return initialContent ? JSON.parse(initialContent) : undefined;
@@ -49,11 +48,12 @@ export default function Editor({
         className={"hover:border"}
         editor={editor}
         data-theming-css-variables-demo // ref: https://www.blocknotejs.org/docs/styling-theming/adding-dom-attributes
+        editable={mode === "edit"}
         onChange={() => handleChange(JSON.stringify(editor.document))}
       />
-      {mode === "edit" ? (
+      {/* {mode === "edit" ? (
         <Button onClick={() => saveToStorage(editor.document)}>Save</Button>
-      ) : null}
+      ) : null} */}
     </div>
   );
 }
