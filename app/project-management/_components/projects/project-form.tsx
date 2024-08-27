@@ -1,5 +1,5 @@
 "use client";
-
+import { DeleteDialogButton } from "@/components/molecules/DeleteDialog";
 import { FormFieldDatePicker } from "@/components/molecules/FormFieldDatePicker";
 import { FormFieldInput } from "@/components/molecules/FormFieldInput";
 import { FormFieldSelect } from "@/components/molecules/FormFieldSelect";
@@ -73,10 +73,18 @@ export default function ProjectForm({
   };
 
   const onDelete = async (data: ProjectFormValues) => {
-    await fetch(`/api/project-management/projects/${data.id}`, {
-      method: "DELETE",
-    });
-    router.refresh();
+    setIsLoading(true);
+    try {
+      await fetch(`/api/project-management/projects/${data.id}`, {
+        method: "DELETE",
+      });
+      toast({ description: "Project deleted successfully" });
+    } catch (error) {
+      toast({ description: "An error occurred" });
+    } finally {
+      setIsLoading(false);
+      router.push("/project-management");
+    }
   };
 
   return (
@@ -125,10 +133,14 @@ export default function ProjectForm({
             handleChange={(content) => form.setValue("description", content)}
           />
         </div>
-        <div className="flex justify-start">
+        <div className="flex justify-between">
           <Button type="submit" disabled={isLoading}>
             {isLoading ? <Loader2 /> : "保存"}
           </Button>
+          <DeleteDialogButton
+            onDelete={() => onDelete(form.getValues())}
+            disabled={isLoading}
+          />
         </div>
       </form>
     </Form>

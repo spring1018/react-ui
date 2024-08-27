@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -217,7 +218,10 @@ export default function CustomForm({
           <Button type="submit" disabled={isLoading}>
             {isLoading ? <Loader2 /> : "保存"}
           </Button>
-          <DeleteDialogButton onDelete={() => onDelete(form.getValues())} />
+          <DeleteDialogButton
+            onDelete={() => onDelete(form.getValues())}
+            disabled={isLoading}
+          />
         </div>
       </form>
     </Form>
