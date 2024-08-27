@@ -30,7 +30,7 @@ const taskFormSchema = z.object({
   end: z.date(),
   status: z.string(),
   description: z.string().optional(),
-  progress: z.number().optional(),
+  progress: z.coerce.number().int().min(0).max(100),
   projectId: z.string(),
   parentTaskId: z.string().nullish(),
 });
