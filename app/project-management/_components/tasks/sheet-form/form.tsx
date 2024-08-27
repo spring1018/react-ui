@@ -1,5 +1,4 @@
 "use client";
-
 import { DeleteDialogButton } from "@/components/molecules/DeleteDialog";
 import { FormFieldCombobox } from "@/components/molecules/FormFieldCombobox";
 import { FormFieldDatePicker } from "@/components/molecules/FormFieldDatePicker";
@@ -19,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -55,6 +55,7 @@ export default function CustomForm({
   handleSubmit,
 }: CustomFormProps) {
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false); // ローディング状態を管理
   const form = useForm<TaskFormValues>({
     resolver: zodResolver(taskFormSchema),
     defaultValues: {
@@ -72,6 +73,7 @@ export default function CustomForm({
   });
 
   const onSubmit = async (data: TaskFormValues) => {
+    setIsLoading(true); // Submit開始時にローディング状態にする
     try {
       if (data.id) {
         await fetch(
@@ -102,6 +104,8 @@ export default function CustomForm({
       }
     } catch (error) {
       toast({ description: "An error occurred" });
+    } finally {
+      setIsLoading(false); // Submit完了後にローディング状態を解除
     }
     handleSubmit();
   };
@@ -210,8 +214,8 @@ export default function CustomForm({
           handleChange={(content) => form.setValue("text", content)}
         /> */}
         <div className="flex justify-between">
-          <Button type="submit" className="w-32">
-            保存
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? <Loader2 /> : "保存"}
           </Button>
           <DeleteDialogButton onDelete={() => onDelete(form.getValues())} />
         </div>
