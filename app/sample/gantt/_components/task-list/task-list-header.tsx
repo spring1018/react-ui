@@ -2,12 +2,12 @@ import React from "react";
 import styles from "./task-list-header.module.css";
 
 export const TaskListHeader: React.FC<{
-  hideColumns: boolean;
   headerHeight: number;
   rowWidth: string;
   fontFamily: string;
   fontSize: string;
-}> = ({ hideColumns, headerHeight, fontFamily, fontSize, rowWidth }) => {
+  visibleListCell: boolean;
+}> = ({ headerHeight, fontFamily, fontSize, rowWidth, visibleListCell }) => {
   return (
     <div
       className={styles.ganttTable}
@@ -38,7 +38,7 @@ export const TaskListHeader: React.FC<{
             marginTop: headerHeight * 0.2,
           }}
         />
-        {!hideColumns && (
+        {!visibleListCell && (
           <>
             <div
               className={styles.ganttTable_HeaderItem}
@@ -65,17 +65,17 @@ export const TaskListHeader: React.FC<{
             >
               &nbsp;To
             </div>
+            <div
+              className={styles.ganttTable_HeaderItem}
+              style={{
+                // minWidth: rowWidth,
+                minWidth: "100px",
+              }}
+            >
+              &nbsp;Progress
+            </div>
           </>
         )}
-        <div
-          className={styles.ganttTable_HeaderItem}
-          style={{
-            // minWidth: rowWidth,
-            minWidth: "100px",
-          }}
-        >
-          &nbsp;Progress
-        </div>
       </div>
     </div>
   );

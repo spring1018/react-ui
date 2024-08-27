@@ -93,11 +93,17 @@ export const GanttChart = ({
           viewDate={viewDate}
           onDateChange={handleTaskChange}
           onProgressChange={handleProgressChange}
-          listCellWidth={isChecked ? "155px" : ""}
           columnWidth={columnWidth}
           ganttHeight={filteredTasks.length < 12 ? 0 : ganttHeight}
-          TaskListTable={TaskListTable}
-          TaskListHeader={TaskListHeader}
+          TaskListTable={(props) =>
+            TaskListTable({ ...props, visibleListCell: !isChecked })
+          }
+          TaskListHeader={(props) =>
+            TaskListHeader({
+              ...props,
+              visibleListCell: !isChecked,
+            })
+          }
         />
       ) : (
         <div className="p-4 text-gray-500">No items found</div>

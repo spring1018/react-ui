@@ -22,7 +22,16 @@ export const TaskListTable: React.FC<{
   fontSize: string;
   tasks: any[];
   setOpen: (open: boolean) => void;
-}> = ({ rowHeight, rowWidth, tasks, fontFamily, fontSize, setOpen }) => {
+  visibleListCell?: boolean;
+}> = ({
+  rowHeight,
+  rowWidth,
+  tasks,
+  fontFamily,
+  fontSize,
+  setOpen,
+  visibleListCell,
+}) => {
   const [task, setTask] = useTask();
 
   return (
@@ -107,36 +116,43 @@ export const TaskListTable: React.FC<{
                 )}
               </div>
             </div>
-            <div
-              className={styles.taskListCell}
-              style={{
-                // minWidth: rowWidth,
-                minWidth: "100px",
-                maxWidth: rowWidth,
-              }}
-            >
-              {formatDate(t.start)}
-            </div>
-            <div
-              className={styles.taskListCell}
-              style={{
-                // minWidth: rowWidth,
-                minWidth: "100px",
-                maxWidth: rowWidth,
-              }}
-            >
-              {formatDate(t.end)}
-            </div>
-            <div
-              className={styles.taskListCell}
-              style={{
-                // minWidth: rowWidth,
-                minWidth: "100px",
-                maxWidth: rowWidth,
-              }}
-            >
-              <Progress value={t.progress} className="w-[90%] bg-slate-200 " />
-            </div>
+            {!visibleListCell && (
+              <>
+                <div
+                  className={styles.taskListCell}
+                  style={{
+                    // minWidth: rowWidth,
+                    minWidth: "100px",
+                    maxWidth: rowWidth,
+                  }}
+                >
+                  {formatDate(t.start)}
+                </div>
+                <div
+                  className={styles.taskListCell}
+                  style={{
+                    // minWidth: rowWidth,
+                    minWidth: "100px",
+                    maxWidth: rowWidth,
+                  }}
+                >
+                  {formatDate(t.end)}
+                </div>
+                <div
+                  className={styles.taskListCell}
+                  style={{
+                    // minWidth: rowWidth,
+                    minWidth: "100px",
+                    maxWidth: rowWidth,
+                  }}
+                >
+                  <Progress
+                    value={t.progress}
+                    className="w-[90%] bg-slate-200 "
+                  />
+                </div>
+              </>
+            )}
           </div>
         );
       })}
