@@ -33,6 +33,7 @@ const formSchema = z.object({
     required_error: "Please select an email to display.",
   }),
   bio: z.string().max(160).min(4),
+  progress: z.coerce.number().int().min(0).max(100),
   startDate: z.date(),
   endDate: z.date(),
   language: z.string(),
@@ -79,6 +80,11 @@ export default function CustomForm({
             { label: "Email 3", value: "email3" },
           ]}
           defaultValue="email2"
+        />
+        <FormFieldInput
+          form={form}
+          formFieldName="progress"
+          formFieldLabel="Progress"
         />
         <FormFieldTextArea
           form={form}
