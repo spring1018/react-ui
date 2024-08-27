@@ -2,6 +2,7 @@ import Timeline from "@/components/organisms/Timeline";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Project, ProjectActivity } from "../../type";
+import { ActivityFormDialog } from "../activities/activity-form-dialog";
 import ProjectForm from "./project-form";
 
 interface ProjectDisplayProps {
@@ -27,6 +28,7 @@ export default function ProjectDisplay({
           </TabsContent>
           <TabsContent value="activity">
             <div className="p-2 space-y-4">
+              <ActivityFormDialog />
               {activities.map((activity) => (
                 <Timeline
                   key={activity.id}
