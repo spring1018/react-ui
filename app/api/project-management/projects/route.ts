@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
         progress: body.progress,
       },
     });
-    return Response.json({ task: project }, { status: 201 });
+    return Response.json({ project }, { status: 201 });
   } catch (err) {
     return Response.json({ message: "Internal Server Error" }, { status: 500 });
   }
