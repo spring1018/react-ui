@@ -57,16 +57,16 @@ export default function ActivityForm({
           method: "POST",
           body: JSON.stringify(data),
         });
-        toast({ description: "Project created successfully" });
+        toast({ description: "活動を登録しました" });
       } else {
         await fetch(`/api/project-management/project-activities/${data.id}`, {
           method: "PUT",
           body: JSON.stringify(data),
         });
-        toast({ description: "Project updated successfully" });
+        toast({ description: "活動を更新しました" });
       }
     } catch (error) {
-      toast({ description: "An error occurred" });
+      toast({ description: "エラーが発生しました" });
     } finally {
       setIsLoading(false); // Submit完了後にローディング状態を解除
       router.refresh();
@@ -80,9 +80,9 @@ export default function ActivityForm({
       await fetch(`/api/project-management/project-activities/${data.id}`, {
         method: "DELETE",
       });
-      toast({ description: "Project deleted successfully" });
+      toast({ description: "活動を削除しました" });
     } catch (error) {
-      toast({ description: "An error occurred" });
+      toast({ description: "エラーが発生しました" });
     } finally {
       setIsLoading(false);
       router.push("/project-management");

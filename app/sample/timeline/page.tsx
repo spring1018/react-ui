@@ -1,4 +1,4 @@
-import Timeline from "@/components/organisms/Timeline";
+import { Timeline } from "@/components/organisms/Timeline";
 import { comments } from "./data";
 
 export default async function Page() {
@@ -9,15 +9,7 @@ export default async function Page() {
 
   return (
     <div className="space-y-4">
-      {data.map((comment) => (
-        <Timeline
-          key={comment.id}
-          userName={comment.userId}
-          date={comment.createdAt.toDateString()}
-          tag={comment.tag}
-          content={comment.content}
-        />
-      ))}
+      <Timeline items={data} />
     </div>
   );
 }

@@ -45,7 +45,6 @@ export default function Editor({
   return (
     <div className="space-y-2">
       <BlockNoteView
-        className={"hover:border"}
         editor={editor}
         data-theming-css-variables-demo // ref: https://www.blocknotejs.org/docs/styling-theming/adding-dom-attributes
         editable={mode === "edit"}

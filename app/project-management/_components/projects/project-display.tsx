@@ -1,8 +1,8 @@
-import Timeline from "@/components/organisms/Timeline";
+import { Timeline } from "@/components/organisms/Timeline";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Project, ProjectActivity } from "../../type";
-import { ActivityFormDialog } from "../activities/activity-form-dialog";
+import ActivityForm from "../activities/activity-form";
 import ProjectForm from "./project-form";
 
 interface ProjectDisplayProps {
@@ -26,19 +26,18 @@ export default function ProjectDisplay({
           <TabsContent value="overview">
             <ProjectForm defaultValues={item} key={item?.id || ""} />
           </TabsContent>
-          <TabsContent value="activity">
-            <div className="p-2 space-y-4">
-              <ActivityFormDialog />
-              {activities.map((activity) => (
-                <Timeline
-                  key={activity.id}
-                  userName={activity.userId}
-                  date={activity.createdAt}
-                  tag={activity.tag}
-                  content={activity.content}
-                />
-              ))}
-            </div>
+          <TabsContent value="activity" className="p-2">
+            <Timeline
+              items={activities.map((activity) => ({
+                userName: activity.userId,
+                date: activity.createdAt,
+                tag: activity.tag,
+                content: activity.content,
+                DialogContentComponent: () => (
+                  <ActivityForm defaultValues={activity} />
+                ),
+              }))}
+            />
           </TabsContent>
         </Tabs>
       </ScrollArea>

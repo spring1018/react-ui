@@ -1,8 +1,8 @@
 export const comments = [
   {
     id: "1",
-    userId: "User1",
-    createdAt: new Date(),
+    userName: "User1",
+    date: new Date(),
     tag: "報告",
     content: [
       {
@@ -112,8 +112,8 @@ export const comments = [
   },
   {
     id: "2",
-    userId: "User2",
-    createdAt: new Date(),
+    userName: "User2",
+    date: new Date(),
     tag: "メモ",
     content: [
       {
@@ -172,8 +172,8 @@ export const comments = [
   },
   {
     id: "3",
-    userId: "User3",
-    createdAt: new Date(),
+    userName: "User3",
+    date: new Date(),
     tag: "報告",
     content: [
       {
