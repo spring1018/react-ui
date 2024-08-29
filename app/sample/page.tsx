@@ -3,6 +3,7 @@ import Link from "next/link";
 const links = [
   { href: "/sample/chart-clickable", label: "Chart Clickable" },
   { href: "/sample/chart-ppm", label: "Chart PPM" },
+  { href: "/sample/data-table", label: "Data Table" },
   { href: "/sample/editable-table", label: "Editable Table" },
   { href: "/sample/editor", label: "Editor" },
   { href: "/sample/form", label: "Form" },
