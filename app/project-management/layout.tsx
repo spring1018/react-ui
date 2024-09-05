@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 const items = [
   { title: "Project", href: "/project-management/projects" },
-  { title: "Task", href: "/task" },
+  { title: "Task", href: "/project-management/tasks" },
   { title: "Event", href: "/event" },
 ];
 
