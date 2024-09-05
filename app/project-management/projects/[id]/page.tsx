@@ -8,10 +8,16 @@ export default async function ProjectDisplayPage({ params }) {
     },
   )
     .then((res) => res.json())
-    .then((data) => data.project);
+    .then((data) => {
+      return {
+        ...data.project,
+        start: new Date(data.project.start),
+        end: new Date(data.project.end),
+      };
+    });
 
   return (
-    <div>
+    <div className="flex justify-center">
       <ProjectForm defaultValues={project} />
     </div>
   );
