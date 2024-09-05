@@ -3,6 +3,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Project, ProjectActivity } from "../../type";
 import ActivityForm from "../activities/activity-form";
+import { ActivityFormDialog } from "../activities/activity-form-dialog";
 import ProjectForm from "./project-form";
 
 interface ProjectDisplayProps {
@@ -26,7 +27,8 @@ export default function ProjectDisplay({
           <TabsContent value="overview">
             <ProjectForm defaultValues={item} key={item?.id || ""} />
           </TabsContent>
-          <TabsContent value="activity" className="p-2">
+          <TabsContent value="activity" className="p-2 space-y-2">
+            <ActivityFormDialog />
             <Timeline
               items={activities.map((activity) => ({
                 userName: activity.userId,
