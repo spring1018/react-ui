@@ -39,3 +39,6 @@ export const CircleProgress = React.forwardRef<
     </ProgressPrimitive.Root>
   ),
 );
+
+// define display name
+CircleProgress.displayName = "CircleProgress";
