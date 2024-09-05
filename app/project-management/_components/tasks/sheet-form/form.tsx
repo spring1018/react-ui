@@ -47,13 +47,13 @@ const statuses = [
 interface CustomFormProps {
   tasks: any[];
   defaultValues?: Partial<TaskFormValues>;
-  handleSubmit: () => void;
+  handleSubmit?: () => void;
 }
 
 export default function CustomForm({
   tasks,
   defaultValues = {},
-  handleSubmit,
+  handleSubmit = () => {},
 }: CustomFormProps) {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false); // ローディング状態を管理
