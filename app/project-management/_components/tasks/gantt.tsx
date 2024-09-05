@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useProject } from "../hooks/use-project";
 import { useTask } from "../hooks/use-task";
-import { SheetForm } from "./sheet-form/sheet-form-button";
+import { TaskSheetForm } from "./sheet-form/sheet-form-button";
 import { TaskListHeader } from "./task-list/task-list-header";
 import { TaskListTable } from "./task-list/task-list-table";
 
@@ -64,7 +64,7 @@ export function Gantt({ tasks }: GanttProps) {
         TaskListTable={(props) => TaskListTable({ ...props, setOpen })}
         TaskListHeader={TaskListHeader as React.FC}
       />
-      <SheetForm
+      <TaskSheetForm
         open={open}
         handleOpenChange={setOpen}
         handleSubmit={handleSubmit}
