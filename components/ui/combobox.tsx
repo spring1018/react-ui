@@ -25,6 +25,7 @@ interface ComboboxOption {
   options: Option[];
   initialValue?: string;
   onChange?: (value: string) => void;
+  className?: string;
   placeholder?: string;
 }
 
@@ -32,6 +33,7 @@ export function Combobox({
   options,
   initialValue = "",
   onChange = () => {},
+  className = "",
   placeholder = "Select...",
 }: ComboboxOption) {
   const [open, setOpen] = React.useState(false);
@@ -44,7 +46,11 @@ export function Combobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between text-black"
+          className={
+            value
+              ? cn("w-full justify-between", className)
+              : cn("w-full justify-start", "text-slate-500")
+          }
         >
           {value
             ? options.find((option) => option.value === value)?.label
