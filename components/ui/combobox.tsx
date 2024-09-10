@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, ChevronsUpDown } from "lucide-react";
+import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
@@ -10,83 +10,81 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
 } from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 
-type Option = {
-  value: number | string;
-  label: string;
-  description?: string;
-};
+type Option = { value: string; label: string };
 
-export type ComboboxProps = {
-  className?: string;
+interface ComboboxOption {
   options: Option[];
-  initialValue?: number | string;
-  onChange?: any;
-};
+  initialValue?: string;
+  onChange?: (value: string) => void;
+  placeholder?: string;
+}
 
-export const Combobox = (props: ComboboxProps) => {
-  const { className, options, initialValue, onChange } = props;
+export function Combobox({
+  options,
+  initialValue = "",
+  onChange = () => {},
+  placeholder = "Select...",
+}: ComboboxOption) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(initialValue);
 
   return (
-    // ref: https://github.com/shadcn-ui/ui/issues/542
-    <Popover open={open} onOpenChange={setOpen} modal={true}>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className={className}
+          className="w-full justify-between text-black"
         >
           {value
             ? options.find((option) => option.value === value)?.label
-            : "項目の選択"}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            : placeholder}
+          <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[300px] min-h-[100px] p-0">
+      <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="項目の検索..." />
-          <ScrollArea className="max-w-[300px] min-h-[100px] max-h-[300px] p-0 overflow-y-auto">
+          <CommandInput placeholder="Search..." className="h-9" />
+          <CommandList>
             <CommandEmpty>Not found.</CommandEmpty>
             <CommandGroup>
               {options.map((option) => (
+                // https://github.com/shadcn-ui/ui/issues/458#issuecomment-1873134557
                 <CommandItem
                   key={option.value}
-                  value={option.label + option.description} // ref: https://github.com/shadcn-ui/ui/issues/458
+                  value={option.label}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : option.value);
+                    const selected = options.find(
+                      (option) => option.label.toLowerCase() === currentValue,
+                    )?.value;
+                    setValue(selected === value ? "" : selected ?? "");
                     setOpen(false);
-                    onChange(option);
+                    onChange(selected === value ? "" : selected ?? "");
                   }}
                 >
-                  <Check
+                  {option.label}
+                  <CheckIcon
                     className={cn(
-                      "mr-2 h-4 w-4",
+                      "ml-auto h-4 w-4",
                       value === option.value ? "opacity-100" : "opacity-0",
                     )}
                   />
-                  <div className="grid">
-                    <p>{option.label}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {option.description}
-                    </p>
-                  </div>
                 </CommandItem>
               ))}
             </CommandGroup>
-          </ScrollArea>
+          </CommandList>
         </Command>
       </PopoverContent>
     </Popover>
   );
-};
+}
