@@ -12,12 +12,14 @@ interface FormFieldInputProps<T extends FieldValues> {
   form: UseFormReturn<any>;
   formFieldName: string;
   formFieldLabel: string;
+  disabled?: boolean;
 }
 
 export const FormFieldInput = ({
   form,
   formFieldName,
   formFieldLabel,
+  disabled = false,
 }: FormFieldInputProps<FieldValues>) => {
   return (
     <FormField
@@ -27,7 +29,11 @@ export const FormFieldInput = ({
         <FormItem>
           <FormLabel>{formFieldLabel}</FormLabel>
           <FormControl>
-            <Input placeholder={formFieldLabel} {...field} />
+            <Input
+              placeholder={formFieldLabel}
+              {...field}
+              disabled={disabled}
+            />
           </FormControl>
           <FormMessage />
         </FormItem>
