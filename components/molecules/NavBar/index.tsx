@@ -36,12 +36,18 @@ export function NavBar({
   return (
     <div className="flex gap-6 md:gap-10">
       <Link
+        href={"/"}
+        className={cn(textColor, "font-bold items-center space-x-2 md:flex")}
+      >
+        NCX APP
+      </Link>
+      <Link
         href={logoLink || "/"}
         className={cn(textColor, "hidden items-center space-x-2 md:flex")}
       >
         {logoIcon || null}
         <span className="hidden font-bold sm:inline-block">
-          {logoText || "Logo"}
+          {logoText || null}
         </span>
       </Link>
       {items?.length ? (
