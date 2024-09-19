@@ -71,6 +71,7 @@
     "next-auth": "4.24.6",
     "next-themes": "^0.2.1",
     "nord": "^0.2.1",
+    "papaparse": "^5.4.1",
     "plop": "^4.0.0",
     "react": "^18",
     "react-chartjs-2": "^5.2.0",
