@@ -60,14 +60,17 @@ const TimelineItem = ({
 			<DialogWrapper open={open} setOpen={setOpen} title="活動">
 				{children}
 			</DialogWrapper>
-			<div className="flex gap-4 items-center" onClick={() => setOpen(true)}>
+			<div
+				className="flex p-2 gap-2 items-center"
+				onClick={() => setOpen(true)}
+			>
 				<Badge>{tag}</Badge>
 				<h2 className="text-sm font-bold">{userName}</h2>
 				<p className="text-sm text-gray-500">{date.toLocaleString()}</p>
 			</div>
 			<ShowMore maxHeight="120px">
 				<div className="flex pl-4 gap-4" onClick={() => setOpen(true)}>
-					<div className="mt-2 border-l-4 border-gray-400" />
+					<div className="border-l-4 border-gray-400" />
 					<Editor initialContent={content} />
 				</div>
 			</ShowMore>

@@ -7,52 +7,52 @@ import { useMemo } from "react";
 import "./styles.css";
 
 async function saveToStorage(jsonBlocks: Block[]) {
-  console.log("Saving content:", JSON.stringify(jsonBlocks));
-  console.log("Saving content:", jsonBlocks);
+	console.log("Saving content:", JSON.stringify(jsonBlocks));
+	console.log("Saving content:", jsonBlocks);
 }
 
 interface EditorProps {
-  mode?: "view" | "edit";
-  initialContent?: string;
-  handleChange?: (content: string) => void;
+	mode?: "view" | "edit";
+	initialContent?: string;
+	handleChange?: (content: string) => void;
 }
 
 export default function Editor({
-  mode = "view",
-  initialContent = "",
-  handleChange = () => {},
+	mode = "view",
+	initialContent = "",
+	handleChange = () => {},
 }: EditorProps) {
-  const parsedContent: PartialBlock[] | undefined = useMemo(() => {
-    return initialContent ? JSON.parse(initialContent) : undefined;
-  }, [initialContent]);
+	const parsedContent: PartialBlock[] | undefined = useMemo(() => {
+		return initialContent ? JSON.parse(initialContent) : undefined;
+	}, [initialContent]);
 
-  const editor = useMemo(() => {
-    return BlockNoteEditor.create({
-      initialContent: parsedContent,
+	const editor = useMemo(() => {
+		return BlockNoteEditor.create({
+			initialContent: parsedContent,
 
-      domAttributes: {
-        editor: {
-          style: "font-size: 14px;padding-inline: 40px",
-        },
-      },
-    });
-  }, [parsedContent]);
+			domAttributes: {
+				editor: {
+					style: "font-size: 14px;padding-inline: 40px",
+				},
+			},
+		});
+	}, [parsedContent]);
 
-  if (editor === undefined) {
-    return "Loading content...";
-  }
+	if (editor === undefined) {
+		return "Loading content...";
+	}
 
-  return (
-    <div className="space-y-2">
-      <BlockNoteView
-        editor={editor}
-        data-theming-css-variables-demo // ref: https://www.blocknotejs.org/docs/styling-theming/adding-dom-attributes
-        editable={mode === "edit"}
-        onChange={() => handleChange(JSON.stringify(editor.document))}
-      />
-      {/* {mode === "edit" ? (
+	return (
+		<div className="w-full">
+			<BlockNoteView
+				editor={editor}
+				data-theming-css-variables-demo // ref: https://www.blocknotejs.org/docs/styling-theming/adding-dom-attributes
+				editable={mode === "edit"}
+				onChange={() => handleChange(JSON.stringify(editor.document))}
+			/>
+			{/* {mode === "edit" ? (
         <Button onClick={() => saveToStorage(editor.document)}>Save</Button>
       ) : null} */}
-    </div>
-  );
+		</div>
+	);
 }
