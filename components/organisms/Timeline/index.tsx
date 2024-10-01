@@ -69,7 +69,7 @@ const TimelineItem = ({
 				<p className="text-sm text-gray-500">{date.toLocaleString()}</p>
 			</div>
 			<ShowMore maxHeight="120px">
-				<div className="flex pl-4 gap-4" onClick={() => setOpen(true)}>
+				<div className="flex pl-4 gap-2" onClick={() => setOpen(true)}>
 					<div className="border-l-4 border-gray-400" />
 					<Editor initialContent={content} />
 				</div>
