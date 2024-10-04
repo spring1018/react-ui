@@ -19,6 +19,7 @@ export const CSVUploader = ({ table }: CSVUploaderProps) => {
 		if (file) {
 			Papa.parse(file, {
 				header: true, // CSVのヘッダー行を使用する場合
+				encoding: "Shift_JIS", // Shift_JIS エンコードを指定
 				complete: (result) => {
 					setCsvData(result.data);
 				},
